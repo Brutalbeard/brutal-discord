@@ -1,0 +1,21 @@
+{
+  "name": "discord-votes",
+  "version": "0.0.1",
+  "description": "This bot will let users call for votes on anything they like!",
+  "main": "./build/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "John Celoria",
+  "license": "MIT",
+  "dependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/dotenv": "^4.0.3",
+    "@types/node": "^10.5.2",
+    "axios": "^0.18.0",
+    "discord.js": "^11.3.2",
+    "dotenv": "^6.0.0",
+    "mongodb": "^3.1.1",
+    "mongoose": "^5.2.4"
+  }
+}
