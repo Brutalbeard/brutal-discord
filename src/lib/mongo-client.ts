@@ -1,8 +1,9 @@
 import * as assert from 'assert';
 import * as MongoClient from 'mongodb';
 
-let collections = {
-  users: null
+let collections: any = {
+  users: null,
+  polls: null
 }
 
 // Connection URL
@@ -19,6 +20,7 @@ MongoClient.connect(url, function(err, client) {
   let db = client.db(dbName);
 
   collections.users = db.collection('user')
+  collections.polls = db.collection('polls')
 });
 
 export default collections

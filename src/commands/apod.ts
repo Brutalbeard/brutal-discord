@@ -4,7 +4,7 @@ import { apod_client } from "../lib/apod-client";
 module.exports = {
     name: 'apod',
     description: "Astronomy Picture of the Day! If you use just the 'apod' command, today's APOD will show up. Optionally you can say 'apod random', and I'll pick one out of a hat.",
-    usage: "random",
+    usage: "(options: [random])",
     async execute(message: Message, args: any) {
 
         let queryDate = null

@@ -1,5 +1,6 @@
 import { Message } from "discord.js";
 import db from "../lib/mongo-client";
+import UserInfo from '../definitions/user-info'
 
 module.exports = {
     name: 'db',
@@ -7,19 +8,34 @@ module.exports = {
     usage: "",
     async execute(message: Message, args: any) {
 
-        console.log(message.author)
+        // console.log(message.author.)
 
-        await db.users.insertOne(
-            message.author
-        ).catch(e =>{
+        let dbUser: UserInfo = {
+            id: message.author.id,
+            username: message.author.username,
+            bot: message.author.bot,
+            avatar: message.author.avatar,
+            avatarURL: message.author.avatarURL
+        }
+
+        let user: UserInfo = await db.users.findOne({
+            id: message.author.id
+        }).catch(e =>{
             console.error(e)
         })
+        
+        let users = await db.users.find({}).toArray()
 
-        let doc = await db.users.findOne({}).catch(e =>{
-            console.error(e)
-        })
+        console.log(users)
 
-        message.channel.send(JSON.stringify(doc)).catch(e =>{
+        if(!user.id){
+            await db.users.insertOne(
+                dbUser
+            ).catch(e =>{
+                console.error(e)
+            })
+        }
+        message.channel.send(JSON.stringify(user.username)).catch(e =>{
             console.error(e)
         })
     },
