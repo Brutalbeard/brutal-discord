@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var bot_config_json_1 = require("../../bot-config.json");
+var prefix = '!';
 module.exports = {
     name: 'help',
     description: 'List all of my commands or info about a specific command.',
@@ -13,7 +13,7 @@ module.exports = {
         if (!args.length) {
             data.push('Here\'s a list of all my commands:');
             data.push(commands.map(function (command) { return command.name; }).join(', '));
-            data.push("\nYou can send `" + bot_config_json_1.prefix + "help [command name]` to get info on a specific command!");
+            data.push("\nYou can send `" + prefix + "help [command name]` to get info on a specific command!");
             return message.author.send(data, { split: true })
                 .then(function () {
                 if (message.channel.type === 'dm')
@@ -36,7 +36,7 @@ module.exports = {
         if (command.description)
             data.push("**Description:** " + command.description);
         if (command.usage)
-            data.push("**Usage:** " + bot_config_json_1.prefix + command.name + " " + command.usage);
+            data.push("**Usage:** " + prefix + command.name + " " + command.usage);
         data.push("**Cooldown:** " + (command.cooldown || 1) + " second(s)");
         message.channel.send(data, { split: true });
     },

@@ -1,5 +1,6 @@
 import { Message } from 'discord.js';
-import { prefix } from '../../bot-config.json';
+
+const prefix = '!'
 
 module.exports = {
 	name: 'help',
