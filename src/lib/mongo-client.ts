@@ -7,7 +7,7 @@ let collections: any = {
 }
 
 // Connection URL
-const url = 'mongodb://localhost:27017';
+const url = 'mongodb://' + process.env['MONGO_USER'] + ":" + process.env['MONGO_PASSWORD'] + "@" + process.env['MONGO_ADDRESS'] + "/" + process.env['MONGO_DB'];
 
 // Database Name
 const dbName = 'myproject';
