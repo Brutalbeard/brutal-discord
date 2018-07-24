@@ -12,7 +12,7 @@ module.exports = {
         let total: number = 0
         
         for(let i = 0; i < nummberOfDice; i++){
-            let die = Math.floor(Math.random()*numberOfSides)
+            let die = Math.floor(Math.random()*numberOfSides) + 1
             rolls.push(die)
             total += die
         }

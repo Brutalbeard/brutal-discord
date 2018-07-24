@@ -10,7 +10,7 @@ module.exports = {
         var rolls = [];
         var total = 0;
         for (var i = 0; i < nummberOfDice; i++) {
-            var die = Math.floor(Math.random() * numberOfSides);
+            var die = Math.floor(Math.random() * numberOfSides) + 1;
             rolls.push(die);
             total += die;
         }
