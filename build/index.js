@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Discord = require("discord.js");
 var dotenv = require("dotenv");
 var fs = require("fs");
-var bot_config_json_1 = require("../bot-config.json");
+var prefix = '!';
 dotenv.config();
 var client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -18,9 +18,9 @@ client.on('ready', function () {
     console.log('Ready Freddy!');
 });
 client.on('message', function (message) {
-    if (!message.content.startsWith(bot_config_json_1.prefix) || message.author.bot)
+    if (!message.content.startsWith(prefix) || message.author.bot)
         return;
-    var args = message.content.slice(bot_config_json_1.prefix.length).split(/ +/);
+    var args = message.content.slice(prefix.length).split(/ +/);
     var commandName = args.shift().toLowerCase();
     var command = client.commands.get(commandName)
         || client.commands.find(function (cmd) { return cmd.aliases && cmd.aliases.includes(commandName); });
@@ -32,7 +32,7 @@ client.on('message', function (message) {
     if (command.args && !args.length) {
         var reply = "You didn't provide any arguments, " + message.author + "!";
         if (command.usage) {
-            reply += "\nThe proper usage would be: `" + bot_config_json_1.prefix + command.name + " " + command.usage + "`";
+            reply += "\nThe proper usage would be: `" + prefix + command.name + " " + command.usage + "`";
         }
         return message.channel.send(reply);
     }
