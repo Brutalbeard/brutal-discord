@@ -1,16 +1,26 @@
 import * as assert from 'assert';
 import * as MongoClient from 'mongodb';
 
+const f = require('util').format;
+
 let collections: any = {
   users: null,
   polls: null
 }
 
-// Connection URL
-const url = 'mongodb://' + process.env['MONGO_USER'] + ":" + process.env['MONGO_PASSWORD'] + "@" + process.env['MONGO_ADDRESS'] + "/" + process.env['MONGO_DB'];
+const user = encodeURIComponent(process.env['MONGO_USER']);
+const password = encodeURIComponent(process.env['MONGO_PASSWORD']);
+const db = encodeURIComponent(process.env['MONGO_DB']);
+const address = encodeURIComponent(process.env['MONGO_ADDRESS']);
+const port = encodeURIComponent(process.env['MONGO_PORT']);
 
+
+// Connection URL
+const url = f('mongodb://%s:%s@%s:%s/%s', user, password, address, port, db);
+
+console.log(url)
 // Database Name
-const dbName = 'myproject';
+const dbName = db;
 
 // Use connect method to connect to the server
 MongoClient.connect(url, function(err, client) {

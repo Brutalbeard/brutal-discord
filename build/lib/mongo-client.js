@@ -2,12 +2,19 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var assert = require("assert");
 var MongoClient = require("mongodb");
+var f = require('util').format;
 var collections = {
     users: null,
     polls: null
 };
-var url = 'mongodb://' + process.env['MONGO_USER'] + ":" + process.env['MONGO_PASSWORD'] + "@" + process.env['MONGO_ADDRESS'] + "/" + process.env['MONGO_DB'];
-var dbName = 'myproject';
+var user = encodeURIComponent(process.env['MONGO_USER']);
+var password = encodeURIComponent(process.env['MONGO_PASSWORD']);
+var db = encodeURIComponent(process.env['MONGO_DB']);
+var address = encodeURIComponent(process.env['MONGO_ADDRESS']);
+var port = encodeURIComponent(process.env['MONGO_PORT']);
+var url = f('mongodb://%s:%s@%s:%s/%s', user, password, address, port, db);
+console.log(url);
+var dbName = db;
 MongoClient.connect(url, function (err, client) {
     assert.equal(null, err);
     console.log("Connected successfully to server");
