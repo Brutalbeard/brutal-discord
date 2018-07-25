@@ -57,7 +57,7 @@ module.exports = {
                         if (user.id == mentionedUser.id) {
                             message.channel.send("Can't updoot yourself dumbass");
                         }
-                        else {
+                        else if (user.id != mentionedUser.id) {
                             mongo_client_1.default.users.updateOne({ id: mentionedUser.id }, {
                                 $inc: { doots: 1 }
                             }).then(function () {
