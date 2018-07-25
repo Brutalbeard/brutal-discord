@@ -37,7 +37,7 @@ module.exports = {
                 { "_id": poll._id },
                 poll
             ).then(() => {
-                message.channel.send("Vote counted!")
+                message.author.send("Vote counted!")
             }).catch(e => {
                 console.error(e)
                 message.channel.send("Issue counting your vote :=/")

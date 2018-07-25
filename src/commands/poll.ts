@@ -31,7 +31,9 @@ module.exports = {
 
         await db.polls.insertOne(
             poll
-        ).catch(e =>{
+        ).then(()=>{
+            message.channel.send("Poll Created! To Vote on it, user ID " + poll_id)
+        }).catch(e =>{
             message.channel.send("There was an issue storing your poll! Whomp whomp :-/").catch(err =>{
                 console.error(err)
             })

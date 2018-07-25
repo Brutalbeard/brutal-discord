@@ -73,7 +73,7 @@ module.exports = {
                                                 }
                                             });
                                             return [4, mongo_client_1.default.polls.replaceOne({ "_id": poll._id }, poll).then(function () {
-                                                    message.channel.send("Vote counted!");
+                                                    message.author.send("Vote counted!");
                                                 }).catch(function (e) {
                                                     console.error(e);
                                                     message.channel.send("Issue counting your vote :=/");

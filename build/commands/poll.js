@@ -65,7 +65,9 @@ module.exports = {
                             updated_at: new Date(),
                             deleted: false
                         };
-                        return [4, mongo_client_1.default.polls.insertOne(poll).catch(function (e) {
+                        return [4, mongo_client_1.default.polls.insertOne(poll).then(function () {
+                                message.channel.send("Poll Created! To Vote on it, user ID " + poll_id);
+                            }).catch(function (e) {
                                 message.channel.send("There was an issue storing your poll! Whomp whomp :-/").catch(function (err) {
                                     console.error(err);
                                 });
