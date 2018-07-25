@@ -1,5 +1,4 @@
 import { Message } from "discord.js";
-import Poll from "../definitions/poll";
 import UserInfo from "../definitions/user-info";
 import db from "../lib/mongo-client";
 import getOrSetUser from '../lib/users'
@@ -25,22 +24,29 @@ module.exports = {
             poll_id: args[0],
             deleted: false
         }).then(async poll => {
-            console.log(poll)
+
+            let okToVote = true
 
             poll.voting_options.find(element => {
-                if (element.option === args[1]) {
-                    element.voters.push(user)
+                
+                for(let voter of element.voters){
+                    if(voter.id == user.id){
+                        okToVote = false 
+                        message.author.send("You've already voted on this poll")
+                    }
                 }
-            })
-
-            await db.polls.replaceOne(
-                { "_id": poll._id },
-                poll
-            ).then(() => {
-                message.author.send("Vote counted!")
-            }).catch(e => {
-                console.error(e)
-                message.channel.send("Issue counting your vote :=/")
+                if (element.option === args[1] && okToVote === true) {
+                    element.voters.push(user)
+                    db.polls.replaceOne(
+                        { "_id": poll._id },
+                        poll
+                    ).then(() => {
+                        message.author.send("Vote counted!")
+                    }).catch(e => {
+                        console.error(e)
+                        message.channel.send("Issue counting your vote :=/")
+                    })
+                }
             })
 
         }).catch(e => {

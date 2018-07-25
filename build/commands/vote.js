@@ -63,25 +63,28 @@ module.exports = {
                                 poll_id: args[0],
                                 deleted: false
                             }).then(function (poll) { return __awaiter(_this, void 0, void 0, function () {
+                                var okToVote;
                                 return __generator(this, function (_a) {
-                                    switch (_a.label) {
-                                        case 0:
-                                            console.log(poll);
-                                            poll.voting_options.find(function (element) {
-                                                if (element.option === args[1]) {
-                                                    element.voters.push(user);
-                                                }
+                                    okToVote = true;
+                                    poll.voting_options.find(function (element) {
+                                        for (var _i = 0, _a = element.voters; _i < _a.length; _i++) {
+                                            var voter = _a[_i];
+                                            if (voter.id == user.id) {
+                                                okToVote = false;
+                                                message.author.send("You've already voted on this poll");
+                                            }
+                                        }
+                                        if (element.option === args[1] && okToVote === true) {
+                                            element.voters.push(user);
+                                            mongo_client_1.default.polls.replaceOne({ "_id": poll._id }, poll).then(function () {
+                                                message.author.send("Vote counted!");
+                                            }).catch(function (e) {
+                                                console.error(e);
+                                                message.channel.send("Issue counting your vote :=/");
                                             });
-                                            return [4, mongo_client_1.default.polls.replaceOne({ "_id": poll._id }, poll).then(function () {
-                                                    message.author.send("Vote counted!");
-                                                }).catch(function (e) {
-                                                    console.error(e);
-                                                    message.channel.send("Issue counting your vote :=/");
-                                                })];
-                                        case 1:
-                                            _a.sent();
-                                            return [2];
-                                    }
+                                        }
+                                    });
+                                    return [2];
                                 });
                             }); }).catch(function (e) {
                                 console.error("Poll not found");
