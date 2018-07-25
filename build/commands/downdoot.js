@@ -38,8 +38,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var users_1 = require("../lib/users");
 var mongo_client_1 = require("../lib/mongo-client");
 module.exports = {
-    name: 'updoot',
-    description: 'Give someone a doot! For fun!',
+    name: 'downdoot',
+    description: 'Take a doot from someone, but it costs you a doot!',
     usage: "{@username}",
     args: true,
     cooldown: 5,
@@ -54,19 +54,29 @@ module.exports = {
                         return [4, users_1.default(message.mentions.users.array()[0])];
                     case 2:
                         mentionedUser = _a.sent();
-                        if (user.id == mentionedUser.id) {
-                            message.channel.send("Can't updoot yourself dumbass");
+                        if (user.doots <= 0) {
+                            message.channel.send("No downdooting for you! You don't have any doots to spend");
                         }
-                        else {
-                            mongo_client_1.default.users.updateOne({ id: mentionedUser.id }, {
-                                $inc: { doots: 1 }
+                        else if (user.id == mentionedUser.id) {
+                            message.channel.send("Can't downdoot yourself dumbass");
+                        }
+                        else
+                            (mongo_client_1.default.users.updateOne({ id: mentionedUser.id }, {
+                                $inc: { doots: -1 }
                             }).then(function () {
-                                message.channel.send("@" + mentionedUser.username + " now has " + (mentionedUser.doots + 1) + " doot(s)! Thanks " + user.username);
+                                message.channel.send("@" + mentionedUser.username + " now has " + (mentionedUser.doots - 1) + " doot(s)!\n");
                             }).catch(function (e) {
                                 console.error(e);
                                 message.channel.send("Had an issue giving a doot :-/");
-                            });
-                        }
+                            }));
+                        mongo_client_1.default.users.updateOne({ id: user.id }, {
+                            $inc: { doots: -1 }
+                        }).then(function () {
+                            message.channel.send("@" + user.username + " now has " + (user.doots - 1) + " doot(s)!");
+                        }).catch(function (e) {
+                            console.error(e);
+                            message.channel.send("Had an issue giving a doot :-/");
+                        });
                         return [2];
                 }
             });

@@ -54,19 +54,14 @@ module.exports = {
                         return [4, users_1.default(message.mentions.users.array()[0])];
                     case 2:
                         mentionedUser = _a.sent();
-                        if (user.id == mentionedUser.id) {
-                            message.channel.send("Can't updoot yourself dumbass");
-                        }
-                        else {
-                            mongo_client_1.default.users.updateOne({ id: mentionedUser.id }, {
-                                $inc: { doots: 1 }
-                            }).then(function () {
-                                message.channel.send("@" + mentionedUser.username + " now has " + (mentionedUser.doots + 1) + " doot(s)! Thanks " + user.username);
-                            }).catch(function (e) {
-                                console.error(e);
-                                message.channel.send("Had an issue giving a doot :-/");
-                            });
-                        }
+                        mongo_client_1.default.users.updateOne({ id: mentionedUser.id }, {
+                            $inc: { doots: 1 }
+                        }).then(function () {
+                            message.channel.send("@" + mentionedUser.username + " now has " + (mentionedUser.doots + 1) + " doot(s)! Thanks " + user.username);
+                        }).catch(function (e) {
+                            console.error(e);
+                            message.channel.send("Had an issue giving a doot :-/");
+                        });
                         return [2];
                 }
             });
