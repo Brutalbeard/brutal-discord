@@ -68,15 +68,16 @@ module.exports = {
                             }).catch(function (e) {
                                 console.error(e);
                                 message.channel.send("Had an issue giving a doot :-/");
-                            }));
-                        mongo_client_1.default.users.updateOne({ id: user.id }, {
-                            $inc: { doots: -1 }
-                        }).then(function () {
-                            message.channel.send("@" + user.username + " now has " + (user.doots - 1) + " doot(s)!");
-                        }).catch(function (e) {
-                            console.error(e);
-                            message.channel.send("Had an issue giving a doot :-/");
-                        });
+                            })
+                                &&
+                                    mongo_client_1.default.users.updateOne({ id: user.id }, {
+                                        $inc: { doots: -1 }
+                                    }).then(function () {
+                                        message.channel.send("@" + user.username + " now has " + (user.doots - 1) + " doot(s)!");
+                                    }).catch(function (e) {
+                                        console.error(e);
+                                        message.channel.send("Had an issue giving a doot :-/");
+                                    }));
                         return [2];
                 }
             });

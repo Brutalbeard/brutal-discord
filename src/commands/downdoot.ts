@@ -27,6 +27,8 @@ module.exports = {
                 message.channel.send("Had an issue giving a doot :-/")
             })
 
+            &&
+
             db.users.updateOne({id: user.id}, {
                 $inc: {doots: -1} 
             }).then(() =>{
