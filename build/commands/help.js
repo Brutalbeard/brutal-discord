@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var users_1 = require("../lib/users");
 var prefix = '!';
 module.exports = {
     name: 'help',
@@ -8,6 +9,7 @@ module.exports = {
     usage: '[command name]',
     cooldown: 5,
     execute: function (message, args) {
+        users_1.default(message);
         var data = [];
         var commands = message.client.commands;
         if (!args.length) {

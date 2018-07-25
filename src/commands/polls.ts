@@ -1,14 +1,17 @@
 import { Message } from "discord.js";
-import UserInfo from "../definitions/user-info"
+import getOrSetUser from '../lib/users'
 import Poll from "../definitions/poll"
 import db from "../lib/mongo-client"
-import { parse } from "querystring";
+
 
 module.exports = {
     name: 'polls',
     description: 'View all the currently available polls for this chat room',
     usage: "",
     async execute(message: Message, args: any) {
+
+        getOrSetUser(message)
+        
         const text = []
 
         let today = new Date();

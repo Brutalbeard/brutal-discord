@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var giphy_client_1 = require("../lib/giphy_client");
+var users_1 = require("../lib/users");
 module.exports = {
     name: 'gifme',
     description: 'Returns a random ass giphy gif based on your search term',
@@ -43,23 +44,25 @@ module.exports = {
     args: true,
     execute: function (message, args) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, gif, url;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4, giphy_client_1.giphy_client.get('/search', {
-                            params: {
-                                q: args.join('+')
-                            }
-                        }).then(function (res) {
-                            return res.data.data;
-                        }).catch(function (e) {
-                            console.error(e);
-                        })];
+                    case 0:
+                        users_1.default(message);
+                        return [4, giphy_client_1.giphy_client.get('/search', {
+                                params: {
+                                    q: args.join('+')
+                                }
+                            }).then(function (res) {
+                                var resArray = res.data.data;
+                                var gif = resArray[Math.floor(Math.random() * resArray.length)];
+                                var url = gif.images.original.webp ? gif.images.original.webp : gif.images.original.url;
+                                message.channel.send(url);
+                            }).catch(function (e) {
+                                console.error(e);
+                                message.channel.send("Error finding a gif for you: " + e.data.message);
+                            })];
                     case 1:
-                        res = _a.sent();
-                        gif = res[Math.floor(Math.random() * res.length)];
-                        url = gif.images.original.webp ? gif.images.original.webp : gif.images.original.url;
-                        message.channel.send(url);
+                        _a.sent();
                         return [2];
                 }
             });

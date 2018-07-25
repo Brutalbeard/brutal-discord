@@ -35,51 +35,45 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var users_1 = require("../lib/users");
 var mongo_client_1 = require("../lib/mongo-client");
 module.exports = {
-    name: 'polls',
-    description: 'View all the currently available polls for this chat room',
+    name: 'db',
+    description: 'Does a quick db insert, then find',
     usage: "",
     execute: function (message, args) {
         return __awaiter(this, void 0, void 0, function () {
-            var text, today, yesterday, polls, _loop_1, index;
+            var dbUser, user, users;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        users_1.default(message);
-                        text = [];
-                        today = new Date();
-                        yesterday = new Date(today);
-                        yesterday.setDate(today.getDate() - 1);
-                        return [4, mongo_client_1.default.polls.find({
-                                room: message.channel.id,
-                                created_at: {
-                                    $gte: (yesterday)
-                                },
-                                deleted: false
-                            }).toArray()];
-                    case 1:
-                        polls = _a.sent();
-                        _loop_1 = function (index) {
-                            var poll = polls[index];
-                            var options = [];
-                            poll.voting_options.forEach(function (element) {
-                                options.push(element.option);
-                            });
-                            text.push("ID: " + poll.poll_id + " - Question: \"" + poll.question + "\" - Options: " + options.join(' | '));
+                        dbUser = {
+                            id: message.author.id,
+                            username: message.author.username,
+                            bot: message.author.bot,
+                            avatar: message.author.avatar,
+                            avatarURL: message.author.avatarURL
                         };
-                        for (index in polls) {
-                            _loop_1(index);
-                        }
-                        if (polls.length == 0) {
-                            text.push("No polls available");
-                        }
-                        message.channel.send({
-                            embed: {
-                                color: 3447003,
-                                description: text.join("\n")
-                            }
+                        return [4, mongo_client_1.default.users.findOne({
+                                id: message.author.id
+                            }).catch(function (e) {
+                                console.error(e);
+                            })];
+                    case 1:
+                        user = _a.sent();
+                        return [4, mongo_client_1.default.users.find({}).toArray()];
+                    case 2:
+                        users = _a.sent();
+                        console.log(users);
+                        if (!!user.id) return [3, 4];
+                        return [4, mongo_client_1.default.users.insertOne(dbUser).catch(function (e) {
+                                console.error(e);
+                            })];
+                    case 3:
+                        _a.sent();
+                        _a.label = 4;
+                    case 4:
+                        message.channel.send(JSON.stringify(user.username)).catch(function (e) {
+                            console.error(e);
                         });
                         return [2];
                 }

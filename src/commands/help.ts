@@ -1,4 +1,5 @@
 import { Message } from 'discord.js';
+import getOrSetUser from '../lib/users'
 
 const prefix = '!'
 
@@ -9,6 +10,8 @@ module.exports = {
 	usage: '[command name]',
 	cooldown: 5,
 	execute(message: Message, args: any) {
+		getOrSetUser(message)
+		
 		const data = [];
 		const { commands } = message.client;
 

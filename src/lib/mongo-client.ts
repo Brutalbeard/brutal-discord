@@ -1,5 +1,12 @@
 import * as assert from 'assert';
-import * as MongoClient from 'mongodb';
+import * as mongodb from 'mongodb';
+import * as Bluebird from 'bluebird';
+
+var MongoClient = mongodb.MongoClient;
+var Collection = mongodb.Collection;
+
+Bluebird.promisifyAll(Collection.prototype);
+Bluebird.promisifyAll(MongoClient);
 
 const f = require('util').format;
 

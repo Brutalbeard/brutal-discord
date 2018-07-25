@@ -5,7 +5,6 @@ module.exports = {
     name: 'flip',
     description: 'Flip a coin!',
     usage: "",
-    args: true,
     execute: function (message, args) {
         users_1.default(message);
         var sides = ['Heads', 'Tails'];

@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var apod_client_1 = require("../lib/apod-client");
+var users_1 = require("../lib/users");
 module.exports = {
     name: 'apod',
     description: "Astronomy Picture of the Day! If you use just the 'apod' command, today's APOD will show up. Optionally you can say 'apod random', and I'll pick one out of a hat.",
@@ -46,6 +47,7 @@ module.exports = {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        users_1.default(message);
                         queryDate = null;
                         if (args[0] === 'random') {
                             queryDate = randomDate(new Date(1998, 0, 1), new Date());

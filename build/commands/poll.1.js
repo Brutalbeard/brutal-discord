@@ -36,56 +36,44 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var mongo_client_1 = require("../lib/mongo-client");
-var users_1 = require("../lib/users");
 module.exports = {
-    name: 'vote',
-    description: 'Cast your vote on a poll!',
-    usage: "{poll id}, {voting option}",
-    args: true,
+    name: 'poll',
+    description: 'Create a shiny new poll for people to vote on!',
+    usage: "Is Ian a baller? - yes no",
     execute: function (message, args) {
         return __awaiter(this, void 0, void 0, function () {
-            var today, yesterday, user;
-            var _this = this;
+            var pollAuthor, poll_id, question, options, poll;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        today = new Date();
-                        yesterday = new Date(today);
-                        yesterday.setDate(today.getDate() - 1);
-                        return [4, users_1.default(message)];
+                        pollAuthor = {
+                            id: message.author.id,
+                            username: message.author.username,
+                            bot: message.author.bot,
+                            avatar: message.author.avatar,
+                            avatarURL: message.author.avatarURL
+                        };
+                        return [4, getLastPollId(message)];
                     case 1:
-                        user = _a.sent();
-                        return [4, mongo_client_1.default.polls.findOne({
-                                room: message.channel.id,
-                                created_at: {
-                                    $gte: (yesterday)
-                                },
-                                poll_id: args[0],
-                                deleted: false
-                            }).then(function (poll) { return __awaiter(_this, void 0, void 0, function () {
-                                return __generator(this, function (_a) {
-                                    switch (_a.label) {
-                                        case 0:
-                                            console.log(poll);
-                                            poll.voting_options.find(function (element) {
-                                                if (element.option === args[1]) {
-                                                    element.voters.push(user);
-                                                }
-                                            });
-                                            return [4, mongo_client_1.default.polls.replaceOne({ "_id": poll._id }, poll).then(function () {
-                                                    message.channel.send("Vote counted!");
-                                                }).catch(function (e) {
-                                                    console.error(e);
-                                                    message.channel.send("Issue counting your vote :=/");
-                                                })];
-                                        case 1:
-                                            _a.sent();
-                                            return [2];
-                                    }
+                        poll_id = _a.sent();
+                        question = splitQuestion(args);
+                        options = splitVotingOptions(args);
+                        poll = {
+                            poll_id: poll_id,
+                            poll_author: pollAuthor,
+                            room: message.channel.id,
+                            question: question,
+                            voting_options: options,
+                            voters: [],
+                            created_at: new Date(),
+                            updated_at: new Date(),
+                            deleted: false
+                        };
+                        return [4, mongo_client_1.default.polls.insertOne(poll).catch(function (e) {
+                                message.channel.send("There was an issue storing your poll! Whomp whomp :-/").catch(function (err) {
+                                    console.error(err);
                                 });
-                            }); }).catch(function (e) {
-                                console.error("Poll not found");
-                                message.channel.send("Poll not found");
+                                console.error(e);
                             })];
                     case 2:
                         _a.sent();
@@ -95,3 +83,41 @@ module.exports = {
         });
     },
 };
+function getLastPollId(message) {
+    return __awaiter(this, void 0, void 0, function () {
+        var poll_id, today, yesterday, docs, temp;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    today = new Date();
+                    yesterday = new Date(today);
+                    yesterday.setDate(today.getDate() - 1);
+                    return [4, mongo_client_1.default.polls.find({
+                            room: message.channel.id,
+                            created_at: {
+                                $gte: (yesterday)
+                            }
+                        }).toArray()];
+                case 1:
+                    docs = _a.sent();
+                    if (docs.length == 0) {
+                        poll_id = '0';
+                    }
+                    else {
+                        temp = docs[docs.length - 1].poll_id;
+                        poll_id = (parseInt(temp) + 1).toString();
+                    }
+                    return [2, poll_id];
+            }
+        });
+    });
+}
+function splitQuestion(args) {
+    var pieces = args.slice(0, args.indexOf('-'));
+    var question = pieces.join(' ');
+    return question;
+}
+function splitVotingOptions(args) {
+    var options = args.slice(args.indexOf('-') + 1);
+    return options;
+}

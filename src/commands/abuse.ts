@@ -1,4 +1,5 @@
 import { Message } from "discord.js";
+import getOrSetUser from '../lib/users'
 
 module.exports = {
     name: 'abuse',
@@ -6,6 +7,9 @@ module.exports = {
     args: true,
     usage: "{username}",
     execute(message: Message, args: any) {
+
+        getOrSetUser(message)
+
         let first: String[] = [
             'LAZY',
             'STUPID',

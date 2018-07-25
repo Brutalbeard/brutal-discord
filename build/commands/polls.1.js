@@ -35,7 +35,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var users_1 = require("../lib/users");
 var mongo_client_1 = require("../lib/mongo-client");
 module.exports = {
     name: 'polls',
@@ -43,11 +42,10 @@ module.exports = {
     usage: "",
     execute: function (message, args) {
         return __awaiter(this, void 0, void 0, function () {
-            var text, today, yesterday, polls, _loop_1, index;
+            var text, today, yesterday, polls, index, poll;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        users_1.default(message);
                         text = [];
                         today = new Date();
                         yesterday = new Date(today);
@@ -61,19 +59,10 @@ module.exports = {
                             }).toArray()];
                     case 1:
                         polls = _a.sent();
-                        _loop_1 = function (index) {
-                            var poll = polls[index];
-                            var options = [];
-                            poll.voting_options.forEach(function (element) {
-                                options.push(element.option);
-                            });
-                            text.push("ID: " + poll.poll_id + " - Question: \"" + poll.question + "\" - Options: " + options.join(' | '));
-                        };
+                        console.log(polls);
                         for (index in polls) {
-                            _loop_1(index);
-                        }
-                        if (polls.length == 0) {
-                            text.push("No polls available");
+                            poll = polls[index];
+                            text.push("ID: " + poll.poll_id + " - Question: \"" + poll.question + "\" - Options: " + poll.voting_options.join(', '));
                         }
                         message.channel.send({
                             embed: {

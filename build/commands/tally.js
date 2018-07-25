@@ -35,17 +35,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var users_1 = require("../lib/users");
 var mongo_client_1 = require("../lib/mongo-client");
 module.exports = {
     name: 'tally',
     description: 'Get a tally of a current poll',
     usage: "[poll id]",
+    args: true,
     execute: function (message, args) {
         return __awaiter(this, void 0, void 0, function () {
-            var text, today, yesterday, poll, options;
+            var text, today, yesterday;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        users_1.default(message);
                         text = [];
                         today = new Date();
                         yesterday = new Date(today);
@@ -57,25 +60,29 @@ module.exports = {
                                 },
                                 poll_id: args[0],
                                 deleted: false
+                            }).then(function (poll) {
+                                var options = [];
+                                poll.voting_options.forEach(function (element) {
+                                    options.push(element.option + "(" + element.voters.length + ")");
+                                });
+                                text.push("Options: " + options.join(' | '));
+                                message.channel.send({
+                                    embed: {
+                                        color: 3447003,
+                                        author: {
+                                            name: poll.poll_author.username,
+                                            icon_url: poll.poll_author.avatarURL
+                                        },
+                                        description: text.join("\n"),
+                                        title: "ID: " + poll.poll_id + " - " + poll.question
+                                    }
+                                });
+                            }).catch(function (e) {
+                                console.error(e);
+                                message.channel.send("Poll not found");
                             })];
                     case 1:
-                        poll = _a.sent();
-                        options = [];
-                        poll.voting_options.forEach(function (element) {
-                            options.push(element.option + "(" + element.voters.length + ")");
-                        });
-                        text.push("Options: " + options.join(' | '));
-                        message.channel.send({
-                            embed: {
-                                color: 3447003,
-                                author: {
-                                    name: poll.poll_author.username,
-                                    icon_url: poll.poll_author.avatarURL
-                                },
-                                description: text.join("\n"),
-                                title: "ID: " + poll.poll_id + " - " + poll.question
-                            }
-                        });
+                        _a.sent();
                         return [2];
                 }
             });

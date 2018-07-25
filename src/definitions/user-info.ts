@@ -6,5 +6,6 @@ export default interface UserInfo {
     username: string,
     bot: boolean,
     avatar?: string
-    avatarURL?: string
+    avatarURL?: string,
+    doots?: number
 }

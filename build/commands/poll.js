@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var mongo_client_1 = require("../lib/mongo-client");
+var users_1 = require("../lib/users");
 module.exports = {
     name: 'poll',
     description: 'Create a shiny new poll for people to vote on!',
@@ -46,16 +47,11 @@ module.exports = {
             var pollAuthor, poll_id, question, options, poll;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        pollAuthor = {
-                            id: message.author.id,
-                            username: message.author.username,
-                            bot: message.author.bot,
-                            avatar: message.author.avatar,
-                            avatarURL: message.author.avatarURL
-                        };
-                        return [4, getLastPollId(message)];
+                    case 0: return [4, users_1.default(message)];
                     case 1:
+                        pollAuthor = _a.sent();
+                        return [4, getLastPollId(message)];
+                    case 2:
                         poll_id = _a.sent();
                         question = splitQuestion(args);
                         options = splitVotingOptions(args);
@@ -75,7 +71,7 @@ module.exports = {
                                 });
                                 console.error(e);
                             })];
-                    case 2:
+                    case 3:
                         _a.sent();
                         return [2];
                 }

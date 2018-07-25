@@ -62,6 +62,10 @@ module.exports = {
                                 $set: {
                                     deleted: true
                                 }
+                            }).then(function () {
+                                message.channel.send("Removed!");
+                            }).catch(function (e) {
+                                console.error(e);
                             })];
                     case 1:
                         _a.sent();

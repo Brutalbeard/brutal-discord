@@ -1,8 +1,5 @@
 import { Message } from "discord.js";
-import UserInfo from "../definitions/user-info"
-import Poll from "../definitions/poll"
 import db from "../lib/mongo-client"
-import { parse } from "querystring";
 
 module.exports = {
     name: 'endpoll',
@@ -26,6 +23,10 @@ module.exports = {
                 $set: {
                     deleted: true
                 }
-            })
+        }).then(() =>{
+            message.channel.send("Removed!")
+        }).catch(e =>{
+            console.error(e)
+        })
     },
 };

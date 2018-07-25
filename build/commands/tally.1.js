@@ -35,50 +35,45 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var users_1 = require("../lib/users");
 var mongo_client_1 = require("../lib/mongo-client");
 module.exports = {
-    name: 'polls',
-    description: 'View all the currently available polls for this chat room',
-    usage: "",
+    name: 'tally',
+    description: 'Get a tally of a current poll',
+    usage: "[poll id]",
     execute: function (message, args) {
         return __awaiter(this, void 0, void 0, function () {
-            var text, today, yesterday, polls, _loop_1, index;
+            var text, today, yesterday, poll, options;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        users_1.default(message);
                         text = [];
                         today = new Date();
                         yesterday = new Date(today);
                         yesterday.setDate(today.getDate() - 1);
-                        return [4, mongo_client_1.default.polls.find({
+                        return [4, mongo_client_1.default.polls.findOne({
                                 room: message.channel.id,
                                 created_at: {
                                     $gte: (yesterday)
                                 },
+                                poll_id: args[0],
                                 deleted: false
-                            }).toArray()];
+                            })];
                     case 1:
-                        polls = _a.sent();
-                        _loop_1 = function (index) {
-                            var poll = polls[index];
-                            var options = [];
-                            poll.voting_options.forEach(function (element) {
-                                options.push(element.option);
-                            });
-                            text.push("ID: " + poll.poll_id + " - Question: \"" + poll.question + "\" - Options: " + options.join(' | '));
-                        };
-                        for (index in polls) {
-                            _loop_1(index);
-                        }
-                        if (polls.length == 0) {
-                            text.push("No polls available");
-                        }
+                        poll = _a.sent();
+                        options = [];
+                        poll.voting_options.forEach(function (element) {
+                            options.push(element.option);
+                        });
+                        text.push("Options: " + options.join(', '));
                         message.channel.send({
                             embed: {
                                 color: 3447003,
-                                description: text.join("\n")
+                                author: {
+                                    name: poll.poll_author.username,
+                                    icon_url: poll.poll_author.avatarURL
+                                },
+                                description: text.join("\n"),
+                                title: "ID: " + poll.poll_id + " - " + poll.question
                             }
                         });
                         return [2];

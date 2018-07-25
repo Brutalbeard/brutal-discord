@@ -1,7 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var assert = require("assert");
-var MongoClient = require("mongodb");
+var mongodb = require("mongodb");
+var Bluebird = require("bluebird");
+var MongoClient = mongodb.MongoClient;
+var Collection = mongodb.Collection;
+Bluebird.promisifyAll(Collection.prototype);
+Bluebird.promisifyAll(MongoClient);
 var f = require('util').format;
 var collections = {
     users: null,

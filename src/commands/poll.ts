@@ -2,7 +2,7 @@ import { Message } from "discord.js";
 import UserInfo from "../definitions/user-info"
 import Poll from "../definitions/poll"
 import db from "../lib/mongo-client"
-import { parse } from "querystring";
+import getOrSetUser from '../lib/users'
 import VotingOption from "../definitions/voting-option";
 
 module.exports = {
@@ -12,13 +12,7 @@ module.exports = {
     args: true,
     async execute(message: Message, args: any) {
         
-        let pollAuthor: UserInfo = {
-            id: message.author.id,
-            username: message.author.username,
-            bot: message.author.bot,
-            avatar: message.author.avatar,
-            avatarURL: message.author.avatarURL
-        }
+        let pollAuthor: UserInfo = await getOrSetUser(message)
 
         let poll_id = await getLastPollId(message)
         let question = splitQuestion(args)
