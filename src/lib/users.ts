@@ -17,7 +17,7 @@ async function getOrSetUser(queryUser: UserInfo){
             avatar: queryUser.avatar,
             avatarURL: queryUser.avatarURL,
             bot: queryUser.bot,
-            doots: 0
+            doots: 10
         }
 
         await db.users.insertOne(tempUser)

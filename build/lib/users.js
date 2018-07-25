@@ -57,7 +57,7 @@ function getOrSetUser(queryUser) {
                         avatar: queryUser.avatar,
                         avatarURL: queryUser.avatarURL,
                         bot: queryUser.bot,
-                        doots: 0
+                        doots: 10
                     };
                     return [4, mongo_client_1.default.users.insertOne(tempUser)];
                 case 2:
