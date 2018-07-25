@@ -8,7 +8,7 @@ module.exports = {
     usage: "{username}",
     execute(message: Message, args: any) {
 
-        getOrSetUser(message)
+        getOrSetUser(message.author)
 
         let first: String[] = [
             'LAZY',

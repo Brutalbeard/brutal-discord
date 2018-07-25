@@ -15,7 +15,7 @@ module.exports = {
         let yesterday = new Date(today)
         yesterday.setDate(today.getDate() - 1)
 
-        let user: UserInfo = await getOrSetUser(message)
+        let user: UserInfo = await getOrSetUser(message.author)
 
         await db.polls.findOne({
             room: message.channel.id,
@@ -24,26 +24,26 @@ module.exports = {
             },
             poll_id: args[0],
             deleted: false
-        }).then(async poll =>{
+        }).then(async poll => {
             console.log(poll)
 
-            poll.voting_options.find(element =>{
-                if(element.option === args[1]){
+            poll.voting_options.find(element => {
+                if (element.option === args[1]) {
                     element.voters.push(user)
                 }
             })
-    
+
             await db.polls.replaceOne(
-                {"_id": poll._id},
+                { "_id": poll._id },
                 poll
-            ).then(() =>{
+            ).then(() => {
                 message.channel.send("Vote counted!")
-            }).catch(e =>{
+            }).catch(e => {
                 console.error(e)
                 message.channel.send("Issue counting your vote :=/")
             })
 
-        }).catch(e =>{
+        }).catch(e => {
             console.error("Poll not found")
             message.channel.send("Poll not found")
         })

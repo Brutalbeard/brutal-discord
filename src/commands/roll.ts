@@ -7,8 +7,8 @@ module.exports = {
     usage: "[{number of dice}, d, {number of sides on the dice}]",
     execute(message: Message, args: any) {
 
-        getOrSetUser(message)
-
+        getOrSetUser(message.author)
+        
         let nummberOfDice: number = args[0] ? args[0] : 1
         let numberOfSides: number = args[0] ? args[2] : 6
 

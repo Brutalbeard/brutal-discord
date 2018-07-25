@@ -12,7 +12,7 @@ module.exports = {
     args: true,
     async execute(message: Message, args: any) {
         
-        let pollAuthor: UserInfo = await getOrSetUser(message)
+        let pollAuthor: UserInfo = await getOrSetUser(message.author)
 
         let poll_id = await getLastPollId(message)
         let question = splitQuestion(args)

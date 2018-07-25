@@ -10,7 +10,7 @@ module.exports = {
     usage: "",
     async execute(message: Message, args: any) {
 
-        getOrSetUser(message)
+        getOrSetUser(message.author)
         
         const text = []
 

@@ -1,6 +1,5 @@
 import { Message } from "discord.js";
 import getOrSetUser from '../lib/users'
-import Poll from "../definitions/poll"
 import db from "../lib/mongo-client"
 
 module.exports = {
@@ -10,7 +9,7 @@ module.exports = {
     args: true,
     async execute(message: Message, args: any) {
 
-        getOrSetUser(message)
+        getOrSetUser(message.author)
         
         const text = []
 

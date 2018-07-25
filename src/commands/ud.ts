@@ -1,4 +1,5 @@
 import { Message } from "discord.js";
+import getOrSetUser from '../lib/users'
 import { ud_client } from "../lib/urban-dictionary";
 
 module.exports = {
@@ -7,6 +8,8 @@ module.exports = {
     usage: "{alabama hot pocket}",
     args: true,
     async execute(message: Message, args: any) {
+
+        getOrSetUser(message.author)
 
         let res = await ud_client.get('/define', {
             params: {
@@ -20,7 +23,7 @@ module.exports = {
 
         message.channel.send({
             embed:{
-                color: 3447003,color: 3447003,
+                color: 3447003,
                 author: {
                     name: "Author: " + res[0].author
                 },

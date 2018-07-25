@@ -5,9 +5,8 @@ module.exports = {
     name: 'flip',
     description: 'Flip a coin!',
     usage: "",
-    args: true,
     execute(message: Message, args: any) {
-        getOrSetUser(message)
+        getOrSetUser(message.author)
 
         let sides = ['Heads', 'Tails']
 

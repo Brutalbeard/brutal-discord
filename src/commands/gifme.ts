@@ -8,7 +8,7 @@ module.exports = {
     usage: "{kid falling down}",
     args: true,
     async execute(message: Message, args: any) {
-        getOrSetUser(message)
+        getOrSetUser(message.author)
 
         await giphy_client.get('/search', {
             params: {

@@ -8,7 +8,7 @@ module.exports = {
     usage: "(options: [random])",
     async execute(message: Message, args: any) {
 
-        getOrSetUser(message)
+        getOrSetUser(message.author)
 
         let queryDate = null
 
