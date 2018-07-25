@@ -16,9 +16,7 @@ module.exports = {
             message.channel.send("No downdooting for you! You don't have any doots to spend")
         }else if(user.id == mentionedUser.id){
             message.channel.send("Can't downdoot yourself dumbass")
-        }
-        else
-        (
+        }else if(user.id != mentionedUser.id)(
 
             db.users.updateOne({id: mentionedUser.id}, {
                 $inc: {doots: -1} 
