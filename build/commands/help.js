@@ -11,7 +11,7 @@ module.exports = {
     execute: function (message, args) {
         users_1.default(message.author);
         var data = [];
-        var commands = message.client.commands;
+        var commands = message.client.commands.filter(function (command) { return command.name != 'porn'; });
         if (!args.length) {
             data.push('Here\'s a list of all my commands:');
             data.push(commands.map(function (command) { return command.name; }).join(', '));
