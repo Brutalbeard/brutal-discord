@@ -1,5 +1,6 @@
 import { Message } from 'discord.js';
 import getOrSetUser from '../lib/users';
+// I'll thank everyone to save their judgement
 
 const prefix = '!'
 
