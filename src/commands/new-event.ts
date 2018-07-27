@@ -39,6 +39,13 @@ module.exports = {
                                     newEvent
                                 ).then(() =>{
                                     message.author.send("New event created! Have fun!")
+                                    message.channel.send({
+                                        embed: {
+                                            color: 3447003,
+                                            description: "**" + newEvent.title + ":** \n\t" + newEvent.description + " " + "\n\tOrganized by @" + newEvent.organizer.username + "\n\tWhen: " + newEvent.date.toDateString()
+                             
+                                        }
+                                    })
                                 }).catch(e =>{
                                     message.author.send("There was an issue creating your event. :-/")
                                     console.error(e)

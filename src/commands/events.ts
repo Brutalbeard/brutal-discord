@@ -29,11 +29,28 @@ module.exports = {
             text.push("**" + event.title + ":** \n\t" + event.description + " " + "\n\tOrganized by @" + event.organizer.username + "\n\tWhen: " + event.date.toDateString())
         }
 
-        message.channel.send({
-            embed: {
-                color: 3447003,
-                description: text.join("\n\n")
-            }
-        })
+        if(args[0] == 'all'){
+            message.channel.send("@everyone", {
+                embed: {
+                    color: 3447003,
+                    description: text.join("\n\n")
+                }
+            })
+        }else if(args[0] == 'here'){
+            message.channel.send("@here", {
+                embed: {
+                    color: 3447003,
+                    description: text.join("\n\n")
+                }
+            })
+        }else{
+            message.channel.send({
+                embed: {
+                    color: 3447003,
+                    description: text.join("\n\n")
+                }
+            })
+        }
+        
     },
 };
