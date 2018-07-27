@@ -39,8 +39,8 @@ var mongo_client_1 = require("../lib/mongo-client");
 var users_1 = require("../lib/users");
 module.exports = {
     name: 'events',
-    description: 'View all the current and upcoming events in this room!',
-    usage: "",
+    description: 'View all the current and upcoming events in this room! You can ping everyone, or just those that are here',
+    usage: "{all, here}",
     execute: function (message, args) {
         return __awaiter(this, void 0, void 0, function () {
             var text, today, yesterday, events, _i, events_1, event;

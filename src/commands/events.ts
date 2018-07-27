@@ -6,8 +6,8 @@ import getOrSetUser from '../lib/users';
 
 module.exports = {
     name: 'events',
-    description: 'View all the current and upcoming events in this room!',
-    usage: "",
+    description: 'View all the current and upcoming events in this room! You can ping everyone, or just those that are here',
+    usage: "{all, here}",
     async execute(message: Message, args: any) {
 
         getOrSetUser(message.author)

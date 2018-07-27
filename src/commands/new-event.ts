@@ -5,8 +5,8 @@ import getOrSetUser from '../lib/users';
 
 module.exports = {
     name: 'newevent',
-    description: "Triggers the bot to help you setup a shiny new event in the room you're in. You can ping everyone, or just the folks that are here now",
-    usage: "{all, here}",
+    description: "Triggers the bot to help you setup a shiny new event in the room you're in.",
+    usage: "",
     async execute(message: Message, args: any) {
         let user = await getOrSetUser(message.author)
 
