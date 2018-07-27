@@ -32,7 +32,7 @@ module.exports = {
         message.channel.send({
             embed: {
                 color: 3447003,
-                description: text.join("\n")
+                description: text.join("\n\n")
             }
         })
     },
