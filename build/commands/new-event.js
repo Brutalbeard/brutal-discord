@@ -39,8 +39,8 @@ var mongo_client_1 = require("../lib/mongo-client");
 var users_1 = require("../lib/users");
 module.exports = {
     name: 'newevent',
-    description: "Triggers the bot to help you setup a shiny new event in the room you're in",
-    usage: "",
+    description: "Triggers the bot to help you setup a shiny new event in the room you're in. You can ping everyone, or just the folks that are here now",
+    usage: "{all, here}",
     execute: function (message, args) {
         return __awaiter(this, void 0, void 0, function () {
             var user, newEvent, filter;
