@@ -14,7 +14,6 @@ module.exports = {
         console.log(args[0])
 
         Pornsearch.gifs().then(res =>{
-            console.log(res[0])
             message.author.send(res[Math.floor(Math.random()*res.length)].webm)
         }).catch(e =>{
             console.error(e)
