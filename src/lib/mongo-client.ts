@@ -1,6 +1,6 @@
 import * as assert from 'assert';
-import * as mongodb from 'mongodb';
 import * as Bluebird from 'bluebird';
+import * as mongodb from 'mongodb';
 
 var MongoClient = mongodb.MongoClient;
 var Collection = mongodb.Collection;
@@ -38,6 +38,7 @@ MongoClient.connect(url, function(err, client) {
 
   collections.users = db.collection('user')
   collections.polls = db.collection('polls')
+  collections.events = db.collection('events')
 });
 
 export default collections

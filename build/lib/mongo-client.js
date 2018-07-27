@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var assert = require("assert");
-var mongodb = require("mongodb");
 var Bluebird = require("bluebird");
+var mongodb = require("mongodb");
 var MongoClient = mongodb.MongoClient;
 var Collection = mongodb.Collection;
 Bluebird.promisifyAll(Collection.prototype);
@@ -26,5 +26,6 @@ MongoClient.connect(url, function (err, client) {
     var db = client.db(dbName);
     collections.users = db.collection('user');
     collections.polls = db.collection('polls');
+    collections.events = db.collection('events');
 });
 exports.default = collections;

@@ -1,9 +1,9 @@
 import { Message } from "discord.js";
-import UserInfo from "../definitions/user-info"
-import Poll from "../definitions/poll"
-import db from "../lib/mongo-client"
-import getOrSetUser from '../lib/users'
+import Poll from "../definitions/poll";
+import UserInfo from "../definitions/user-info";
 import VotingOption from "../definitions/voting-option";
+import db from "../lib/mongo-client";
+import getOrSetUser from '../lib/users';
 
 module.exports = {
     name: 'poll',

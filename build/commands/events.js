@@ -38,12 +38,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var mongo_client_1 = require("../lib/mongo-client");
 var users_1 = require("../lib/users");
 module.exports = {
-    name: 'polls',
-    description: 'View all the currently available polls for this chat room',
+    name: 'events',
+    description: 'View all the current and upcoming events in this room!',
     usage: "",
     execute: function (message, args) {
         return __awaiter(this, void 0, void 0, function () {
-            var text, today, yesterday, polls, _loop_1, index;
+            var text, today, yesterday, events, _i, events_1, event;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -52,28 +52,17 @@ module.exports = {
                         today = new Date();
                         yesterday = new Date(today);
                         yesterday.setDate(today.getDate() - 1);
-                        return [4, mongo_client_1.default.polls.find({
+                        return [4, mongo_client_1.default.events.find({
                                 room: message.channel.id,
                                 created_at: {
                                     $gte: (yesterday)
-                                },
-                                deleted: false
+                                }
                             }).toArray()];
                     case 1:
-                        polls = _a.sent();
-                        _loop_1 = function (index) {
-                            var poll = polls[index];
-                            var options = [];
-                            poll.voting_options.forEach(function (element) {
-                                options.push(element.option);
-                            });
-                            text.push("ID: " + poll.poll_id + " - Question: \"" + poll.question + "\" - Options: " + options.join(' | '));
-                        };
-                        for (index in polls) {
-                            _loop_1(index);
-                        }
-                        if (polls.length == 0) {
-                            text.push("No polls available");
+                        events = _a.sent();
+                        for (_i = 0, events_1 = events; _i < events_1.length; _i++) {
+                            event = events_1[_i];
+                            text.push("**" + event.title + ":** \n\t" + event.description + " " + "\n\tOrganized by @" + event.organizer.username + "\n\tWhen: " + event.date.toDateString());
                         }
                         message.channel.send({
                             embed: {
