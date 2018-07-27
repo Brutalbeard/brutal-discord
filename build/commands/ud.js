@@ -35,8 +35,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var users_1 = require("../lib/users");
 var urban_dictionary_1 = require("../lib/urban-dictionary");
+var users_1 = require("../lib/users");
 module.exports = {
     name: 'ud',
     description: 'Returns a definition of some awful phrase from ubran dictionary',

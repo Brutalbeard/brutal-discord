@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
-import getOrSetUser from '../lib/users'
 import { ud_client } from "../lib/urban-dictionary";
+import getOrSetUser from '../lib/users';
 
 module.exports = {
     name: 'ud',
