@@ -35,8 +35,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var users_1 = require("../lib/users");
 var mongo_client_1 = require("../lib/mongo-client");
+var users_1 = require("../lib/users");
 module.exports = {
     name: 'tally',
     description: 'Get a tally of a current poll',
@@ -63,9 +63,10 @@ module.exports = {
                             }).then(function (poll) {
                                 var options = [];
                                 poll.voting_options.forEach(function (element) {
-                                    options.push(element.option + "(" + element.voters.length + ")");
+                                    var names = element.voters.map(function (user) { return user.username; });
+                                    options.push("**" + element.option + "**(" + element.voters.length + ") \n" + names.join(', ') + "\n");
                                 });
-                                text.push("Options: " + options.join(' | '));
+                                text.push(options.join("***********\n"));
                                 message.channel.send({
                                     embed: {
                                         color: 3447003,

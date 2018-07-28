@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
-import getOrSetUser from '../lib/users'
-import db from "../lib/mongo-client"
+import db from "../lib/mongo-client";
+import getOrSetUser from '../lib/users';
 
 module.exports = {
     name: 'tally',
@@ -27,10 +27,11 @@ module.exports = {
         }).then(poll =>{
             let options = []
             poll.voting_options.forEach(element =>{
-                options.push(element.option + "(" + element.voters.length + ")")
+                let names = element.voters.map(user => user.username)
+                options.push("**" + element.option + "**(" + element.voters.length + ") \n" + names.join(', ') + "\n")
             })
 
-            text.push("Options: " + options.join(' | '))
+            text.push(options.join("***********\n"))
             
 
             message.channel.send({

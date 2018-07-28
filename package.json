@@ -21,6 +21,7 @@
     "erlpack": "hammerandchisel/erlpack",
     "mongodb": "^3.1.1",
     "mongoose": "^5.2.4",
+    "newrelic": "^4.6.0",
     "pornsearch": "^2.4.2",
     "typescript": "^2.9.2",
     "uws": "^10.148.1"

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Discord = require("discord.js");
 var dotenv = require("dotenv");
 var fs = require("fs");
+require('newrelic');
 var prefix = '!';
 dotenv.config();
 var client = new Discord.Client();
