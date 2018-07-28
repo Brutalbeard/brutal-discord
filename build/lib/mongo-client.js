@@ -18,7 +18,6 @@ var db = encodeURIComponent(process.env['MONGO_DB']);
 var address = encodeURIComponent(process.env['MONGO_ADDRESS']);
 var port = encodeURIComponent(process.env['MONGO_PORT']);
 var url = f('mongodb://%s:%s@%s:%s/%s', user, password, address, port, db);
-console.log(url);
 var dbName = db;
 MongoClient.connect(url, function (err, client) {
     assert.equal(null, err);

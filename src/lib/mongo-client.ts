@@ -25,7 +25,6 @@ const port = encodeURIComponent(process.env['MONGO_PORT']);
 // Connection URL
 const url = f('mongodb://%s:%s@%s:%s/%s', user, password, address, port, db);
 
-console.log(url)
 // Database Name
 const dbName = db;
 
