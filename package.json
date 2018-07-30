@@ -5,7 +5,7 @@
   "main": "./build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "yarn && tsc --noEmitOnError && node ."
+    "start": "yarn && tsc && node ."
   },
   "author": "John Celoria",
   "license": "MIT",
