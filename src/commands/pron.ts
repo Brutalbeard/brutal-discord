@@ -11,8 +11,6 @@ module.exports = {
 
         const Pornsearch = require('pornsearch').search(args[0]);
 
-        console.log(args[0])
-
         Pornsearch.gifs().then(res =>{
             message.author.send(res[Math.floor(Math.random()*res.length)].webm)
         }).catch(e =>{

@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
-import getOrSetUser from '../lib/users'
-import db from "../lib/mongo-client"
+import db from "../lib/mongo-client";
+import getOrSetUser from '../lib/users';
 
 module.exports = {
     name: 'updoot',
@@ -13,7 +13,7 @@ module.exports = {
         let mentionedUser = await getOrSetUser(message.mentions.users.array()[0])
 
         if(user.id == mentionedUser.id){
-            message.channel.send("Can't updoot yourself dumbass")
+            message.channel.send("Can't updoot yourself idiot.")
         }else if(user.id != mentionedUser.id){
             db.users.updateOne({id: mentionedUser.id}, {
                 $inc: {doots: 1} 

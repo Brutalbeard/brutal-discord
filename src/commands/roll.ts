@@ -1,10 +1,10 @@
 import { Message } from "discord.js";
-import getOrSetUser from '../lib/users'
+import getOrSetUser from '../lib/users';
 
 module.exports = {
     name: 'roll',
-    description: 'Roll some dice! Example, !roll 1 d 6',
-    usage: "[{number of dice}, d, {number of sides on the dice}]",
+    description: 'Roll some dice!',
+    usage: "{number of dice} d {number of sides on the dice}",
     execute(message: Message, args: any) {
 
         getOrSetUser(message.author)

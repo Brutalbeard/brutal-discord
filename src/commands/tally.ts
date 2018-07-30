@@ -31,8 +31,7 @@ module.exports = {
                 options.push("**" + element.option + "**(" + element.voters.length + ") \n" + names.join(', ') + "\n")
             })
 
-            text.push(options.join("***********\n"))
-            
+            text.push(options.join("***********\n"))  
 
             message.channel.send({
                 embed: {
@@ -49,7 +48,5 @@ module.exports = {
             console.error(e)
             message.channel.send("Poll not found")
         })
-
-        
     },
 };
