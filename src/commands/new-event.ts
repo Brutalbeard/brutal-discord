@@ -32,7 +32,7 @@ module.exports = {
                         newEvent.date = d
                     }).then(() =>{
                         message.author.send("Descibe what's goin on").then(() =>{
-                            message.author.dmChannel.awaitMessages(filter, { maxMatches: 1, time: 30000, errors: ['time'] }).then(collected =>{
+                            message.author.dmChannel.awaitMessages(filter, { maxMatches: 1, time: 60000, errors: ['time'] }).then(collected =>{
                                 newEvent.description = collected.first().content
                             }).then(async () =>{
                                 await db.events.insertOne(
@@ -43,7 +43,6 @@ module.exports = {
                                         embed: {
                                             color: 3447003,
                                             description: "**" + newEvent.title + ":** \n\t" + newEvent.description + " " + "\n\tOrganized by @" + newEvent.organizer.username + "\n\tWhen: " + newEvent.date.toDateString()
-                             
                                         }
                                     })
                                 }).catch(e =>{
