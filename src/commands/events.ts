@@ -20,7 +20,7 @@ module.exports = {
 
         let events: Event[] = await db.events.find({
             room: message.channel.id,
-            created_at: {
+            date: {
                 $gte: (yesterday)
             }
         }).toArray()
