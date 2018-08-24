@@ -35,8 +35,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var users_1 = require("../lib/users");
 var mongo_client_1 = require("../lib/mongo-client");
+var users_1 = require("../lib/users");
 module.exports = {
     name: 'downdoot',
     description: 'Take a doot from someone, but it costs you a doot!',
@@ -55,10 +55,10 @@ module.exports = {
                     case 2:
                         mentionedUser = _a.sent();
                         if (user.doots <= 0) {
-                            message.channel.send("No downdooting for you! You don't have any doots to spend");
+                            message.channel.send("No downdooting for you! You don't have any doots to spend! If only people liked you more.");
                         }
                         else if (user.id == mentionedUser.id) {
-                            message.channel.send("Can't downdoot yourself dumbass");
+                            message.channel.send("Can't downdoot yourself dumbass!");
                         }
                         else if (user.id != mentionedUser.id)
                             (mongo_client_1.default.users.updateOne({ id: mentionedUser.id }, {

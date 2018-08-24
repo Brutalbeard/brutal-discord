@@ -39,7 +39,7 @@ var mongo_client_1 = require("../lib/mongo-client");
 var users_1 = require("../lib/users");
 module.exports = {
     name: 'poll',
-    description: 'Create a shiny new poll for people to vote on!',
+    description: 'Create a shiny new poll for people to vote on! They only last for a day though.',
     usage: "Is Ian a baller? - yes no",
     args: true,
     execute: function (message, args) {

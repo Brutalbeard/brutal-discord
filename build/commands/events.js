@@ -54,7 +54,7 @@ module.exports = {
                         yesterday.setDate(today.getDate() - 1);
                         return [4, mongo_client_1.default.events.find({
                                 room: message.channel.id,
-                                created_at: {
+                                date: {
                                     $gte: (yesterday)
                                 }
                             }).toArray()];
@@ -64,7 +64,10 @@ module.exports = {
                             event = events_1[_i];
                             text.push("**" + event.title + ":** \n\t" + event.description + " " + "\n\tOrganized by @" + event.organizer.username + "\n\tWhen: " + event.date.toDateString());
                         }
-                        if (args[0] == 'all') {
+                        if (events.length <= 0) {
+                            message.channel.send("No upcoming events");
+                        }
+                        else if (args[0] == 'all') {
                             message.channel.send("@everyone", {
                                 embed: {
                                     color: 3447003,

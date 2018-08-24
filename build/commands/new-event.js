@@ -69,7 +69,7 @@ module.exports = {
                                         newEvent.date = d;
                                     }).then(function () {
                                         message.author.send("Descibe what's goin on").then(function () {
-                                            message.author.dmChannel.awaitMessages(filter, { maxMatches: 1, time: 30000, errors: ['time'] }).then(function (collected) {
+                                            message.author.dmChannel.awaitMessages(filter, { maxMatches: 1, time: 60000, errors: ['time'] }).then(function (collected) {
                                                 newEvent.description = collected.first().content;
                                             }).then(function () { return __awaiter(_this, void 0, void 0, function () {
                                                 return __generator(this, function (_a) {

@@ -40,7 +40,7 @@ var users_1 = require("../lib/users");
 module.exports = {
     name: 'apod',
     description: "Astronomy Picture of the Day! If you use just the 'apod' command, today's APOD will show up. Optionally you can say 'apod random', and I'll pick one out of a hat.",
-    usage: "(options: [random])",
+    usage: "{random}",
     execute: function (message, args) {
         return __awaiter(this, void 0, void 0, function () {
             var queryDate, res;
