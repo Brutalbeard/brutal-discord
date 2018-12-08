@@ -9,6 +9,13 @@ module.exports = {
     args: true,
     cooldown: 5,
     async execute(message: Message, args: any) {
+
+        if (message.channel.type == 'dm') {
+            message.channel.send("No updooting in a direct message to the bot you cheatin bastard")
+        }
+
+        if (message.mentions.users.array().length < 1) { return }
+
         let user = await getOrSetUser(message.author)
         let mentionedUser = await getOrSetUser(message.mentions.users.array()[0])
 

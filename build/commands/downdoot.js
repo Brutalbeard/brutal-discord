@@ -48,7 +48,14 @@ module.exports = {
             var user, mentionedUser;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4, users_1.default(message.author)];
+                    case 0:
+                        if (message.channel.type == 'dm') {
+                            message.channel.send("No downdooting in a direct message to the bot you cheatin bastard");
+                        }
+                        if (message.mentions.users.array().length < 1) {
+                            return [2];
+                        }
+                        return [4, users_1.default(message.author)];
                     case 1:
                         user = _a.sent();
                         return [4, users_1.default(message.mentions.users.array()[0])];
