@@ -64,7 +64,8 @@ module.exports = {
                             })];
                     case 1:
                         res = _a.sent();
-                        message.channel.send({ embed: {
+                        message.channel.send({
+                            embed: {
                                 color: 3447003,
                                 title: res.title,
                                 description: res.explanation,
@@ -75,7 +76,8 @@ module.exports = {
                                     text: res.copyright ? "Credit: " + res.copyright : null
                                 },
                                 timestamp: new Date(res.date)
-                            } });
+                            }
+                        });
                         return [2];
                 }
             });

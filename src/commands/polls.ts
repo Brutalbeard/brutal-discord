@@ -11,7 +11,7 @@ module.exports = {
     async execute(message: Message, args: any) {
 
         getOrSetUser(message.author)
-        
+
         const text = []
 
         let today = new Date();
@@ -26,17 +26,17 @@ module.exports = {
             deleted: false
         }).toArray()
 
-        for(let index in polls){
+        for (let index in polls) {
             let poll: Poll = polls[index]
             let options = []
-            poll.voting_options.forEach(element =>{
+            poll.voting_options.forEach(element => {
                 options.push(element.option)
             })
 
 
             text.push("ID: " + poll.poll_id + " - Question: \"" + poll.question + "\" - Options: " + options.join(' | '))
         }
-        if(polls.length == 0){
+        if (polls.length == 0) {
             text.push("No polls available")
         }
 

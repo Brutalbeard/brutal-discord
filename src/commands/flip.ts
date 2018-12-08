@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import getOrSetUser from '../lib/users'
+import getOrSetUser from '../lib/users';
 
 module.exports = {
     name: 'flip',
@@ -10,6 +10,6 @@ module.exports = {
 
         let sides = ['Heads', 'Tails']
 
-        message.channel.send(sides[Math.floor(Math.random()*sides.length)]);
+        message.channel.send(sides[Math.floor(Math.random() * sides.length)]);
     },
 };

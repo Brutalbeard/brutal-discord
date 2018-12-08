@@ -1,5 +1,5 @@
-import UserInfo from "./user-info"
-import VotingOption from "./voting-option"
+import UserInfo from "./user-info";
+import VotingOption from "./voting-option";
 
 export default interface Poll {
     poll_id: String,

@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
 import UserInfo from "../definitions/user-info";
 import db from "../lib/mongo-client";
-import getOrSetUser from '../lib/users'
+import getOrSetUser from '../lib/users';
 
 module.exports = {
     name: 'vote',
@@ -28,10 +28,10 @@ module.exports = {
             let okToVote = true
 
             poll.voting_options.find(element => {
-                
-                for(let voter of element.voters){
-                    if(voter.id == user.id){
-                        okToVote = false 
+
+                for (let voter of element.voters) {
+                    if (voter.id == user.id) {
+                        okToVote = false
                         message.author.send("You've already voted on this poll")
                     }
                 }

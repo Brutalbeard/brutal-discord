@@ -19,14 +19,14 @@ module.exports = {
         let user = await getOrSetUser(message.author)
         let mentionedUser = await getOrSetUser(message.mentions.users.array()[0])
 
-        if(user.id == mentionedUser.id){
+        if (user.id == mentionedUser.id) {
             message.channel.send("Can't updoot yourself idiot.")
-        }else if(user.id != mentionedUser.id){
-            db.users.updateOne({id: mentionedUser.id}, {
-                $inc: {doots: 1} 
-            }).then(() =>{
+        } else if (user.id != mentionedUser.id) {
+            db.users.updateOne({ id: mentionedUser.id }, {
+                $inc: { doots: 1 }
+            }).then(() => {
                 message.channel.send("@" + mentionedUser.username + " now has " + (mentionedUser.doots + 1) + " doot(s)! Thanks " + user.username)
-            }).catch(e =>{
+            }).catch(e => {
                 console.error(e)
                 message.channel.send("Had an issue giving a doot :-/")
             })

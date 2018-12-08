@@ -15,14 +15,14 @@ module.exports = {
             params: {
                 term: args.join('+')
             }
-        }).then(res =>{
+        }).then(res => {
             return res.data.list
-        }).catch(e =>{
+        }).catch(e => {
             console.error(e)
         })
 
         message.channel.send({
-            embed:{
+            embed: {
                 color: 3447003,
                 author: {
                     name: "Author: " + res[0].author

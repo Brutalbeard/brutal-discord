@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
 import { giphy_client } from "../lib/giphy_client";
-import getOrSetUser from '../lib/users'
+import getOrSetUser from '../lib/users';
 
 module.exports = {
     name: 'gifme',
@@ -14,14 +14,14 @@ module.exports = {
             params: {
                 q: args.join('+')
             }
-        }).then(res =>{
+        }).then(res => {
             let resArray = res.data.data
-            let gif = resArray[Math.floor(Math.random()*resArray.length)]
+            let gif = resArray[Math.floor(Math.random() * resArray.length)]
 
             let url = gif.images.original.webp ? gif.images.original.webp : gif.images.original.url
 
             message.channel.send(url);
-        }).catch(e =>{
+        }).catch(e => {
             console.error(e)
             message.channel.send("Error finding a gif for you: " + e.data.message);
         })

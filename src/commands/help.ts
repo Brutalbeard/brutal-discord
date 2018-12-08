@@ -12,7 +12,7 @@ module.exports = {
 	cooldown: 5,
 	execute(message: Message, args: any) {
 		getOrSetUser(message.author)
-		
+
 		const data = [];
 		const commands = message.client.commands.filter(command => command.name != 'porn');
 

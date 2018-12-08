@@ -12,7 +12,7 @@ module.exports = {
 
         let queryDate = null
 
-        if(args[0] === 'random'){
+        if (args[0] === 'random') {
             queryDate = randomDate(new Date(1998, 0, 1), new Date())
         }
 
@@ -21,24 +21,26 @@ module.exports = {
                 date: queryDate,
                 api_key: process.env['APOD_KEY']
             }
-        }).then(res =>{
+        }).then(res => {
             return res.data
         }).catch(e => {
             console.error(e)
         })
 
-        message.channel.send({embed: {
-            color: 3447003,
-            title: res.title,
-            description: res.explanation,
-            image: {
-                url: res.hdurl
-            },
-            footer: {
-                text: res.copyright ? "Credit: " + res.copyright: null
-            },
-            timestamp: new Date(res.date)
-          }});
+        message.channel.send({
+            embed: {
+                color: 3447003,
+                title: res.title,
+                description: res.explanation,
+                image: {
+                    url: res.hdurl
+                },
+                footer: {
+                    text: res.copyright ? "Credit: " + res.copyright : null
+                },
+                timestamp: new Date(res.date)
+            }
+        });
     },
 };
 

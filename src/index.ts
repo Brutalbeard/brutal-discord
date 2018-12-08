@@ -6,7 +6,7 @@ const prefix = '!'
 
 dotenv.config()
 
-const client = new Discord.Client()
+const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
 const cooldowns = new Discord.Collection();
@@ -16,8 +16,8 @@ const commandFiles = fs.readdirSync('./build/commands');
 
 
 for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
-    client.commands.set(command.name, command);
+	const command = require(`./commands/${file}`);
+	client.commands.set(command.name, command);
 }
 
 client.on('ready', () => {

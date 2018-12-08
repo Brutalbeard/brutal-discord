@@ -10,7 +10,7 @@ module.exports = {
     async execute(message: Message, args: any) {
 
         getOrSetUser(message.author)
-        
+
         const text = []
 
         let today = new Date();
@@ -24,14 +24,14 @@ module.exports = {
             },
             poll_id: args[0],
             deleted: false
-        }).then(poll =>{
+        }).then(poll => {
             let options = []
-            poll.voting_options.forEach(element =>{
+            poll.voting_options.forEach(element => {
                 let names = element.voters.map(user => user.username)
                 options.push("**" + element.option + "**(" + element.voters.length + ") \n" + names.join(', ') + "\n")
             })
 
-            text.push(options.join("***********\n"))  
+            text.push(options.join("***********\n"))
 
             message.channel.send({
                 embed: {
@@ -44,7 +44,7 @@ module.exports = {
                     title: "ID: " + poll.poll_id + " - " + poll.question
                 }
             })
-        }).catch(e =>{
+        }).catch(e => {
             console.error(e)
             message.channel.send("Poll not found")
         })

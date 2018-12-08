@@ -11,14 +11,14 @@ module.exports = {
     usage: "Is Ian a baller? - yes no",
     args: true,
     async execute(message: Message, args: any) {
-        
+
         let pollAuthor: UserInfo = await getOrSetUser(message.author)
 
         let poll_id = await getLastPollId(message)
         let question = splitQuestion(args)
         let options: VotingOption[] = splitVotingOptions(args)
 
-        let poll: Poll ={
+        let poll: Poll = {
             poll_id: poll_id,
             poll_author: pollAuthor,
             room: message.channel.id,
@@ -31,10 +31,10 @@ module.exports = {
 
         await db.polls.insertOne(
             poll
-        ).then(()=>{
+        ).then(() => {
             message.channel.send("Poll Created! To Vote on it, user ID " + poll_id)
-        }).catch(e =>{
-            message.channel.send("There was an issue storing your poll! Whomp whomp :-/").catch(err =>{
+        }).catch(e => {
+            message.channel.send("There was an issue storing your poll! Whomp whomp :-/").catch(err => {
                 console.error(err)
             })
             console.error(e)
@@ -42,7 +42,7 @@ module.exports = {
     },
 };
 
-async function getLastPollId(message: Message){
+async function getLastPollId(message: Message) {
     let poll_id: String
 
     let today = new Date();
@@ -58,9 +58,9 @@ async function getLastPollId(message: Message){
         deleted: false
     }).toArray()
 
-    if(docs.length == 0){   
+    if (docs.length == 0) {
         poll_id = '1'
-    }else {
+    } else {
         let temp = docs[docs.length - 1].poll_id
         poll_id = (parseInt(temp) + 1).toString()
     }
@@ -68,24 +68,24 @@ async function getLastPollId(message: Message){
     return poll_id
 }
 
-function splitQuestion(args){
+function splitQuestion(args) {
 
     let pieces = args.slice(0, args.indexOf('-'))
 
     let question = pieces.join(' ')
 
     return question
-    
+
 }
 
-function splitVotingOptions(args){
+function splitVotingOptions(args) {
     let options = args.slice(args.indexOf('-') + 1)
 
     let arr: VotingOption[] = []
 
     options.forEach(element => {
         arr.push({
-            option: element, 
+            option: element,
             voters: []
         })
     });

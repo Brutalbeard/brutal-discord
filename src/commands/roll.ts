@@ -8,15 +8,15 @@ module.exports = {
     execute(message: Message, args: any) {
 
         getOrSetUser(message.author)
-        
+
         let nummberOfDice: number = args[0] ? args[0] : 1
         let numberOfSides: number = args[0] ? args[2] : 6
 
         let rolls: number[] = []
         let total: number = 0
-        
-        for(let i = 0; i < nummberOfDice; i++){
-            let die = Math.floor(Math.random()*numberOfSides) + 1
+
+        for (let i = 0; i < nummberOfDice; i++) {
+            let die = Math.floor(Math.random() * numberOfSides) + 1
             rolls.push(die)
             total += die
         }
