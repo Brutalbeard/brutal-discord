@@ -51,6 +51,7 @@ module.exports = {
                     case 0:
                         if (message.channel.type == 'dm') {
                             message.channel.send("No updooting in a direct message to the bot you cheatin bastard");
+                            return [2];
                         }
                         if (message.mentions.users.array().length < 1) {
                             return [2];
