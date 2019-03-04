@@ -1,15 +1,59 @@
 import { Message } from "discord.js"
 import getOrSetUser from '../lib/users'
+import db from "../lib/mongo-client";
 
 module.exports = {
     name: 'lop',
-    description: 'Flip a coin!',
-    usage: "",
-    execute(message: Message, args: any) {
+    description: 'Lop off someone else\'s appendage',
+    usage: "!lop @Anarkytt",
+    async execute(message: Message, args: any) {
         getOrSetUser(message.author)
 
-        let sides = ['Heads', 'Tails']
+        const appendages = [
+            "left leg",
+            "right leg",
+            "third leg",
+            "left arm",
+            "right arm",
+            "nose",
+            "left ear",
+            "right ear",
+            "left pinky toe",
+            "right pinky toe",
+            "left nipple",
+            "right nipple",
+            "bottom lip",
+            "upper lip"
+        ]
 
-        message.channel.send(sides[Math.floor(Math.random() * sides.length)])
-    },
+        let user = await getOrSetUser(message.author)
+        let mentionedUser = await getOrSetUser(message.mentions.users.array()[0])
+
+        if (mentionedUser.appendages == undefined) {
+            mentionedUser.appendages = appendages
+        }
+
+        let index = Math.floor(Math.random() * mentionedUser.appendages.length)
+
+        let appendage = mentionedUser.appendages[index]
+        delete mentionedUser.appendages[index]
+        let tempArr: string[]
+
+        for (let index of mentionedUser.appendages) {
+            if (mentionedUser.appendages[index] !== undefined) {
+                tempArr.push(mentionedUser.appendages[index])
+            }
+        }
+        mentionedUser.appendages = tempArr
+
+
+        db.users.updateOne({ id: user.id }, {$set: {
+            appendages: tempArr
+        }}).then(() => {
+            message.channel.send("@" + user.username + " just lopped off @" + mentionedUser.username + "'s " + appendage)
+        }).catch(e => {
+            console.error(e)
+            message.channel.send("Had an issue lopping stuff off...")
+        })
+    }
 }
