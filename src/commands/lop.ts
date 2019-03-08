@@ -9,7 +9,7 @@ module.exports = {
     async execute(message: Message, args: any) {
         getOrSetUser(message.author)
 
-        const appendages = [
+        let appendages = [
             "left leg",
             "right leg",
             "third leg",
@@ -37,19 +37,20 @@ module.exports = {
 
         let appendage = mentionedUser.appendages[index]
         delete mentionedUser.appendages[index]
-        let tempArr: string[]
+        let tempArr: string[] = []
 
-        for (let index of mentionedUser.appendages) {
+        for (let index in mentionedUser.appendages) {
             if (mentionedUser.appendages[index] !== undefined) {
                 tempArr.push(mentionedUser.appendages[index])
             }
         }
+        
         mentionedUser.appendages = tempArr
+        
 
-
-        db.users.updateOne({ id: user.id }, {$set: {
-            appendages: tempArr
-        }}).then(() => {
+        db.users.updateOne({ id: user.id }, {
+            $set: { appendages: tempArr }
+        }).then(() => {
             message.channel.send("@" + user.username + " just lopped off @" + mentionedUser.username + "'s " + appendage)
         }).catch(e => {
             console.error(e)
