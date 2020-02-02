@@ -1,5 +1,5 @@
-import { Message } from "discord.js";
-import getOrSetUser from '../lib/users';
+import { Message } from "discord.js"
+import getOrSetUser from '../lib/users'
 
 module.exports = {
     name: 'porn',
@@ -9,7 +9,7 @@ module.exports = {
     execute(message: Message, args: any) {
         getOrSetUser(message.author)
 
-        const Pornsearch = require('pornsearch').search(args[0]);
+        const Pornsearch = require('pornsearch').search(args[0])
 
         Pornsearch.gifs().then(res => {
             message.author.send(res[Math.floor(Math.random() * res.length)].webm)
@@ -17,4 +17,4 @@ module.exports = {
             console.error(e)
         })
     },
-};
+}

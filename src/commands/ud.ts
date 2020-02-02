@@ -1,6 +1,6 @@
-import { Message } from "discord.js";
-import { ud_client } from "../lib/urban-dictionary";
-import getOrSetUser from '../lib/users';
+import { Message } from "discord.js"
+import { ud_client } from "../lib/urban-dictionary"
+import getOrSetUser from '../lib/users'
 
 module.exports = {
     name: 'ud',
@@ -30,6 +30,6 @@ module.exports = {
                 description: res[0].definition.replace(/\[|\]/g, '') + "\n\n**Example:** " + res[0].example.replace(/\[|\]/g, ''),
                 title: res[0].word
             }
-        });
+        })
     },
-};
+}

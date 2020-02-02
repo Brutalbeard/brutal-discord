@@ -1,7 +1,7 @@
-import { Message } from "discord.js";
-import UserInfo from "../definitions/user-info";
-import db from "../lib/mongo-client";
-import getOrSetUser from '../lib/users';
+import { Message } from "discord.js"
+import UserInfo from "../definitions/user-info"
+import db from "../lib/mongo-client"
+import getOrSetUser from '../lib/users'
 
 module.exports = {
     name: 'vote',
@@ -10,7 +10,7 @@ module.exports = {
     args: true,
     async execute(message: Message, args: any) {
 
-        let today = new Date();
+        let today = new Date()
         let yesterday = new Date(today)
         yesterday.setDate(today.getDate() - 1)
 
@@ -54,4 +54,4 @@ module.exports = {
             message.channel.send("Poll not found")
         })
     },
-};
+}

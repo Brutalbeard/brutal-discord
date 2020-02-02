@@ -1,9 +1,9 @@
-import { Message } from "discord.js";
-import Poll from "../definitions/poll";
-import UserInfo from "../definitions/user-info";
-import VotingOption from "../definitions/voting-option";
-import db from "../lib/mongo-client";
-import getOrSetUser from '../lib/users';
+import { Message } from "discord.js"
+import Poll from "../definitions/poll"
+import UserInfo from "../definitions/user-info"
+import VotingOption from "../definitions/voting-option"
+import db from "../lib/mongo-client"
+import getOrSetUser from '../lib/users'
 
 module.exports = {
     name: 'poll',
@@ -40,12 +40,12 @@ module.exports = {
             console.error(e)
         })
     },
-};
+}
 
 async function getLastPollId(message: Message) {
     let poll_id: String
 
-    let today = new Date();
+    let today = new Date()
     let yesterday = new Date(today)
     yesterday.setDate(today.getDate() - 1)
 
@@ -88,7 +88,7 @@ function splitVotingOptions(args) {
             option: element,
             voters: []
         })
-    });
+    })
 
     return arr
 }

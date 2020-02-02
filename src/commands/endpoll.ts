@@ -1,6 +1,6 @@
-import { Message } from "discord.js";
-import db from "../lib/mongo-client";
-import getOrSetUser from '../lib/users';
+import { Message } from "discord.js"
+import db from "../lib/mongo-client"
+import getOrSetUser from '../lib/users'
 
 module.exports = {
     name: 'endpoll',
@@ -8,7 +8,7 @@ module.exports = {
     args: true,
     usage: "{poll id}",
     async execute(message: Message, args: any) {
-        let today = new Date();
+        let today = new Date()
         let yesterday = new Date(today)
         yesterday.setDate(today.getDate() - 1)
 
@@ -32,4 +32,4 @@ module.exports = {
                 console.error(e)
             })
     },
-};
+}

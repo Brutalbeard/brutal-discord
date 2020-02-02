@@ -1,6 +1,6 @@
-import { Message } from "discord.js";
-import { giphy_client } from "../lib/giphy_client";
-import getOrSetUser from '../lib/users';
+import { Message } from "discord.js"
+import { giphy_client } from "../lib/giphy-client"
+import getOrSetUser from '../lib/users'
 
 module.exports = {
     name: 'gifme',
@@ -20,10 +20,10 @@ module.exports = {
 
             let url = gif.images.original.webp ? gif.images.original.webp : gif.images.original.url
 
-            message.channel.send(url);
+            message.channel.send(url)
         }).catch(e => {
             console.error(e)
-            message.channel.send("Error finding a gif for you: " + e.data.message);
+            message.channel.send("Error finding a gif for you: " + e.data.message)
         })
     },
-};
+}

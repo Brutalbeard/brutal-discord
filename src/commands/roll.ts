@@ -1,5 +1,5 @@
-import { Message } from "discord.js";
-import getOrSetUser from '../lib/users';
+import { Message } from "discord.js"
+import getOrSetUser from '../lib/users'
 
 module.exports = {
     name: 'roll',
@@ -9,13 +9,13 @@ module.exports = {
 
         getOrSetUser(message.author)
 
-        let nummberOfDice: number = args[0] ? args[0] : 1
+        let numberOfDice: number = args[0] ? args[0] : 1
         let numberOfSides: number = args[0] ? args[2] : 6
 
         let rolls: number[] = []
         let total: number = 0
 
-        for (let i = 0; i < nummberOfDice; i++) {
+        for (let i = 0; i < numberOfDice; i++) {
             let die = Math.floor(Math.random() * numberOfSides) + 1
             rolls.push(die)
             total += die
@@ -23,4 +23,4 @@ module.exports = {
 
         message.channel.send("Dice values: " + rolls.join(', ') + "\nTotal: " + total)
     },
-};
+}

@@ -1,5 +1,5 @@
-import UserInfo from "../definitions/user-info";
-import db from "../lib/mongo-client";
+import UserInfo from "../definitions/user-info"
+import db from "../lib/mongo-client"
 
 async function getOrSetUser(queryUser: UserInfo){
     let user: UserInfo = await db.users.findOne({

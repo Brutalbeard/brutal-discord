@@ -1,6 +1,6 @@
 import { Message } from "discord.js"
 import getOrSetUser from '../lib/users'
-import db from "../lib/mongo-client";
+import db from "../lib/mongo-client"
 
 module.exports = {
     name: 'lop',

@@ -1,7 +1,7 @@
-import { Message } from "discord.js";
-import Event from "../definitions/event";
-import db from "../lib/mongo-client";
-import getOrSetUser from '../lib/users';
+import { Message } from "discord.js"
+import Event from "../definitions/event"
+import db from "../lib/mongo-client"
+import getOrSetUser from '../lib/users'
 
 
 module.exports = {
@@ -14,7 +14,7 @@ module.exports = {
 
         const text = []
 
-        let today = new Date();
+        let today = new Date()
         let yesterday = new Date(today)
         yesterday.setDate(today.getDate() - 1)
 
@@ -55,4 +55,4 @@ module.exports = {
         }
 
     },
-};
+}

@@ -1,6 +1,6 @@
-import { Message } from "discord.js";
-import db from "../lib/mongo-client";
-import getOrSetUser from '../lib/users';
+import { Message } from "discord.js"
+import db from "../lib/mongo-client"
+import getOrSetUser from '../lib/users'
 
 module.exports = {
     name: 'downdoot',
@@ -49,4 +49,4 @@ module.exports = {
 
         )
     }
-};
+}

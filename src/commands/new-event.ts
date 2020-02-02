@@ -1,7 +1,7 @@
-import { Message } from "discord.js";
-import Event from '../definitions/event';
-import db from "../lib/mongo-client";
-import getOrSetUser from '../lib/users';
+import { Message } from "discord.js"
+import Event from '../definitions/event'
+import db from "../lib/mongo-client"
+import getOrSetUser from '../lib/users'
 
 module.exports = {
     name: 'newevent',
@@ -14,13 +14,13 @@ module.exports = {
             created_at: new Date(),
             updated_at: new Date(),
             room: message.channel.id
-        };
+        }
 
         newEvent.organizer = user
 
         const filter = response => {
-            return response.author.id == message.author.id;
-        };
+            return response.author.id == message.author.id
+        }
 
         message.author.send("What do you want to name the event?").then(() => {
             message.author.dmChannel.awaitMessages(filter, { maxMatches: 1, time: 30000, errors: ['time'] }).then(collected => {
@@ -63,4 +63,4 @@ module.exports = {
         })
 
     },
-};
+}
