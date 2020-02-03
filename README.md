@@ -25,10 +25,6 @@ Then install all dependencies using npm or yarn
 ```
 npm install
 ```
-or
-```
-yarn
-```
 
 This should install all the dependencies the app needs onto your computer. 
 
