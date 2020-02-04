@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/Brutalbeard/brutal-discord/badge.svg?branch=master)](https://coveralls.io/github/Brutalbeard/brutal-discord?branch=master)
+
 # Brutal-Discord
 
 To add to your discord channels, [click right here](https://discordapp.com/oauth2/authorize?client_id=168727946834608128&scope=bot).
@@ -24,10 +26,6 @@ $ cd brutal-discord
 Then install all dependencies using npm or yarn
 ```
 npm install
-```
-or
-```
-yarn
 ```
 
 This should install all the dependencies the app needs onto your computer. 
