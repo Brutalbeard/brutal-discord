@@ -3,14 +3,17 @@ import getOrSetUser from '../lib/users'
 
 module.exports = {
     name: 'roll',
-    description: 'Roll some dice!',
-    usage: "{number of dice} d {number of sides on the dice}",
+    description: 'Roll some dice! Default is a roll 20',
+    usage: "{number of dice}d{number of sides on the dice}",
     execute(message: Message, args: any) {
 
         getOrSetUser(message.author)
 
-        let numberOfDice: number = args[0] ? args[0] : 1
-        let numberOfSides: number = args[0] ? args[2] : 6
+        let str = args.join('')
+        let vals = str.split('d')
+
+        let numberOfDice: number = vals[0] ? vals[0] : 1
+        let numberOfSides: number = vals[1] ? vals[1] : 20
 
         let rolls: number[] = []
         let total: number = 0
