@@ -13,6 +13,7 @@
     "@types/axios": "^0.14.0",
     "@types/dotenv": "^4.0.3",
     "@types/node": "^10.5.2",
+    "@types/node-fetch": "^2.5.7",
     "axios": "^0.18.1",
     "bluebird": "^3.5.1",
     "bufferutil": "^4.0.0",
@@ -22,6 +23,7 @@
     "mongodb": "^3.1.1",
     "mongoose": "^5.7.5",
     "newrelic": "^4.6.0",
+    "node-fetch": "^2.6.0",
     "pornsearch": "^2.4.2",
     "typescript": "^2.9.2",
     "uws": "^10.148.1"
