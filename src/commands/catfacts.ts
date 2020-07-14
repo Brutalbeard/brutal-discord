@@ -11,7 +11,7 @@ module.exports = {
 
         let response = "Something went wrong :-/"
 
-        let catFact = await fetch('https://catfact.ninja/fact')
+        await fetch('https://catfact.ninja/fact')
             .then(res =>{
                 return res.json()
             })
