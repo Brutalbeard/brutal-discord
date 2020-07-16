@@ -22,7 +22,6 @@
     "erlpack": "github:hammerandchisel/erlpack",
     "mongodb": "^3.5.9",
     "mongoose": "^5.9.24",
-    "node-fetch": "^2.6.0",
     "pornsearch": "^2.4.2",
     "typescript": "^2.9.2",
     "uws": "^10.148.1"

@@ -10,6 +10,7 @@ module.exports = {
 
         let sides = ['Heads', 'Tails']
 
-        message.channel.send(sides[Math.floor(Math.random() * sides.length)])
+        message.channel
+            .send(sides[Math.floor(Math.random() * sides.length)])
     },
 }

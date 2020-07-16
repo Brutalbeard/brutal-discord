@@ -17,36 +17,41 @@ module.exports = {
         let yesterday = new Date(today)
         yesterday.setDate(today.getDate() - 1)
 
-        await db.polls.findOne({
-            room: message.channel.id,
-            created_at: {
-                $gte: (yesterday)
-            },
-            poll_id: args[0],
-            deleted: false
-        }).then(poll => {
-            let options = []
-            poll.voting_options.forEach(element => {
-                let names = element.voters.map(user => user.username)
-                options.push("**" + element.option + "**(" + element.voters.length + ") \n" + names.join(', ') + "\n")
+        await db.polls
+            .findOne({
+                room: message.channel.id,
+                created_at: {
+                    $gte: (yesterday)
+                },
+                poll_id: args[0],
+                deleted: false
             })
+            .then((poll: any) => {
+                let options = []
+                poll.voting_options.forEach((element: any) => {
+                    let names = element.voters.map((user: any) => user.username)
+                    options.push("**" + element.option + "**(" + element.voters.length + ") \n" + names.join(', ') + "\n")
+                })
 
-            text.push(options.join("***********\n"))
+                text.push(options.join("***********\n"))
 
-            message.channel.send({
-                embed: {
-                    color: 3447003,
-                    author: {
-                        name: poll.poll_author.username,
-                        icon_url: poll.poll_author.avatarURL
-                    },
-                    description: text.join("\n"),
-                    title: "ID: " + poll.poll_id + " - " + poll.question
-                }
+                message.channel
+                    .send({
+                        embed: {
+                            color: 3447003,
+                            author: {
+                                name: poll.poll_author.username,
+                                icon_url: poll.poll_author.avatarURL
+                            },
+                            description: text.join("\n"),
+                            title: "ID: " + poll.poll_id + " - " + poll.question
+                        }
+                    })
             })
-        }).catch(e => {
-            console.error(e)
-            message.channel.send("Poll not found")
-        })
+            .catch((e: any) => {
+                console.error(e)
+                message.channel
+                    .send("Poll not found")
+            })
     },
 }

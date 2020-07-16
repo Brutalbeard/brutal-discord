@@ -16,42 +16,48 @@ module.exports = {
 
         let user: UserInfo = await getOrSetUser(message.author)
 
-        await db.polls.findOne({
-            room: message.channel.id,
-            created_at: {
-                $gte: (yesterday)
-            },
-            poll_id: args[0],
-            deleted: false
-        }).then(async poll => {
-
-            let okToVote = true
-
-            poll.voting_options.find(element => {
-
-                for (let voter of element.voters) {
-                    if (voter.id == user.id) {
-                        okToVote = false
-                        message.author.send("You've already voted on this poll")
-                    }
-                }
-                if (element.option === args[1] && okToVote === true) {
-                    element.voters.push(user)
-                    db.polls.replaceOne(
-                        { "_id": poll._id },
-                        poll
-                    ).then(() => {
-                        message.author.send("Vote counted!")
-                    }).catch(e => {
-                        console.error(e)
-                        message.channel.send("Issue counting your vote :=/")
-                    })
-                }
+        await db.polls
+            .findOne({
+                room: message.channel.id,
+                created_at: {
+                    $gte: (yesterday)
+                },
+                poll_id: args[0],
+                deleted: false
             })
+            .then(async poll => {
 
-        }).catch(e => {
-            console.error("Poll not found")
-            message.channel.send("Poll not found")
-        })
+                let okToVote = true
+
+                poll.voting_options.find(element => {
+
+                    for (let voter of element.voters) {
+                        if (voter.id == user.id) {
+                            okToVote = false
+                            message.author.send("You've already voted on this poll")
+                        }
+                    }
+                    if (element.option === args[1] && okToVote === true) {
+                        element.voters.push(user)
+                        db.polls
+                            .replaceOne(
+                                { "_id": poll._id },
+                                poll
+                            )
+                            .then(() => {
+                                message.author.send("Vote counted!")
+                            })
+                            .catch((e: any) => {
+                                console.error(e)
+                                message.channel.send("Issue counting your vote :=/")
+                            })
+                    }
+                })
+
+            })
+            .catch((e: any) => {
+                console.error("Poll not found")
+                message.channel.send("Poll not found")
+            })
     },
 }

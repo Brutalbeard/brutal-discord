@@ -9,12 +9,17 @@ module.exports = {
     execute(message: Message, args: any) {
         getOrSetUser(message.author)
 
-        const Pornsearch = require('pornsearch').search(args[0])
+        const Pornsearch = require('pornsearch')
+            .search(args[0])
 
-        Pornsearch.gifs().then(res => {
-            message.author.send(res[Math.floor(Math.random() * res.length)].webm)
-        }).catch(e => {
-            console.error(e)
-        })
+        Pornsearch
+            .gifs()
+            .then((res: any) => {
+                message.author
+                    .send(res[Math.floor(Math.random() * res.length)].webm)
+            })
+            .catch((e: any) => {
+                console.error(e)
+            })
     },
 }

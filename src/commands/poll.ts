@@ -29,16 +29,21 @@ module.exports = {
             deleted: false
         }
 
-        await db.polls.insertOne(
-            poll
-        ).then(() => {
-            message.channel.send("Poll Created! To Vote on it, user ID " + poll_id)
-        }).catch(e => {
-            message.channel.send("There was an issue storing your poll! Whomp whomp :-/").catch(err => {
-                console.error(err)
+        await db.polls
+            .insertOne(
+                poll
+            )
+            .then(() => {
+                message.channel
+                    .send("Poll Created! To Vote on it, user ID " + poll_id)
             })
-            console.error(e)
-        })
+            .catch((e: any) => {
+                message.channel
+                    .send("There was an issue storing your poll! Whomp whomp :-/").catch(err => {
+                        console.error(err)
+                    })
+                console.error(e)
+            })
     },
 }
 
@@ -50,13 +55,15 @@ async function getLastPollId(message: Message) {
     yesterday.setDate(today.getDate() - 1)
 
 
-    let docs = await db.polls.find({
-        room: message.channel.id,
-        created_at: {
-            $gte: (yesterday)
-        },
-        deleted: false
-    }).toArray()
+    let docs = await db.polls
+        .find({
+            room: message.channel.id,
+            created_at: {
+                $gte: (yesterday)
+            },
+            deleted: false
+        })
+        .toArray()
 
     if (docs.length == 0) {
         poll_id = '1'

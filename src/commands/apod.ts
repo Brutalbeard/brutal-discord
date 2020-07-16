@@ -16,16 +16,19 @@ module.exports = {
             queryDate = randomDate(new Date(1998, 0, 1), new Date())
         }
 
-        let res = await apod_client.get('/apod', {
-            params: {
-                date: queryDate,
-                api_key: process.env['APOD_KEY']
-            }
-        }).then(res => {
-            return res.data
-        }).catch(e => {
-            console.error(e)
-        })
+        let res = await apod_client
+            .get('/apod', {
+                params: {
+                    date: queryDate,
+                    api_key: process.env['APOD_KEY']
+                }
+            })
+            .then(res => {
+                return res.data
+            })
+            .catch(e => {
+                console.error(e)
+            })
 
         message.channel.send({
             embed: {

@@ -18,13 +18,15 @@ module.exports = {
         let yesterday = new Date(today)
         yesterday.setDate(today.getDate() - 1)
 
-        let polls: Poll[] = await db.polls.find({
-            room: message.channel.id,
-            created_at: {
-                $gte: (yesterday)
-            },
-            deleted: false
-        }).toArray()
+        let polls: Poll[] = await db.polls
+            .find({
+                room: message.channel.id,
+                created_at: {
+                    $gte: (yesterday)
+                },
+                deleted: false
+            })
+            .toArray()
 
         for (let index in polls) {
             let poll: Poll = polls[index]
@@ -40,11 +42,12 @@ module.exports = {
             text.push("No polls available")
         }
 
-        message.channel.send({
-            embed: {
-                color: 3447003,
-                description: text.join("\n")
-            }
-        })
+        message.channel
+            .send({
+                embed: {
+                    color: 3447003,
+                    description: text.join("\n")
+                }
+            })
     },
 }

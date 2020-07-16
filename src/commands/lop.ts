@@ -45,18 +45,21 @@ module.exports = {
                 tempArr.push(mentionedUser.appendages[index])
             }
         }
-        
+
         console.log("Temp Lop Arr: ", tempArr)
-        mentionedUser.appendages = tempArr 
+        mentionedUser.appendages = tempArr
         console.log("MEntioned USeR: ", mentionedUser)
-        
-        await db.users.updateOne({ id: mentionedUser.id }, {
-            $set: { appendages: tempArr }
-        }).then(() => {
-            message.channel.send("@" + user.username + " just lopped off @" + mentionedUser.username + "'s " + appendage)
-        }).catch(e => {
-            console.error(e)
-            message.channel.send("Had an issue lopping stuff off...")
-        })
+
+        await db.users
+            .updateOne({ id: mentionedUser.id }, {
+                $set: { appendages: tempArr }
+            })
+            .then(() => {
+                message.channel.send("@" + user.username + " just lopped off @" + mentionedUser.username + "'s " + appendage)
+            })
+            .catch((e: any) => {
+                console.error(e)
+                message.channel.send("Had an issue lopping stuff off...")
+            })
     }
 }

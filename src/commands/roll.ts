@@ -52,7 +52,7 @@ module.exports = {
             })
 
             if (foundDie) {
-                
+
                 let numberOfDice: number = vals[0] ? vals[0] : 1
 
                 let rolls: string[] = []
@@ -78,7 +78,8 @@ module.exports = {
                     total += die
                 }
 
-                message.channel.send("Dice values: " + rolls.join(', ') + "\nTotal: " + total)
+                message.channel
+                    .send("Dice values: " + rolls.join(', ') + "\nTotal: " + total)
             }
 
         })

@@ -1,6 +1,6 @@
 import { Message } from "discord.js"
 import getOrSetUser from '../lib/users'
-import fetch from 'node-fetch'
+import axios from 'axios'
 
 module.exports = {
     name: 'catfact',
@@ -11,15 +11,13 @@ module.exports = {
 
         let response = "Something went wrong :-/"
 
-        await fetch('https://catfact.ninja/fact')
-            .then(res =>{
-                return res.json()
+        await axios
+            .get('https://catfact.ninja/fact')
+            .then(res => {
+                response = res.data.fact
             })
-            .then(res =>{
-                response = res.fact
-            })
-            .catch(e =>{
-                console.error("Issue loading a cat fact!: ", e)
+            .catch(e => {
+                console.error(e)
             })
 
         message.channel.send(response)

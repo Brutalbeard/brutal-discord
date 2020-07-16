@@ -7,16 +7,16 @@ const prefix = '!'
 dotenv.config()
 
 const client = new Discord.Client()
+//@ts-ignore
 client.commands = new Discord.Collection()
 
 const cooldowns = new Discord.Collection()
 
-
 const commandFiles = fs.readdirSync('./build/commands')
-
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`)
+	//@ts-ignore
 	client.commands.set(command.name, command)
 }
 
@@ -24,7 +24,7 @@ client.on('ready', () => {
 	console.log('Ready Freddy!')
 })
 
-client.on('disconnect', () =>{
+client.on('disconnect', () => {
 	console.error("Disconnected from Discord, will try reconnecting")
 
 	client.login(process.env['DISCORD_TOKEN'])
@@ -36,7 +36,9 @@ client.on('message', message => {
 	const args = message.content.slice(prefix.length).split(/ +/)
 	const commandName = args.shift().toLowerCase()
 
+	//@ts-ignore
 	const command = client.commands.get(commandName)
+		//@ts-ignore
 		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
 
 	if (!command) return

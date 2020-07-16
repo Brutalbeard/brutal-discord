@@ -11,7 +11,8 @@ module.exports = {
     async execute(message: Message, args: any) {
 
         if (message.channel.type == 'dm') {
-            message.channel.send("No updooting in a direct message to the bot you cheatin bastard")
+            message.channel
+                .send("No updooting in a direct message to the bot you cheatin bastard")
             return
         }
 
@@ -21,16 +22,20 @@ module.exports = {
         let mentionedUser = await getOrSetUser(message.mentions.users.array()[0])
 
         if (user.id == mentionedUser.id) {
-            message.channel.send("Can't updoot yourself idiot.")
+            message.channel
+                .send("Can't updoot yourself idiot.")
         } else if (user.id != mentionedUser.id) {
-            db.users.updateOne({ id: mentionedUser.id }, {
-                $inc: { doots: 1 }
-            }).then(() => {
-                message.channel.send("@" + mentionedUser.username + " now has " + (mentionedUser.doots + 1) + " doot(s)! Thanks " + user.username)
-            }).catch(e => {
-                console.error(e)
-                message.channel.send("Had an issue giving a doot :-/")
-            })
+            db.users
+                .updateOne({ id: mentionedUser.id }, {
+                    $inc: { doots: 1 }
+                })
+                .then(() => {
+                    message.channel.send("@" + mentionedUser.username + " now has " + (mentionedUser.doots + 1) + " doot(s)! Thanks " + user.username)
+                })
+                .catch((e: any) => {
+                    console.error(e)
+                    message.channel.send("Had an issue giving a doot :-/")
+                })
         }
     },
 }

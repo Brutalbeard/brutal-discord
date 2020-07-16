@@ -14,6 +14,7 @@ module.exports = {
 		getOrSetUser(message.author)
 
 		const data = []
+		//@ts-ignore
 		const commands = message.client.commands.filter(command => command.name != 'porn')
 
 		if (!args.length) {
@@ -21,7 +22,8 @@ module.exports = {
 			data.push(commands.map(command => command.name).join(', '))
 			data.push(`\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`)
 
-			return message.author.send(data, { split: true })
+			return message.author
+				.send(data, { split: true })
 				.then(() => {
 					if (message.channel.type === 'dm') return
 					message.reply('I\'ve sent you a DM with all my commands!')
@@ -47,6 +49,7 @@ module.exports = {
 
 		data.push(`**Cooldown:** ${command.cooldown || 1} second(s)`)
 
-		message.channel.send(data, { split: true })
+		message.channel
+			.send(data, { split: true })
 	},
 }

@@ -79,6 +79,7 @@ module.exports = {
         let response: String = args[0] + " you're a " + first[Math.floor(Math.random() * first.length)]
             + " " + second[Math.floor(Math.random() * second.length)] + " " + third[Math.floor(Math.random() * third.length)]
 
-        message.channel.send(response)
+        message.channel
+            .send(response)
     },
 }

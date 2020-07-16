@@ -14,21 +14,24 @@ module.exports = {
 
         getOrSetUser(message.author)
 
-        await db.polls.updateOne({
-            room: message.channel.id,
-            created_at: {
-                $gte: (yesterday)
-            },
-            poll_id: args[0],
-            deleted: false,
-            'poll_author.id': message.author.id
-        }, {
+        await db.polls
+            .updateOne({
+                room: message.channel.id,
+                created_at: {
+                    $gte: (yesterday)
+                },
+                poll_id: args[0],
+                deleted: false,
+                'poll_author.id': message.author.id
+            }, {
                 $set: {
                     deleted: true
                 }
-            }).then(() => {
+            })
+            .then(() => {
                 message.channel.send("Removed!")
-            }).catch(e => {
+            })
+            .catch(e => {
                 console.error(e)
             })
     },

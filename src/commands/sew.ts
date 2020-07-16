@@ -30,7 +30,8 @@ module.exports = {
         let mentionedUser = await getOrSetUser(message.mentions.users.array()[0])
 
         if (user.id == mentionedUser.id) {
-            message.channel.send("Can't put your own appendages back on.")
+            message.channel
+                .send("Can't put your own appendages back on.")
             return
         }
 
@@ -48,8 +49,9 @@ module.exports = {
         }
 
         console.log("TempArr: ", tempArr)
-        if(tempArr.length == 0) {
-            message.channel.send("@" + mentionedUser.username + " didn't need anything sewed back on!")
+        if (tempArr.length == 0) {
+            message.channel
+                .send("@" + mentionedUser.username + " didn't need anything sewed back on!")
             return
         }
 
@@ -59,13 +61,16 @@ module.exports = {
 
         mentionedUser.appendages.push(appendage)
 
-        await db.users.updateOne({ id: mentionedUser.id }, {
-            $set: { appendages: mentionedUser.appendages }
-        }).then(() => {
-            message.channel.send("@" + user.username + " just sewed @" + mentionedUser.username + "'s " + appendage + " back on. Old Frankenstein ass.")
-        }).catch(e => {
-            console.error(e)
-            message.channel.send("Had an issue lopping stuff off...")
-        })
+        await db.users
+            .updateOne({ id: mentionedUser.id }, {
+                $set: { appendages: mentionedUser.appendages }
+            })
+            .then(() => {
+                message.channel.send("@" + user.username + " just sewed @" + mentionedUser.username + "'s " + appendage + " back on. Old Frankenstein ass.")
+            })
+            .catch((e: any) => {
+                console.error(e)
+                message.channel.send("Had an issue lopping stuff off...")
+            })
     }
 }

@@ -18,12 +18,14 @@ module.exports = {
         let yesterday = new Date(today)
         yesterday.setDate(today.getDate() - 1)
 
-        let events: Event[] = await db.events.find({
-            room: message.channel.id,
-            date: {
-                $gte: (yesterday)
-            }
-        }).toArray()
+        let events: Event[] = await db.events
+            .find({
+                room: message.channel.id,
+                date: {
+                    $gte: (yesterday)
+                }
+            })
+            .toArray()
 
         for (let event of events) {
             text.push("**" + event.title + ":** \n\t" + event.description + " " + "\n\tOrganized by @" + event.organizer.username + "\n\tWhen: " + event.date.toDateString())
@@ -32,26 +34,29 @@ module.exports = {
         if (events.length <= 0) {
             message.channel.send("No upcoming events")
         } else if (args[0] == 'all') {
-            message.channel.send("@everyone", {
-                embed: {
-                    color: 3447003,
-                    description: text.join("\n\n")
-                }
-            })
+            message.channel
+                .send("@everyone", {
+                    embed: {
+                        color: 3447003,
+                        description: text.join("\n\n")
+                    }
+                })
         } else if (args[0] == 'here') {
-            message.channel.send("@here", {
-                embed: {
-                    color: 3447003,
-                    description: text.join("\n\n")
-                }
-            })
+            message.channel
+                .send("@here", {
+                    embed: {
+                        color: 3447003,
+                        description: text.join("\n\n")
+                    }
+                })
         } else {
-            message.channel.send({
-                embed: {
-                    color: 3447003,
-                    description: text.join("\n\n")
-                }
-            })
+            message.channel
+                .send({
+                    embed: {
+                        color: 3447003,
+                        description: text.join("\n\n")
+                    }
+                })
         }
 
     },

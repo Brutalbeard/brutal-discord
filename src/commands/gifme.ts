@@ -10,20 +10,23 @@ module.exports = {
     async execute(message: Message, args: any) {
         getOrSetUser(message.author)
 
-        await giphy_client.get('/search', {
-            params: {
-                q: args.join('+')
-            }
-        }).then(res => {
-            let resArray = res.data.data
-            let gif = resArray[Math.floor(Math.random() * resArray.length)]
+        await giphy_client
+            .get('/search', {
+                params: {
+                    q: args.join('+')
+                }
+            })
+            .then(res => {
+                let resArray = res.data.data
+                let gif = resArray[Math.floor(Math.random() * resArray.length)]
 
-            let url = gif.images.original.webp ? gif.images.original.webp : gif.images.original.url
+                let url = gif.images.original.webp ? gif.images.original.webp : gif.images.original.url
 
-            message.channel.send(url)
-        }).catch(e => {
-            console.error(e)
-            message.channel.send("Error finding a gif for you: " + e.data.message)
-        })
+                message.channel.send(url)
+            })
+            .catch(e => {
+                console.error(e)
+                message.channel.send("Error finding a gif for you: " + e.data.message)
+            })
     },
 }
