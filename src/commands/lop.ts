@@ -28,7 +28,7 @@ module.exports = {
 
         let user = await getOrSetUser(message.author)
         let mentionedUser = await getOrSetUser(message.mentions.users.array()[0])
-        console.log(mentionedUser)
+        // console.log(mentionedUser)
 
         if (mentionedUser.appendages == undefined) {
             mentionedUser.appendages = appendages
@@ -46,9 +46,9 @@ module.exports = {
             }
         }
 
-        console.log("Temp Lop Arr: ", tempArr)
+        // console.log("Temp Lop Arr: ", tempArr)
         mentionedUser.appendages = tempArr
-        console.log("MEntioned USeR: ", mentionedUser)
+        // console.log("Mentioned UseR: ", mentionedUser)
 
         await db.users
             .updateOne({ id: mentionedUser.id }, {
