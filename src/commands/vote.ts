@@ -57,7 +57,8 @@ module.exports = {
             })
             .catch((e: any) => {
                 console.error("Poll not found")
-                message.channel.send("Poll not found")
+                message.channel
+                    .send("Poll not found")
             })
     },
 }

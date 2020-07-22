@@ -21,7 +21,7 @@ module.exports = {
             'POMPOUS',
             'COMMUNIST',
             'DICKNOSE',
-            'PIE-EATING',
+            'SHIT-EATING',
             'RACIST',
             'ELITIST',
             'WHITE TRASH',
@@ -29,7 +29,9 @@ module.exports = {
             'BUTTERFACE',
             'TONE DEAF',
             'UGLY',
-            'CREEPY'
+            'CREEPY',
+            'SKANKY',
+            'CUM-GUZZLING'
         ]
 
         let second: String[] = [
@@ -51,7 +53,8 @@ module.exports = {
             'BONER',
             'SHART',
             'NUT',
-            'SPHINCTER'
+            'SPHINCTER',
+            'NIPPLE'
         ]
 
         let third: String[] = [
@@ -73,7 +76,9 @@ module.exports = {
             'MONSTER',
             'HOUND',
             'DRAGON',
-            'BALLOON'
+            'BALLOON',
+            'HOLE',
+            'SUCKER'
         ]
 
         let response: String = args[0] + " you're a " + first[Math.floor(Math.random() * first.length)]

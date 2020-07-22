@@ -1,7 +1,7 @@
 import { Message } from "discord.js"
 import getOrSetUser from '../lib/users'
 
-const namedDice = [
+const namedDice = [ // this was for a start wars RPG game with my niece :-)
     {
         name: "Ability",
         cmds: ["ability", "abi"],

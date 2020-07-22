@@ -31,7 +31,7 @@ module.exports = {
             .then(() => {
                 message.channel.send("Removed!")
             })
-            .catch(e => {
+            .catch((e: any) => {
                 console.error(e)
             })
     },
