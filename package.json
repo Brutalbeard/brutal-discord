@@ -14,6 +14,7 @@
     "@types/dotenv": "^4.0.3",
     "@types/node": "^10.17.27",
     "@types/node-fetch": "^2.5.7",
+    "@types/random": "^2.1.1",
     "axios": "^0.18.1",
     "bluebird": "^3.7.2",
     "bufferutil": "^4.0.0",
@@ -23,6 +24,7 @@
     "mongodb": "^3.5.9",
     "mongoose": "^5.9.24",
     "pornsearch": "^2.4.2",
+    "random": "^2.2.0",
     "typescript": "^2.9.2",
     "uws": "^10.148.1"
   }
