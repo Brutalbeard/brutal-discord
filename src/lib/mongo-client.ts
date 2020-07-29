@@ -15,23 +15,16 @@ let collections: any = {
   polls: null
 }
 
-const user = encodeURIComponent(process.env['MONGO_USER'])
-const password = encodeURIComponent(process.env['MONGO_PASSWORD'])
-const db = encodeURIComponent(process.env['MONGO_DB'])
-const address = encodeURIComponent(process.env['MONGO_ADDRESS'])
-const port = encodeURIComponent(process.env['MONGO_PORT'])
-
-
 // Connection URL
-const url = f('mongodb://%s:%s@%s:%s/%s', user, password, address, port, db)
+const url = process.env.MONGO_URI
 
 // Database Name
-const dbName = db
+const dbName = process.env.MONGO_DB
 
 // Use connect method to connect to the server
 MongoClient.connect(url, function(err, client) {
   assert.equal(null, err)
-  console.log("Connected successfully to server")
+  console.log("Connected successfully to mongo server")
 
   let db = client.db(dbName)
 

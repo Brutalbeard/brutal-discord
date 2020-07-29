@@ -9,7 +9,7 @@ I was using [Lita](lita.io) for creating and managing my chat bots, however, sin
 
 So, to [discord.js](https://github.com/discordjs/discord.js) I went! Get the of JS, written in [Typescript](typescriptlang.org), all hosted on [Heroku](heroku.com).
 
-I added on a [Mongo Database](mongodb.com) to keep track of events, polls, and user info. I tried out using [Redis](redis.io) when using Lita, but it was a pain in the ass. 
+I added on a [Mongo Database](mongodb.com) to keep track of events, polls, and user info. I tried out using [Redis](redis.io) when using Lita, but it was a pain in the ass. I used [MLab](https://mlab.com/) for my db. It's free version is plenty of power for this app.
 
 I'm always happy to have fellow devs check out the app, and make pull requests and all that. Fork, and send over a pull request at your leisure.
 
