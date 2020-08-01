@@ -39,12 +39,21 @@ module.exports = {
     usage: "{number of dice}d{number of sides on the dice}",
     execute(message: Message, args: any) {
 
+        if (args.length == 0) {
+
+            let die = Math.floor(Math.random() * 20) + 1
+
+            message.channel
+                .send("1d20: " + die)
+        }
+
         args.forEach(die => {
             let vals = die.split('d')
 
-            let foundDie = namedDice.find(element => {
-                return element.cmds.includes(vals[1] || vals[2])
-            })
+            let foundDie = namedDice
+                .find(element => {
+                    return element.cmds.includes(vals[1] || vals[2])
+                })
 
             if (foundDie) {
 
@@ -61,6 +70,7 @@ module.exports = {
                 message.channel.send(foundDie.name + ": " + rolls.join(', '))
 
             } else {
+
                 let numberOfDice: number = vals[0] ? vals[0] : 1
                 let numberOfSides: number = vals[1] ? vals[1] : 20
 
@@ -74,7 +84,7 @@ module.exports = {
                 }
 
                 message.channel
-                    .send("Dice values: " + rolls.join(', ') + "\nTotal: " + total)
+                    .send(`${numberOfDice}d${numberOfSides}: ` + rolls.join(', ') + "\nTotal: " + total)
             }
 
         })

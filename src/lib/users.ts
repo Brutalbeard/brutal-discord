@@ -16,7 +16,7 @@ async function getOrSetUser(queryUser: User){
             id: queryUser.id,
             username: queryUser.username,
             avatar: queryUser.avatar,
-            avatarURL: queryUser.avatarURL(),
+            avatarURL: await queryUser.avatarURL(),
             bot: queryUser.bot,
             doots: 10
         }
