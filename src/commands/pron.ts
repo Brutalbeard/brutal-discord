@@ -1,5 +1,4 @@
 import { Message } from "discord.js"
-import getOrSetUser from '../lib/users'
 
 module.exports = {
     name: 'porn',
@@ -7,7 +6,6 @@ module.exports = {
     usage: "{one word search term}",
     args: true,
     execute(message: Message, args: any) {
-        getOrSetUser(message.author)
 
         const Pornsearch = require('pornsearch')
             .search(args[0])

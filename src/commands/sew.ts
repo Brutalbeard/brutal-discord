@@ -7,8 +7,7 @@ module.exports = {
     description: 'Sew a missing appendage back onto your friend. If you wanna.',
     usage: "!sew @Anarkytt",
     async execute(message: Message, args: any) {
-        getOrSetUser(message.author)
-
+        
         let appendages = [
             "left leg",
             "right leg",

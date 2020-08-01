@@ -1,5 +1,4 @@
 import { Message } from "discord.js"
-import getOrSetUser from '../lib/users'
 
 const namedDice = [ // this was for a start wars RPG game with my niece :-)
     {
@@ -39,10 +38,6 @@ module.exports = {
     description: 'Roll some dice! Default is a roll 20',
     usage: "{number of dice}d{number of sides on the dice}",
     execute(message: Message, args: any) {
-
-        getOrSetUser(message.author)
-
-        // console.log(args)
 
         args.forEach(die => {
             let vals = die.split('d')

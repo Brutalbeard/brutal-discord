@@ -1,6 +1,5 @@
 import { Message } from "discord.js"
 import db from "../lib/mongo-client"
-import getOrSetUser from '../lib/users'
 
 module.exports = {
     name: 'endpoll',
@@ -11,8 +10,6 @@ module.exports = {
         let today = new Date()
         let yesterday = new Date(today)
         yesterday.setDate(today.getDate() - 1)
-
-        getOrSetUser(message.author)
 
         await db.polls
             .updateOne({

@@ -1,5 +1,4 @@
 import { Message } from 'discord.js'
-import getOrSetUser from '../lib/users'
 // I'll thank everyone to save their judgement
 
 const prefix = '!'
@@ -11,7 +10,6 @@ module.exports = {
 	usage: '[command name]',
 	cooldown: 5,
 	execute(message: Message, args: any) {
-		getOrSetUser(message.author)
 
 		const data = []
 		//@ts-ignore

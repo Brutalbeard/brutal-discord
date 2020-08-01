@@ -1,5 +1,4 @@
 import { Message } from "discord.js"
-import getOrSetUser from '../lib/users'
 import axios from 'axios'
 import * as random from 'random'
 
@@ -9,7 +8,6 @@ module.exports = {
     usage: "",
 
     async execute(message: Message, args: any) {
-        getOrSetUser(message.author)
 
         let response = "Something went wrong :-/"
 

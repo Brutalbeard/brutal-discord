@@ -1,6 +1,5 @@
 import { Message } from "discord.js"
 import { giphy_client } from "../lib/giphy-client"
-import getOrSetUser from '../lib/users'
 
 module.exports = {
     name: 'gifme',
@@ -8,7 +7,6 @@ module.exports = {
     usage: "{kid falling down}",
     args: true,
     async execute(message: Message, args: any) {
-        getOrSetUser(message.author)
 
         await giphy_client
             .get('/search', {

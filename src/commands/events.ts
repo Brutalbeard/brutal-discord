@@ -1,7 +1,6 @@
 import { Message } from "discord.js"
 import Event from "../definitions/event"
 import db from "../lib/mongo-client"
-import getOrSetUser from '../lib/users'
 
 
 module.exports = {
@@ -9,8 +8,6 @@ module.exports = {
     description: 'View all the current and upcoming events in this room! You can ping everyone, or just those that are here',
     usage: "{all, here}",
     async execute(message: Message, args: any) {
-
-        getOrSetUser(message.author)
 
         const text = []
 

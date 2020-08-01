@@ -14,7 +14,7 @@ module.exports = {
         let yesterday = new Date(today)
         yesterday.setDate(today.getDate() - 1)
 
-        let user: UserInfo = await getOrSetUser(message.author)
+        let user = await getOrSetUser(message.author)
 
         await db.polls
             .findOne({

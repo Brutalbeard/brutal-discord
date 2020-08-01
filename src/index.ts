@@ -7,8 +7,6 @@ import getOrSetUser from './lib/users'
 
 const prefix = '!'
 
-
-
 const client = new Discord.Client()
 //@ts-ignore
 client.commands = new Discord.Collection()

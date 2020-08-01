@@ -1,16 +1,12 @@
 import { Message } from "discord.js"
 import Poll from "../definitions/poll"
 import db from "../lib/mongo-client"
-import getOrSetUser from '../lib/users'
-
 
 module.exports = {
     name: 'polls',
     description: 'View all the currently available polls for this chat room',
     usage: "",
     async execute(message: Message, args: any) {
-
-        getOrSetUser(message.author)
 
         const text = []
 

@@ -1,6 +1,5 @@
 import { Message } from "discord.js"
 import { ud_client } from "../lib/urban-dictionary"
-import getOrSetUser from '../lib/users'
 
 module.exports = {
     name: 'ud',
@@ -8,8 +7,6 @@ module.exports = {
     usage: "{alabama hot pocket}",
     args: true,
     async execute(message: Message, args: any) {
-
-        getOrSetUser(message.author)
 
         let res = await ud_client
             .get('/define', {

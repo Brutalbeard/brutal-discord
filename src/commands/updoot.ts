@@ -1,4 +1,4 @@
-import { Message } from "discord.js"
+import { Message, User } from "discord.js"
 import db from "../lib/mongo-client"
 import getOrSetUser from '../lib/users'
 
