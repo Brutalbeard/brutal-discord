@@ -60,7 +60,7 @@ module.exports = {
                 let possibleAnswers = body.incorrect_answers
                 possibleAnswers.push(body.correct_answer)
 
-                possibleAnswers = possibleAnswers.sort((a,b) =>{a-b})
+                possibleAnswers = possibleAnswers.sort()
 
                 let questionString = []
                 for (let i in possibleAnswers) {
