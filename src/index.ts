@@ -1,6 +1,7 @@
 import * as Discord from 'discord.js'
 import * as dotenv from 'dotenv'
 import * as fs from 'fs'
+import getOrSetUser from './lib/users'
 
 const prefix = '!'
 
@@ -31,6 +32,8 @@ client.on('disconnect', () => {
 })
 
 client.on('message', message => {
+	getOrSetUser(message.author)
+
 	if (!message.content.startsWith(prefix) || message.author.bot) return
 
 	const args = message.content.slice(prefix.length).split(/ +/)
