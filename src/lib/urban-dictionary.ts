@@ -1,5 +1,5 @@
 import axios from 'axios'
 
-export const ud_client = axios.create({
+export const udClient = axios.create({
     baseURL: 'https://api.urbandictionary.com/v0'
 })

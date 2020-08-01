@@ -1,5 +1,5 @@
 import { Message } from "discord.js"
-import { giphy_client } from "../lib/giphy-client"
+import { giphyClient } from "../lib/giphy-client"
 
 module.exports = {
     name: 'gifme',
@@ -8,7 +8,7 @@ module.exports = {
     args: true,
     async execute(message: Message, args: any) {
 
-        await giphy_client
+        await giphyClient
             .get('/search', {
                 params: {
                     q: args.join('+')

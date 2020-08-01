@@ -1,5 +1,5 @@
 import { Message } from "discord.js"
-import { ud_client } from "../lib/urban-dictionary"
+import { udClient } from "../lib/urban-dictionary"
 
 module.exports = {
     name: 'ud',
@@ -8,7 +8,7 @@ module.exports = {
     args: true,
     async execute(message: Message, args: any) {
 
-        let res = await ud_client
+        let res = await udClient
             .get('/define', {
                 params: {
                     term: args.join('+')

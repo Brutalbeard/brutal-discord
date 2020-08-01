@@ -1,5 +1,5 @@
 import { Message } from "discord.js"
-import { apod_client } from "../lib/apod-client"
+import { apodClient } from "../lib/apod-client"
 
 module.exports = {
     name: 'apod',
@@ -13,7 +13,7 @@ module.exports = {
             queryDate = randomDate(new Date(1998, 0, 1), new Date())
         }
 
-        let res = await apod_client
+        let res = await apodClient
             .get('/apod', {
                 params: {
                     date: queryDate,
