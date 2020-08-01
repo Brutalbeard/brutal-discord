@@ -9,7 +9,7 @@ module.exports = {
     usage: "{some category} <- use \"!trivia categories\" to get the full list (defaults to General)",
     async execute(message: Message, args: any) {
 
-        if (args[0].toLowerCase() == "categories") {
+        if (args[0] && args[0].toLowerCase() == "categories") {
             let arr = []
             trivia_categories.forEach(elem => {
                 arr.push(elem.name)
