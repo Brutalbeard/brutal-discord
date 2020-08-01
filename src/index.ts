@@ -1,11 +1,13 @@
-import * as Discord from 'discord.js'
 import * as dotenv from 'dotenv'
+dotenv.config()
+
+import * as Discord from 'discord.js'
 import * as fs from 'fs'
 import getOrSetUser from './lib/users'
 
 const prefix = '!'
 
-dotenv.config()
+
 
 const client = new Discord.Client()
 //@ts-ignore
