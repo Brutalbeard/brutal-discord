@@ -1,7 +1,8 @@
 import UserInfo from "../definitions/user-info"
 import db from "../lib/mongo-client"
+import { User } from "discord.js"
 
-async function getOrSetUser(queryUser: UserInfo){
+async function getOrSetUser(queryUser: User){
     let user: UserInfo = await db.users.findOne({
         id: queryUser.id
     }).then(res =>{
@@ -15,7 +16,7 @@ async function getOrSetUser(queryUser: UserInfo){
             id: queryUser.id,
             username: queryUser.username,
             avatar: queryUser.avatar,
-            avatarURL: queryUser.avatarURL,
+            avatarURL: queryUser.avatarURL(),
             bot: queryUser.bot,
             doots: 10
         }
