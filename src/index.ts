@@ -3,6 +3,7 @@ dotenv.config()
 
 import * as Discord from 'discord.js'
 import * as fs from 'fs'
+import * as https from 'https'
 import getOrSetUser from './lib/users'
 
 const prefix = '!'
@@ -33,6 +34,20 @@ client.on('disconnect', () => {
 
 client.on('message', message => {
 	getOrSetUser(message.author)
+
+	if (process.env.DOWNLOAD_ATTACHMENTS == 'true') {
+		if (message.attachments.size > 0) {
+			console.log(message)
+
+			message.attachments.forEach((v, k) => {
+				console.log("Value: ", v)
+
+				saveImageToDisk(v.url, './images/' + v.name)
+			})
+		}
+	}
+
+
 
 	if (!message.content.startsWith(prefix) || message.author.bot) return
 
@@ -94,3 +109,11 @@ client.on('message', message => {
 })
 
 client.login(process.env['DISCORD_TOKEN'])
+
+function saveImageToDisk(url, localPath) {
+	var fullUrl = url;
+	var file = fs.createWriteStream(localPath);
+	var request = https.get(url, function (response) {
+		response.pipe(file);
+	});
+}
