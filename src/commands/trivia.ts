@@ -1,11 +1,11 @@
 import { Message, MessageEmbed } from "discord.js"
 import { triviaClient } from '../lib/trivia-client'
 
-const weirdApostropheRegex = new RegExp(/&#039;/, 'gmi')
+const waitTime = 8
 
 module.exports = {
     name: 'trivia',
-    description: 'Spark up some trivia fun! You get 6 seconds to answer...',
+    description: `Spark up some trivia fun! You get ${waitTime} seconds to answer...`,
     usage: "{some category} <- use \"!trivia categories\" to get the full list (defaults to General)",
     async execute(message: Message, args: any) {
 
@@ -83,9 +83,8 @@ module.exports = {
                 setTimeout(() => {
                     message.channel
                         .send(`**${triviaBody.question}** --- ${triviaBody.correct_answer}`)
-                }, 6000)
+                }, waitTime * 1000)
             })
-
 
     },
 }
