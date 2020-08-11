@@ -13,7 +13,7 @@ module.exports = {
         await axios
             .get('https://sv443.net/jokeapi/v2/joke/Any?type=single')
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 response = res.data.joke
             })
             .catch(e => {
