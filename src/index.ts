@@ -111,9 +111,8 @@ client.on('message', message => {
 client.login(process.env['DISCORD_TOKEN'])
 
 function saveImageToDisk(url, localPath) {
-	var fullUrl = url;
 	var file = fs.createWriteStream(localPath);
-	var request = https.get(url, function (response) {
+	https.get(url, function (response) {
 		response.pipe(file);
 	});
 }
