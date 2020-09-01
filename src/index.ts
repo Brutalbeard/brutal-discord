@@ -37,11 +37,8 @@ client.on('message', message => {
 
 	if (process.env.DOWNLOAD_ATTACHMENTS == 'true') {
 		if (message.attachments.size > 0) {
-			console.log(message)
 
 			message.attachments.forEach((v, k) => {
-				console.log("Value: ", v)
-
 				saveImageToDisk(v.url, './images/' + v.name)
 			})
 		}
