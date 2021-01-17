@@ -11,12 +11,16 @@ module.exports = {
         let embed = new MessageEmbed
 
         await axios
-            .get('https://quote-garden.herokuapp.com/api/v2/quotes/random')
+            .get('https://api.quotable.io/random', {
+                params: {
+                    tags: "inspirational"
+                }
+            })
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data)
 
-                embed.setAuthor(res.data.quote.quoteAuthor)
-                embed.setDescription(res.data.quote.quoteText)
+                embed.setAuthor(res.data.author)
+                embed.setDescription(res.data.content)
             })
             .catch(e => {
                 console.error(e)
