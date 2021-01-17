@@ -5,6 +5,7 @@ import * as Discord from 'discord.js'
 import * as fs from 'fs'
 import * as https from 'https'
 import getOrSetUser from './lib/users'
+import * as moment from 'moment'
 
 const prefix = '!'
 
@@ -37,9 +38,10 @@ client.on('message', message => {
 
 	if (process.env.DOWNLOAD_ATTACHMENTS == 'true') {
 		if (message.attachments.size > 0) {
+			message.attachments
 
 			message.attachments.forEach((v, k) => {
-				saveImageToDisk(v.url, './images/' + v.name)
+				saveImageToDisk(v.url, `./images/${moment().unix()} - ${v.name}`)
 			})
 		}
 	}
