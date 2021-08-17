@@ -22,7 +22,7 @@
     "dotenv": "^6.0.0",
     "erlpack": "github:hammerandchisel/erlpack",
     "moment": "^2.27.0",
-    "mongodb": "^3.6.0",
+    "mongodb": "^4.1.0",
     "pornsearch": "^2.4.2",
     "random": "^2.2.0",
     "typescript": "^2.9.2",

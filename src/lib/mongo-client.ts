@@ -1,9 +1,5 @@
-import * as assert from 'assert'
 import * as Bluebird from 'bluebird'
-import * as mongodb from 'mongodb'
-
-var MongoClient = mongodb.MongoClient
-var Collection = mongodb.Collection
+import { MongoClient, Collection } from 'mongodb'
 
 Bluebird.promisifyAll(Collection.prototype)
 Bluebird.promisifyAll(MongoClient)
@@ -16,21 +12,38 @@ let collections: any = {
 }
 
 // Connection URL
-const url = process.env.MONGO_URI
+const uri = process.env.MONGO_URI
 
 // Database Name
 const dbName = process.env.MONGO_DB
 
-// Use connect method to connect to the server
-MongoClient.connect(url, function(err, client) {
-  assert.equal(null, err)
-  console.log("Connected successfully to mongo server")
+const client = new MongoClient(uri);
 
-  let db = client.db(dbName)
+client
+  .connect()
+  .then(() => {
+    console.log("Connected successfully to mongo server")
 
-  collections.users = db.collection('user')
-  collections.polls = db.collection('polls')
-  collections.events = db.collection('events')
-})
+    let db = client.db(dbName)
+
+    collections.users = db.collection('user')
+    collections.polls = db.collection('polls')
+    collections.events = db.collection('events')
+  })
+  .catch(e => {
+    console.error(e)
+  })
+
+// // Use connect method to connect to the server
+// MongoClient.connect(uri, function (err, client) {
+//   if (err) { console.error("Issue connecting to mongodb: ", err) }
+//   console.log("Connected successfully to mongo server")
+
+//   let db = client.db(dbName)
+
+//   collections.users = db.collection('user')
+//   collections.polls = db.collection('polls')
+//   collections.events = db.collection('events')
+// })
 
 export default collections
