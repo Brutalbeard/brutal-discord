@@ -50,7 +50,7 @@ You'll get some happy text in the terminal letting you know it's up and running.
 
 You'll edit everything in the ```/src``` folder. Don't edit the stuff in ```/build``` or you'll go insane. 
 
-```/src/index.ts``` runs the show. It's based off the guide supplied by discord.js. Works great, didn't feel like messing with it. I *did* get a Typescript error when adding commands to the ::Client class. I had to go into the node_module and add it myself. It was just cause I'm crazy pendantic and didn't want to see the squiggly line. Runs fine regardless.
+```/src/index-old.ts``` runs the show. It's based off the guide supplied by discord.js. Works great, didn't feel like messing with it. I *did* get a Typescript error when adding commands to the ::Client class. I had to go into the node_module and add it myself. It was just cause I'm crazy pendantic and didn't want to see the squiggly line. Runs fine regardless.
 
 To make a new command, you'll toss that into ```/src/commands/```. Copy ```ud.ts``` and use that as a nice little template. Replace the name and description and what not. 
 

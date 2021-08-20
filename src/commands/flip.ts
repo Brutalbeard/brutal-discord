@@ -1,14 +1,13 @@
-import { Message } from "discord.js"
+import {SlashCommandBuilder} from '@discordjs/builders';
+
+const sides = ["Heads", "Tails"]
 
 module.exports = {
-    name: 'flip',
-    description: 'Flip a coin!',
-    usage: "",
-    execute(message: Message, args: any) {
+    data: new SlashCommandBuilder()
+        .setName('flip')
+        .setDescription('Flip a coin'),
 
-        let sides = ['Heads', 'Tails']
-
-        message.channel
-            .send(sides[Math.floor(Math.random() * sides.length)])
+    async execute(interaction) {
+        interaction.reply(sides[Math.floor(Math.random() * sides.length)])
     },
-}
+};

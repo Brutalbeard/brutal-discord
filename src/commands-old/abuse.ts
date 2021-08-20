@@ -1,12 +1,13 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+import { Message } from "discord.js"
+
 module.exports = {
     name: 'abuse',
     description: 'Be mean to someone!',
     args: true,
     usage: "{username}",
-    execute: function (message, args) {
-        var first = [
+    execute(message: Message, args: any) {
+
+        let first: String[] = [
             'LAZY',
             'STUPID',
             'INSECURE',
@@ -28,8 +29,9 @@ module.exports = {
             'CREEPY',
             'SKANKY',
             'CUM-GUZZLING'
-        ];
-        var second = [
+        ]
+
+        let second: String[] = [
             'DOUCHE',
             'ASS',
             'TURD',
@@ -50,8 +52,9 @@ module.exports = {
             'NUT',
             'SPHINCTER',
             'NIPPLE'
-        ];
-        var third = [
+        ]
+
+        let third: String[] = [
             'PILOT',
             'CANOE',
             'CAPTAIN',
@@ -73,10 +76,12 @@ module.exports = {
             'BALLOON',
             'HOLE',
             'SUCKER'
-        ];
-        var response = args[0] + " you're a " + first[Math.floor(Math.random() * first.length)]
-            + " " + second[Math.floor(Math.random() * second.length)] + " " + third[Math.floor(Math.random() * third.length)];
+        ]
+
+        let response: String = args[0] + " you're a " + first[Math.floor(Math.random() * first.length)]
+            + " " + second[Math.floor(Math.random() * second.length)] + " " + third[Math.floor(Math.random() * third.length)]
+
         message.channel
-            .send(response);
+            .send(response)
     },
-};
+}

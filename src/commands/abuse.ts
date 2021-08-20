@@ -1,87 +1,107 @@
-import { Message } from "discord.js"
+import {SlashCommandBuilder} from '@discordjs/builders';
+
+const first: String[] = [
+    'LAZY',
+    'STUPID',
+    'INSECURE',
+    'IDIOTIC',
+    'SLIMY',
+    'SLUTTY',
+    'SMELLY',
+    'POMPOUS',
+    'COMMUNIST',
+    'DICKNOSE',
+    'SHIT-EATING',
+    'RACIST',
+    'ELITIST',
+    'WHITE TRASH',
+    'DRUG-LOVING',
+    'BUTTERFACE',
+    'TONE DEAF',
+    'UGLY',
+    'CREEPY',
+    'SKANKY',
+    'CUM-GUZZLING'
+]
+
+const second: String[] = [
+    'DOUCHE',
+    'ASS',
+    'TURD',
+    'RECTUM',
+    'BUTT',
+    'COCK',
+    'SHIT',
+    'CROTCH',
+    'BITCH',
+    'TURD',
+    'PRICK',
+    'SLUT',
+    'TAINT',
+    'FUCK',
+    'DICK',
+    'BONER',
+    'SHART',
+    'NUT',
+    'SPHINCTER',
+    'NIPPLE'
+]
+
+const third: String[] = [
+    'PILOT',
+    'CANOE',
+    'CAPTAIN',
+    'PIRATE',
+    'HAMMER',
+    'KNOB',
+    'BOX',
+    'JOCKEY',
+    'NAZI',
+    'WAFFLE',
+    'GOBLIN',
+    'BLOSSUM',
+    'BISCUIT',
+    'CLOWN',
+    'SOCKET',
+    'MONSTER',
+    'HOUND',
+    'DRAGON',
+    'BALLOON',
+    'HOLE',
+    'SUCKER'
+]
 
 module.exports = {
-    name: 'abuse',
-    description: 'Be mean to someone!',
-    args: true,
-    usage: "{username}",
-    execute(message: Message, args: any) {
+    data: new SlashCommandBuilder()
+        .setName('abuse')
+        .setDescription('Calls someone a mean thing...')
+        .addMentionableOption(mentioned =>
+            mentioned
+                .setDescription("The person whose feelings you want to hurt")
+                .setRequired(true)
+                .setName("abusee")
+        ),
 
-        let first: String[] = [
-            'LAZY',
-            'STUPID',
-            'INSECURE',
-            'IDIOTIC',
-            'SLIMY',
-            'SLUTTY',
-            'SMELLY',
-            'POMPOUS',
-            'COMMUNIST',
-            'DICKNOSE',
-            'SHIT-EATING',
-            'RACIST',
-            'ELITIST',
-            'WHITE TRASH',
-            'DRUG-LOVING',
-            'BUTTERFACE',
-            'TONE DEAF',
-            'UGLY',
-            'CREEPY',
-            'SKANKY',
-            'CUM-GUZZLING'
-        ]
+    async execute(interaction) {
+        console.log(interaction.options._hoistedOptions)
 
-        let second: String[] = [
-            'DOUCHE',
-            'ASS',
-            'TURD',
-            'RECTUM',
-            'BUTT',
-            'COCK',
-            'SHIT',
-            'CROTCH',
-            'BITCH',
-            'TURD',
-            'PRICK',
-            'SLUT',
-            'TAINT',
-            'FUCK',
-            'DICK',
-            'BONER',
-            'SHART',
-            'NUT',
-            'SPHINCTER',
-            'NIPPLE'
-        ]
+        let abusee = interaction
+            .options
+            ._hoistedOptions
+            .find(element => {
+                return element.name === 'abusee'
+            })
 
-        let third: String[] = [
-            'PILOT',
-            'CANOE',
-            'CAPTAIN',
-            'PIRATE',
-            'HAMMER',
-            'KNOB',
-            'BOX',
-            'JOCKEY',
-            'NAZI',
-            'WAFFLE',
-            'GOBLIN',
-            'BLOSSUM',
-            'BISCUIT',
-            'CLOWN',
-            'SOCKET',
-            'MONSTER',
-            'HOUND',
-            'DRAGON',
-            'BALLOON',
-            'HOLE',
-            'SUCKER'
-        ]
+        await interaction
+            .reply({
+                content: `<@${abusee.user.id}>` +
+                    " you're a " +
+                    first[Math.floor(Math.random() * first.length)]
+                    + " " +
+                    second[Math.floor(Math.random() * second.length)]
+                    + " " +
+                    third[Math.floor(Math.random() * third.length)]
 
-        let response: String = args[0] + " you're a " + first[Math.floor(Math.random() * first.length)]
-            + " " + second[Math.floor(Math.random() * second.length)] + " " + third[Math.floor(Math.random() * third.length)]
-
-        message.channel
-            .send(response)
+            });
     },
-}
+};
