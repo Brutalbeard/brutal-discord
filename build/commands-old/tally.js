@@ -35,44 +35,60 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var builders_1 = require("@discordjs/builders");
+var mongo_client_1 = require("../lib/mongo-client");
 module.exports = {
-    data: new builders_1.SlashCommandBuilder()
-        .setName('roll')
-        .setDescription('Roll some dice')
-        .addStringOption(function (string) {
-        string
-            .setName("xdy")
-            .setDescription("Like, 1d20, or 4d10...")
-            .setRequired(false);
-        return string;
-    }),
-    execute: function (interaction) {
+    name: 'tally',
+    description: 'Get a tally of a current poll',
+    usage: "[poll id]",
+    args: true,
+    execute: function (message, args) {
         return __awaiter(this, void 0, void 0, function () {
-            var xdy, userDice, userSides, values, numberOfDice, numberOfSides, rolls, total, i, die;
+            var text, today, yesterday;
             return __generator(this, function (_a) {
-                xdy = interaction
-                    .options
-                    ._hoistedOptions
-                    .find(function (element) {
-                    return element.name === 'xdy';
-                });
-                if (xdy) {
-                    values = xdy.value.split('d');
-                    userDice = values[0];
-                    userSides = values[1];
+                switch (_a.label) {
+                    case 0:
+                        text = [];
+                        today = new Date();
+                        yesterday = new Date(today);
+                        yesterday.setDate(today.getDate() - 1);
+                        return [4, mongo_client_1.default.polls
+                                .findOne({
+                                room: message.channel.id,
+                                created_at: {
+                                    $gte: (yesterday)
+                                },
+                                poll_id: args[0],
+                                deleted: false
+                            })
+                                .then(function (poll) {
+                                var options = [];
+                                poll.voting_options.forEach(function (element) {
+                                    var names = element.voters.map(function (user) { return user.username; });
+                                    options.push("**" + element.option + "**(" + element.voters.length + ") \n" + names.join(', ') + "\n");
+                                });
+                                text.push(options.join("***********\n"));
+                                message.channel
+                                    .send({
+                                    embed: {
+                                        color: 3447003,
+                                        author: {
+                                            name: poll.poll_author.username,
+                                            icon_url: poll.poll_author.avatarURL
+                                        },
+                                        description: text.join("\n"),
+                                        title: "ID: " + poll.poll_id + " - " + poll.question
+                                    }
+                                });
+                            })
+                                .catch(function (e) {
+                                console.error(e);
+                                message.channel
+                                    .send("Poll not found");
+                            })];
+                    case 1:
+                        _a.sent();
+                        return [2];
                 }
-                numberOfDice = userDice ? userDice : 1;
-                numberOfSides = userSides ? userSides : 20;
-                rolls = [];
-                total = 0;
-                for (i = 0; i < numberOfDice; i++) {
-                    die = Math.floor(Math.random() * numberOfSides) + 1;
-                    rolls.push(die);
-                    total += die;
-                }
-                interaction.reply(numberOfDice + "d" + numberOfSides + ": " + rolls.join(', ') + "\nTotal: " + total);
-                return [2];
             });
         });
     },

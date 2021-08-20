@@ -36,43 +36,51 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var builders_1 = require("@discordjs/builders");
+var giphy_client_1 = require("../lib/giphy-client");
 module.exports = {
     data: new builders_1.SlashCommandBuilder()
-        .setName('roll')
-        .setDescription('Roll some dice')
+        .setName('gifme')
+        .setDescription('Get a random gif based on your search word/phrase')
         .addStringOption(function (string) {
         string
-            .setName("xdy")
-            .setDescription("Like, 1d20, or 4d10...")
-            .setRequired(false);
+            .setName("search")
+            .setDescription("Word or phrase you want to search for")
+            .setRequired(true);
         return string;
     }),
     execute: function (interaction) {
         return __awaiter(this, void 0, void 0, function () {
-            var xdy, userDice, userSides, values, numberOfDice, numberOfSides, rolls, total, i, die;
+            var searchPhrase, giphyImage;
             return __generator(this, function (_a) {
-                xdy = interaction
-                    .options
-                    ._hoistedOptions
-                    .find(function (element) {
-                    return element.name === 'xdy';
-                });
-                if (xdy) {
-                    values = xdy.value.split('d');
-                    userDice = values[0];
-                    userSides = values[1];
+                switch (_a.label) {
+                    case 0:
+                        searchPhrase = interaction
+                            .options
+                            ._hoistedOptions
+                            .find(function (element) {
+                            return element.name === 'search';
+                        });
+                        return [4, giphy_client_1.giphyClient
+                                .get('/search', {
+                                params: {
+                                    q: searchPhrase.value
+                                }
+                            })
+                                .then(function (res) {
+                                var resArray = res.data.data;
+                                var gif = resArray[Math.floor(Math.random() * resArray.length)];
+                                return gif.images.original.webp ? gif.images.original.webp : gif.images.original.url;
+                            })
+                                .catch(function (e) {
+                                console.error(e);
+                                return "Something went wrong :-/";
+                            })];
+                    case 1:
+                        giphyImage = _a.sent();
+                        interaction
+                            .reply("\"" + searchPhrase.value + "\" " + giphyImage);
+                        return [2];
                 }
-                numberOfDice = userDice ? userDice : 1;
-                numberOfSides = userSides ? userSides : 20;
-                rolls = [];
-                total = 0;
-                for (i = 0; i < numberOfDice; i++) {
-                    die = Math.floor(Math.random() * numberOfSides) + 1;
-                    rolls.push(die);
-                    total += die;
-                }
-                interaction.reply(numberOfDice + "d" + numberOfSides + ": " + rolls.join(', ') + "\nTotal: " + total);
-                return [2];
             });
         });
     },

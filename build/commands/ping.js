@@ -36,43 +36,32 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var builders_1 = require("@discordjs/builders");
+var discord_js_1 = require("discord.js");
 module.exports = {
     data: new builders_1.SlashCommandBuilder()
-        .setName('roll')
-        .setDescription('Roll some dice')
-        .addStringOption(function (string) {
-        string
-            .setName("xdy")
-            .setDescription("Like, 1d20, or 4d10...")
-            .setRequired(false);
-        return string;
-    }),
+        .setName('ping')
+        .setDescription('Replies with Pong!'),
     execute: function (interaction) {
         return __awaiter(this, void 0, void 0, function () {
-            var xdy, userDice, userSides, values, numberOfDice, numberOfSides, rolls, total, i, die;
+            var row, embed;
             return __generator(this, function (_a) {
-                xdy = interaction
-                    .options
-                    ._hoistedOptions
-                    .find(function (element) {
-                    return element.name === 'xdy';
-                });
-                if (xdy) {
-                    values = xdy.value.split('d');
-                    userDice = values[0];
-                    userSides = values[1];
+                switch (_a.label) {
+                    case 0:
+                        row = new discord_js_1.MessageActionRow()
+                            .addComponents(new discord_js_1.MessageButton()
+                            .setCustomId('primary')
+                            .setLabel('Primary')
+                            .setStyle('PRIMARY'));
+                        embed = new discord_js_1.MessageEmbed()
+                            .setColor('#0099ff')
+                            .setTitle('Some title')
+                            .setURL('https://discord.js.org')
+                            .setDescription('Some description here');
+                        return [4, interaction.reply({ content: 'Pong!', ephemeral: true, embeds: [embed], components: [row] })];
+                    case 1:
+                        _a.sent();
+                        return [2];
                 }
-                numberOfDice = userDice ? userDice : 1;
-                numberOfSides = userSides ? userSides : 20;
-                rolls = [];
-                total = 0;
-                for (i = 0; i < numberOfDice; i++) {
-                    die = Math.floor(Math.random() * numberOfSides) + 1;
-                    rolls.push(die);
-                    total += die;
-                }
-                interaction.reply(numberOfDice + "d" + numberOfSides + ": " + rolls.join(', ') + "\nTotal: " + total);
-                return [2];
             });
         });
     },

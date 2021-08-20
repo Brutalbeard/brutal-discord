@@ -1,15 +1,14 @@
-import {SlashCommandBuilder} from '@discordjs/builders';
-import {MessageEmbed} from "discord.js";
-import axios from "axios";
+import { Message, MessageEmbed } from "discord.js"
+import axios from 'axios'
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('inspire')
-        .setDescription('Get pumpted with a random ass quote'),
+    name: 'inspire',
+    description: 'Get hit with a random ass quote',
+    usage: "",
 
-    async execute(interaction) {
+    async execute(message: Message, args: any) {
 
-        let embed = new MessageEmbed()
+        let embed = new MessageEmbed
 
         await axios
             .get('https://api.quotable.io/random', {
@@ -18,6 +17,8 @@ module.exports = {
                 }
             })
             .then(res => {
+                // console.log(res.data)
+
                 embed.setAuthor(res.data.author)
                 embed.setDescription(res.data.content)
             })
@@ -25,6 +26,6 @@ module.exports = {
                 console.error(e)
             })
 
-        interaction.reply({embeds: [embed]})
-    },
-};
+        message.channel.send(embed)
+    }
+}

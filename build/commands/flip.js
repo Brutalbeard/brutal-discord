@@ -36,42 +36,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var builders_1 = require("@discordjs/builders");
+var sides = ["Heads", "Tails"];
 module.exports = {
     data: new builders_1.SlashCommandBuilder()
-        .setName('roll')
-        .setDescription('Roll some dice')
-        .addStringOption(function (string) {
-        string
-            .setName("xdy")
-            .setDescription("Like, 1d20, or 4d10...")
-            .setRequired(false);
-        return string;
-    }),
+        .setName('flip')
+        .setDescription('Flip a coin'),
     execute: function (interaction) {
         return __awaiter(this, void 0, void 0, function () {
-            var xdy, userDice, userSides, values, numberOfDice, numberOfSides, rolls, total, i, die;
             return __generator(this, function (_a) {
-                xdy = interaction
-                    .options
-                    ._hoistedOptions
-                    .find(function (element) {
-                    return element.name === 'xdy';
-                });
-                if (xdy) {
-                    values = xdy.value.split('d');
-                    userDice = values[0];
-                    userSides = values[1];
-                }
-                numberOfDice = userDice ? userDice : 1;
-                numberOfSides = userSides ? userSides : 20;
-                rolls = [];
-                total = 0;
-                for (i = 0; i < numberOfDice; i++) {
-                    die = Math.floor(Math.random() * numberOfSides) + 1;
-                    rolls.push(die);
-                    total += die;
-                }
-                interaction.reply(numberOfDice + "d" + numberOfSides + ": " + rolls.join(', ') + "\nTotal: " + total);
+                interaction.reply(sides[Math.floor(Math.random() * sides.length)]);
                 return [2];
             });
         });

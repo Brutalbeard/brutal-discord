@@ -35,45 +35,41 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var builders_1 = require("@discordjs/builders");
-module.exports = {
-    data: new builders_1.SlashCommandBuilder()
-        .setName('roll')
-        .setDescription('Roll some dice')
-        .addStringOption(function (string) {
-        string
-            .setName("xdy")
-            .setDescription("Like, 1d20, or 4d10...")
-            .setRequired(false);
-        return string;
-    }),
-    execute: function (interaction) {
-        return __awaiter(this, void 0, void 0, function () {
-            var xdy, userDice, userSides, values, numberOfDice, numberOfSides, rolls, total, i, die;
-            return __generator(this, function (_a) {
-                xdy = interaction
-                    .options
-                    ._hoistedOptions
-                    .find(function (element) {
-                    return element.name === 'xdy';
-                });
-                if (xdy) {
-                    values = xdy.value.split('d');
-                    userDice = values[0];
-                    userSides = values[1];
-                }
-                numberOfDice = userDice ? userDice : 1;
-                numberOfSides = userSides ? userSides : 20;
-                rolls = [];
-                total = 0;
-                for (i = 0; i < numberOfDice; i++) {
-                    die = Math.floor(Math.random() * numberOfSides) + 1;
-                    rolls.push(die);
-                    total += die;
-                }
-                interaction.reply(numberOfDice + "d" + numberOfSides + ": " + rolls.join(', ') + "\nTotal: " + total);
-                return [2];
-            });
+var mongo_client_1 = require("../lib/mongo-client");
+function getOrSetUser(queryUser) {
+    return __awaiter(this, void 0, void 0, function () {
+        var user, tempUser, _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0: return [4, mongo_client_1.default.users.findOne({
+                        id: queryUser.id
+                    }).then(function (res) {
+                        return res;
+                    }).catch(function (e) {
+                        console.error(e);
+                    })];
+                case 1:
+                    user = _b.sent();
+                    if (!(user == null)) return [3, 4];
+                    _a = {
+                        id: queryUser.id,
+                        username: queryUser.username,
+                        avatar: queryUser.avatar
+                    };
+                    return [4, queryUser.avatarURL()];
+                case 2:
+                    tempUser = (_a.avatarURL = _b.sent(),
+                        _a.bot = queryUser.bot,
+                        _a.doots = 10,
+                        _a);
+                    return [4, mongo_client_1.default.users.insertOne(tempUser)];
+                case 3:
+                    _b.sent();
+                    user = tempUser;
+                    _b.label = 4;
+                case 4: return [2, user];
+            }
         });
-    },
-};
+    });
+}
+exports.default = getOrSetUser;

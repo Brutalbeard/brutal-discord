@@ -36,43 +36,38 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var builders_1 = require("@discordjs/builders");
+var discord_js_1 = require("discord.js");
+var axios_1 = require("axios");
+var moment = require("moment");
 module.exports = {
     data: new builders_1.SlashCommandBuilder()
-        .setName('roll')
-        .setDescription('Roll some dice')
-        .addStringOption(function (string) {
-        string
-            .setName("xdy")
-            .setDescription("Like, 1d20, or 4d10...")
-            .setRequired(false);
-        return string;
-    }),
+        .setName('trump')
+        .setDescription('Get some random ass stupid (now deleted) tweet from the 45th President.'),
     execute: function (interaction) {
         return __awaiter(this, void 0, void 0, function () {
-            var xdy, userDice, userSides, values, numberOfDice, numberOfSides, rolls, total, i, die;
+            var embed;
             return __generator(this, function (_a) {
-                xdy = interaction
-                    .options
-                    ._hoistedOptions
-                    .find(function (element) {
-                    return element.name === 'xdy';
-                });
-                if (xdy) {
-                    values = xdy.value.split('d');
-                    userDice = values[0];
-                    userSides = values[1];
+                switch (_a.label) {
+                    case 0:
+                        embed = new discord_js_1.MessageEmbed;
+                        return [4, axios_1.default
+                                .get('https://api.tronalddump.io/random/quote')
+                                .then(function (res) {
+                                embed
+                                    .setAuthor(res.data._embedded.author[0].name)
+                                    .setFooter(moment(res.data.appeared_at).format("dddd, MMMM Do YYYY, h:mm:ss a"))
+                                    .setTitle("About - " + res.data.tags.join(','))
+                                    .setDescription(res.data.value)
+                                    .setURL(res.data._embedded.source[0].url);
+                            })
+                                .catch(function (e) {
+                                console.error(e);
+                            })];
+                    case 1:
+                        _a.sent();
+                        interaction.reply({ embeds: [embed] });
+                        return [2];
                 }
-                numberOfDice = userDice ? userDice : 1;
-                numberOfSides = userSides ? userSides : 20;
-                rolls = [];
-                total = 0;
-                for (i = 0; i < numberOfDice; i++) {
-                    die = Math.floor(Math.random() * numberOfSides) + 1;
-                    rolls.push(die);
-                    total += die;
-                }
-                interaction.reply(numberOfDice + "d" + numberOfSides + ": " + rolls.join(', ') + "\nTotal: " + total);
-                return [2];
             });
         });
     },

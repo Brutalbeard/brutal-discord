@@ -36,43 +36,47 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var builders_1 = require("@discordjs/builders");
+var axios_1 = require("axios");
+var catEmojiArray = [
+    ':cat:',
+    ':crying_cat_face:',
+    ':heart_eyes_cat:',
+    ':joy_cat:',
+    ':kissing_cat:',
+    ':pouting_cat:',
+    ':scream_cat:',
+    ':smile_cat:',
+    ':smiley_cat:',
+    ':smirk_cat:'
+];
 module.exports = {
     data: new builders_1.SlashCommandBuilder()
-        .setName('roll')
-        .setDescription('Roll some dice')
-        .addStringOption(function (string) {
-        string
-            .setName("xdy")
-            .setDescription("Like, 1d20, or 4d10...")
-            .setRequired(false);
-        return string;
-    }),
+        .setName('catfact')
+        .setDescription('An interesting fact about kitty cats'),
     execute: function (interaction) {
         return __awaiter(this, void 0, void 0, function () {
-            var xdy, userDice, userSides, values, numberOfDice, numberOfSides, rolls, total, i, die;
+            var res, replyMessage;
             return __generator(this, function (_a) {
-                xdy = interaction
-                    .options
-                    ._hoistedOptions
-                    .find(function (element) {
-                    return element.name === 'xdy';
-                });
-                if (xdy) {
-                    values = xdy.value.split('d');
-                    userDice = values[0];
-                    userSides = values[1];
+                switch (_a.label) {
+                    case 0: return [4, axios_1.default
+                            .get('https://catfact.ninja/fact')
+                            .then(function (res) {
+                            return res.data.fact;
+                        })
+                            .catch(function (e) {
+                            console.error(e);
+                        })];
+                    case 1:
+                        res = _a.sent();
+                        replyMessage = res + " " + catEmojiArray[Math.floor(Math.random() * catEmojiArray.length)];
+                        return [4, interaction
+                                .reply({
+                                content: replyMessage
+                            })];
+                    case 2:
+                        _a.sent();
+                        return [2];
                 }
-                numberOfDice = userDice ? userDice : 1;
-                numberOfSides = userSides ? userSides : 20;
-                rolls = [];
-                total = 0;
-                for (i = 0; i < numberOfDice; i++) {
-                    die = Math.floor(Math.random() * numberOfSides) + 1;
-                    rolls.push(die);
-                    total += die;
-                }
-                interaction.reply(numberOfDice + "d" + numberOfSides + ": " + rolls.join(', ') + "\nTotal: " + total);
-                return [2];
             });
         });
     },

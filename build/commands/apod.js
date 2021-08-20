@@ -36,43 +36,47 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var builders_1 = require("@discordjs/builders");
+var apod_client_1 = require("../lib/apod-client");
+var discord_js_1 = require("discord.js");
 module.exports = {
     data: new builders_1.SlashCommandBuilder()
-        .setName('roll')
-        .setDescription('Roll some dice')
-        .addStringOption(function (string) {
-        string
-            .setName("xdy")
-            .setDescription("Like, 1d20, or 4d10...")
-            .setRequired(false);
-        return string;
-    }),
+        .setName('apod')
+        .setDescription('NASA\'s astronomy Picture of the Day!'),
     execute: function (interaction) {
         return __awaiter(this, void 0, void 0, function () {
-            var xdy, userDice, userSides, values, numberOfDice, numberOfSides, rolls, total, i, die;
+            var res, embed;
             return __generator(this, function (_a) {
-                xdy = interaction
-                    .options
-                    ._hoistedOptions
-                    .find(function (element) {
-                    return element.name === 'xdy';
-                });
-                if (xdy) {
-                    values = xdy.value.split('d');
-                    userDice = values[0];
-                    userSides = values[1];
+                switch (_a.label) {
+                    case 0: return [4, apod_client_1.apodClient
+                            .get('/apod', {
+                            params: {
+                                api_key: process.env['APOD_KEY']
+                            }
+                        })
+                            .then(function (res) {
+                            return res.data;
+                        })
+                            .catch(function (e) {
+                            console.error(e);
+                        })];
+                    case 1:
+                        res = _a.sent();
+                        embed = new discord_js_1.MessageEmbed()
+                            .setColor('#0099ff')
+                            .setTitle(res.title)
+                            .setURL('https://discord.js.org')
+                            .setImage(res.hdurl)
+                            .setDescription(res.explanation ? res.explanation : "")
+                            .setFooter(res.copyright ? "Credit: " + res.copyright : null)
+                            .setTimestamp(new Date(res.date));
+                        return [4, interaction
+                                .reply({
+                                embeds: [embed]
+                            })];
+                    case 2:
+                        _a.sent();
+                        return [2];
                 }
-                numberOfDice = userDice ? userDice : 1;
-                numberOfSides = userSides ? userSides : 20;
-                rolls = [];
-                total = 0;
-                for (i = 0; i < numberOfDice; i++) {
-                    die = Math.floor(Math.random() * numberOfSides) + 1;
-                    rolls.push(die);
-                    total += die;
-                }
-                interaction.reply(numberOfDice + "d" + numberOfSides + ": " + rolls.join(', ') + "\nTotal: " + total);
-                return [2];
             });
         });
     },

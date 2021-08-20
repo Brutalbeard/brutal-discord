@@ -35,44 +35,53 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var builders_1 = require("@discordjs/builders");
+var mongo_client_1 = require("../lib/mongo-client");
+var users_1 = require("../lib/users");
 module.exports = {
-    data: new builders_1.SlashCommandBuilder()
-        .setName('roll')
-        .setDescription('Roll some dice')
-        .addStringOption(function (string) {
-        string
-            .setName("xdy")
-            .setDescription("Like, 1d20, or 4d10...")
-            .setRequired(false);
-        return string;
-    }),
-    execute: function (interaction) {
+    name: 'updoot',
+    description: 'Give someone a doot! For fun!',
+    usage: "{@username}",
+    args: true,
+    cooldown: 5,
+    execute: function (message, args) {
         return __awaiter(this, void 0, void 0, function () {
-            var xdy, userDice, userSides, values, numberOfDice, numberOfSides, rolls, total, i, die;
+            var user, mentionedUser;
             return __generator(this, function (_a) {
-                xdy = interaction
-                    .options
-                    ._hoistedOptions
-                    .find(function (element) {
-                    return element.name === 'xdy';
-                });
-                if (xdy) {
-                    values = xdy.value.split('d');
-                    userDice = values[0];
-                    userSides = values[1];
+                switch (_a.label) {
+                    case 0:
+                        if (message.channel.type == 'dm') {
+                            message.channel
+                                .send("No updooting in a direct message to the bot you cheatin bastard");
+                            return [2];
+                        }
+                        if (message.mentions.users.array().length < 1) {
+                            return [2];
+                        }
+                        return [4, users_1.default(message.author)];
+                    case 1:
+                        user = _a.sent();
+                        return [4, users_1.default(message.mentions.users.array()[0])];
+                    case 2:
+                        mentionedUser = _a.sent();
+                        if (user.id == mentionedUser.id) {
+                            message.channel
+                                .send("Can't updoot yourself idiot.");
+                        }
+                        else if (user.id != mentionedUser.id) {
+                            mongo_client_1.default.users
+                                .updateOne({ id: mentionedUser.id }, {
+                                $inc: { doots: 1 }
+                            })
+                                .then(function () {
+                                message.channel.send("@" + mentionedUser.username + " now has " + (mentionedUser.doots + 1) + " doot(s)! Thanks " + user.username);
+                            })
+                                .catch(function (e) {
+                                console.error(e);
+                                message.channel.send("Had an issue giving a doot :-/");
+                            });
+                        }
+                        return [2];
                 }
-                numberOfDice = userDice ? userDice : 1;
-                numberOfSides = userSides ? userSides : 20;
-                rolls = [];
-                total = 0;
-                for (i = 0; i < numberOfDice; i++) {
-                    die = Math.floor(Math.random() * numberOfSides) + 1;
-                    rolls.push(die);
-                    total += die;
-                }
-                interaction.reply(numberOfDice + "d" + numberOfSides + ": " + rolls.join(', ') + "\nTotal: " + total);
-                return [2];
             });
         });
     },
