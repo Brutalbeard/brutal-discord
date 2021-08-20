@@ -120,7 +120,6 @@ module.exports = {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        console.log(interaction.options._hoistedOptions);
                         abusee = interaction
                             .options
                             ._hoistedOptions

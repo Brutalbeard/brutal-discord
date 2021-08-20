@@ -52,10 +52,12 @@ var client = new discord_js_1.Client({
 });
 client.commands = new discord_js_1.Collection();
 var commands = [];
-var commandFiles = fs.readdirSync('./build/commands').filter(function (file) { return file.endsWith('.js'); });
+var commandFiles = fs
+    .readdirSync(__dirname + '/commands')
+    .filter(function (file) { return file.endsWith('.js'); });
 for (var _i = 0, commandFiles_1 = commandFiles; _i < commandFiles_1.length; _i++) {
     var file = commandFiles_1[_i];
-    var command = require("./build/commands/" + file);
+    var command = require(__dirname + ("/commands/" + file));
     commands
         .push(command.data.toJSON());
     client
@@ -63,10 +65,10 @@ for (var _i = 0, commandFiles_1 = commandFiles; _i < commandFiles_1.length; _i++
         .set(command.data.name, command);
 }
 var eventFiles = fs
-    .readdirSync('./build/events')
+    .readdirSync(__dirname + '/events')
     .filter(function (file) { return file.endsWith('.js'); });
 var _loop_1 = function (file) {
-    var event = require("./build/events/" + file);
+    var event = require(__dirname + ("/events/" + file));
     if (event.once) {
         client.once(event.name, function () {
             var args = [];
