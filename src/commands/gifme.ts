@@ -1,30 +1,44 @@
-import { Message } from "discord.js"
-import { giphyClient } from "../lib/giphy-client"
+import {SlashCommandBuilder} from '@discordjs/builders';
+import {giphyClient} from "../lib/giphy-client"
 
 module.exports = {
-    name: 'gifme',
-    description: 'Returns a random ass giphy gif based on your search term',
-    usage: "{kid falling down}",
-    args: true,
-    async execute(message: Message, args: any) {
+    data: new SlashCommandBuilder()
+        .setName('gifme')
+        .setDescription('Get a random gif based on your search word/phrase')
+        .addStringOption(string => {
+            string
+                .setName("search")
+                .setDescription("Word or phrase you want to search for")
+                .setRequired(true);
+            return string;
+        }),
 
-        await giphyClient
+    async execute(interaction) {
+        let searchPhrase = interaction
+            .options
+            ._hoistedOptions
+            .find(element => {
+                return element.name === 'search'
+            });
+
+        let giphyImage = await giphyClient
             .get('/search', {
                 params: {
-                    q: args.join('+')
+                    q: searchPhrase.value
                 }
             })
             .then(res => {
-                let resArray = res.data.data
-                let gif = resArray[Math.floor(Math.random() * resArray.length)]
+                let resArray = res.data.data;
+                let gif = resArray[Math.floor(Math.random() * resArray.length)];
 
-                let url = gif.images.original.webp ? gif.images.original.webp : gif.images.original.url
-
-                message.channel.send(url)
+                return gif.images.original.webp ? gif.images.original.webp : gif.images.original.url;
             })
             .catch(e => {
-                console.error(e)
-                message.channel.send("Error finding a gif for you: " + e.data.message)
-            })
+                console.error(e);
+                return "Something went wrong :-/";
+            });
+
+        interaction
+            .reply("\"" + searchPhrase.value + "\" " + giphyImage);
     },
-}
+};

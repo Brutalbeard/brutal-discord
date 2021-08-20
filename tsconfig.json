@@ -1,21 +1,21 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "target": "es5",
-        "removeComments": true,
-        "preserveConstEnums": true,
-        "outDir": "build",
-        "lib": [
-            "es2015"
-        ],
-        "skipLibCheck": true
-    },
-    "include": [
-        "src/**/*"
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "outDir": "build",
+    "lib": [
+      "es2015"
     ],
-    "exclude": [
-        "node_modules",
-        "**/*.spec.ts",
-        ".env"
-    ]
+    "skipLibCheck": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "build/.env"
+  ]
 }

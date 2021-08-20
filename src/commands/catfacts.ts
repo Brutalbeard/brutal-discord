@@ -1,38 +1,39 @@
-import { Message } from "discord.js"
-import axios from 'axios'
-import * as random from 'random'
+import {SlashCommandBuilder} from '@discordjs/builders';
+import axios from "axios";
+
+const catEmojiArray = [
+    ':cat:',
+    ':crying_cat_face:',
+    ':heart_eyes_cat:',
+    ':joy_cat:',
+    ':kissing_cat:',
+    ':pouting_cat:',
+    ':scream_cat:',
+    ':smile_cat:',
+    ':smiley_cat:',
+    ':smirk_cat:'
+]
 
 module.exports = {
-    name: 'catfact',
-    description: 'Learn more about felines!',
-    usage: "",
+    data: new SlashCommandBuilder()
+        .setName('catfact')
+        .setDescription('An interesting fact about kitty cats'),
 
-    async execute(message: Message, args: any) {
-
-        let response = "Something went wrong :-/"
-
-        const catEmojiArray = [
-            ':cat:',
-            ':crying_cat_face:',
-            ':heart_eyes_cat:',
-            ':joy_cat:',
-            ':kissing_cat:',
-            ':pouting_cat:',
-            ':scream_cat:',
-            ':smile_cat:',
-            ':smiley_cat:',
-            'smirk_cat:'
-        ]
-
-        await axios
+    async execute(interaction) {
+        const res: string = await axios
             .get('https://catfact.ninja/fact')
             .then(res => {
-                response = res.data.fact
+                return res.data.fact
             })
             .catch(e => {
                 console.error(e)
-            })
+            });
 
-        message.channel.send(response + "\n" + catEmojiArray[random.int(0, catEmojiArray.length - 1)])
-    }
-}
+        let replyMessage = res + " " + catEmojiArray[Math.floor(Math.random() * catEmojiArray.length)];
+
+        await interaction
+            .reply({
+                content: replyMessage
+            });
+    },
+};

@@ -10,23 +10,16 @@
   "author": "John Celoria",
   "license": "MIT",
   "dependencies": {
-    "@types/axios": "^0.14.0",
-    "@types/dotenv": "^4.0.3",
-    "@types/node": "^10.17.28",
-    "@types/node-fetch": "^2.5.7",
-    "@types/random": "^2.1.1",
+    "@discordjs/builders": "^0.5.0",
+    "@discordjs/rest": "^0.1.0-canary.0",
     "axios": "^0.21.1",
-    "bluebird": "^3.7.2",
-    "bufferutil": "^4.0.0",
-    "discord.js": "^12.2.0",
-    "dotenv": "^6.0.0",
-    "erlpack": "github:hammerandchisel/erlpack",
-    "moment": "^2.27.0",
-    "mongodb": "^4.1.0",
-    "pornsearch": "^2.4.2",
-    "random": "^2.2.0",
-    "typescript": "^2.9.2",
-    "unescape": "^1.0.1",
-    "uws": "^10.148.1"
+    "discord-api-types": "^0.22.0",
+    "discord.js": "^13.1.0",
+    "dotenv": "^10.0.0",
+    "moment": "^2.29.1",
+    "mongodb": "^4.1.0"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
