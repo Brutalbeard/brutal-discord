@@ -20,10 +20,14 @@ const client = new Client({
 //@ts-ignore
 client.commands = new Collection();
 const commands = [];
-const commandFiles = fs.readdirSync('./build/commands').filter(file => file.endsWith('.js'));
+
+const commandFiles = fs
+    .readdirSync(__dirname + '/commands')
+    .filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
-    const command = require(`./build/commands/${file}`);
+    const command = require(__dirname + `/commands/${file}`);
+
     commands
         .push(command.data.toJSON());
 
@@ -34,11 +38,11 @@ for (const file of commandFiles) {
 }
 
 const eventFiles = fs
-    .readdirSync('./build/events')
+    .readdirSync(__dirname + '/events')
     .filter(file => file.endsWith('.js'));
 
 for (const file of eventFiles) {
-    const event = require(`./build/events/${file}`);
+    const event = require(__dirname + `/events/${file}`);
     if (event.once) {
         client.once(event.name, (...args) => event.execute(...args));
     } else {
