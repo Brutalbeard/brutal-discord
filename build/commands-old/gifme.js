@@ -35,44 +35,36 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var builders_1 = require("@discordjs/builders");
+var giphy_client_1 = require("../lib/giphy-client");
 module.exports = {
-    data: new builders_1.SlashCommandBuilder()
-        .setName('roll')
-        .setDescription('Roll some dice')
-        .addStringOption(function (string) {
-        string
-            .setName("xdy")
-            .setDescription("Like, 1d20, or 4d10...")
-            .setRequired(false);
-        return string;
-    }),
-    execute: function (interaction) {
+    name: 'gifme',
+    description: 'Returns a random ass giphy gif based on your search term',
+    usage: "{kid falling down}",
+    args: true,
+    execute: function (message, args) {
         return __awaiter(this, void 0, void 0, function () {
-            var xdy, userDice, userSides, values, numberOfDice, numberOfSides, rolls, total, i, die;
             return __generator(this, function (_a) {
-                xdy = interaction
-                    .options
-                    ._hoistedOptions
-                    .find(function (element) {
-                    return element.name === 'xdy';
-                });
-                if (xdy) {
-                    values = xdy.value.split('d');
-                    userDice = values[0];
-                    userSides = values[1];
+                switch (_a.label) {
+                    case 0: return [4, giphy_client_1.giphyClient
+                            .get('/search', {
+                            params: {
+                                q: args.join('+')
+                            }
+                        })
+                            .then(function (res) {
+                            var resArray = res.data.data;
+                            var gif = resArray[Math.floor(Math.random() * resArray.length)];
+                            var url = gif.images.original.webp ? gif.images.original.webp : gif.images.original.url;
+                            message.channel.send(url);
+                        })
+                            .catch(function (e) {
+                            console.error(e);
+                            message.channel.send("Error finding a gif for you: " + e.data.message);
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2];
                 }
-                numberOfDice = userDice ? userDice : 1;
-                numberOfSides = userSides ? userSides : 20;
-                rolls = [];
-                total = 0;
-                for (i = 0; i < numberOfDice; i++) {
-                    die = Math.floor(Math.random() * numberOfSides) + 1;
-                    rolls.push(die);
-                    total += die;
-                }
-                interaction.reply(numberOfDice + "d" + numberOfSides + ": " + rolls.join(', ') + "\nTotal: " + total);
-                return [2];
             });
         });
     },

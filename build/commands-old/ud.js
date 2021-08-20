@@ -35,44 +35,44 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var builders_1 = require("@discordjs/builders");
+var urban_dictionary_1 = require("../lib/urban-dictionary");
 module.exports = {
-    data: new builders_1.SlashCommandBuilder()
-        .setName('roll')
-        .setDescription('Roll some dice')
-        .addStringOption(function (string) {
-        string
-            .setName("xdy")
-            .setDescription("Like, 1d20, or 4d10...")
-            .setRequired(false);
-        return string;
-    }),
-    execute: function (interaction) {
+    name: 'ud',
+    description: 'Returns a definition of some awful phrase from ubran dictionary',
+    usage: "{alabama hot pocket}",
+    args: true,
+    execute: function (message, args) {
         return __awaiter(this, void 0, void 0, function () {
-            var xdy, userDice, userSides, values, numberOfDice, numberOfSides, rolls, total, i, die;
+            var res;
             return __generator(this, function (_a) {
-                xdy = interaction
-                    .options
-                    ._hoistedOptions
-                    .find(function (element) {
-                    return element.name === 'xdy';
-                });
-                if (xdy) {
-                    values = xdy.value.split('d');
-                    userDice = values[0];
-                    userSides = values[1];
+                switch (_a.label) {
+                    case 0: return [4, urban_dictionary_1.udClient
+                            .get('/define', {
+                            params: {
+                                term: args.join('+')
+                            }
+                        })
+                            .then(function (res) {
+                            return res.data.list;
+                        })
+                            .catch(function (e) {
+                            console.error(e);
+                        })];
+                    case 1:
+                        res = _a.sent();
+                        message.channel
+                            .send({
+                            embed: {
+                                color: 3447003,
+                                author: {
+                                    name: "Author: " + res[0].author
+                                },
+                                description: res[0].definition.replace(/\[|\]/g, '') + "\n\n**Example:** " + res[0].example.replace(/\[|\]/g, ''),
+                                title: res[0].word
+                            }
+                        });
+                        return [2];
                 }
-                numberOfDice = userDice ? userDice : 1;
-                numberOfSides = userSides ? userSides : 20;
-                rolls = [];
-                total = 0;
-                for (i = 0; i < numberOfDice; i++) {
-                    die = Math.floor(Math.random() * numberOfSides) + 1;
-                    rolls.push(die);
-                    total += die;
-                }
-                interaction.reply(numberOfDice + "d" + numberOfSides + ": " + rolls.join(', ') + "\nTotal: " + total);
-                return [2];
             });
         });
     },

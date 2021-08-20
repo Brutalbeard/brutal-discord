@@ -36,43 +36,111 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var builders_1 = require("@discordjs/builders");
+var first = [
+    'LAZY',
+    'STUPID',
+    'INSECURE',
+    'IDIOTIC',
+    'SLIMY',
+    'SLUTTY',
+    'SMELLY',
+    'POMPOUS',
+    'COMMUNIST',
+    'DICKNOSE',
+    'SHIT-EATING',
+    'RACIST',
+    'ELITIST',
+    'WHITE TRASH',
+    'DRUG-LOVING',
+    'BUTTERFACE',
+    'TONE DEAF',
+    'UGLY',
+    'CREEPY',
+    'SKANKY',
+    'CUM-GUZZLING'
+];
+var second = [
+    'DOUCHE',
+    'ASS',
+    'TURD',
+    'RECTUM',
+    'BUTT',
+    'COCK',
+    'SHIT',
+    'CROTCH',
+    'BITCH',
+    'TURD',
+    'PRICK',
+    'SLUT',
+    'TAINT',
+    'FUCK',
+    'DICK',
+    'BONER',
+    'SHART',
+    'NUT',
+    'SPHINCTER',
+    'NIPPLE'
+];
+var third = [
+    'PILOT',
+    'CANOE',
+    'CAPTAIN',
+    'PIRATE',
+    'HAMMER',
+    'KNOB',
+    'BOX',
+    'JOCKEY',
+    'NAZI',
+    'WAFFLE',
+    'GOBLIN',
+    'BLOSSUM',
+    'BISCUIT',
+    'CLOWN',
+    'SOCKET',
+    'MONSTER',
+    'HOUND',
+    'DRAGON',
+    'BALLOON',
+    'HOLE',
+    'SUCKER'
+];
 module.exports = {
     data: new builders_1.SlashCommandBuilder()
-        .setName('roll')
-        .setDescription('Roll some dice')
-        .addStringOption(function (string) {
-        string
-            .setName("xdy")
-            .setDescription("Like, 1d20, or 4d10...")
-            .setRequired(false);
-        return string;
+        .setName('abuse')
+        .setDescription('Calls someone a mean thing...')
+        .addMentionableOption(function (mentioned) {
+        return mentioned
+            .setDescription("The person whose feelings you want to hurt")
+            .setRequired(true)
+            .setName("abusee");
     }),
     execute: function (interaction) {
         return __awaiter(this, void 0, void 0, function () {
-            var xdy, userDice, userSides, values, numberOfDice, numberOfSides, rolls, total, i, die;
+            var abusee;
             return __generator(this, function (_a) {
-                xdy = interaction
-                    .options
-                    ._hoistedOptions
-                    .find(function (element) {
-                    return element.name === 'xdy';
-                });
-                if (xdy) {
-                    values = xdy.value.split('d');
-                    userDice = values[0];
-                    userSides = values[1];
+                switch (_a.label) {
+                    case 0:
+                        console.log(interaction.options._hoistedOptions);
+                        abusee = interaction
+                            .options
+                            ._hoistedOptions
+                            .find(function (element) {
+                            return element.name === 'abusee';
+                        });
+                        return [4, interaction
+                                .reply({
+                                content: "<@" + abusee.user.id + ">" +
+                                    " you're a " +
+                                    first[Math.floor(Math.random() * first.length)]
+                                    + " " +
+                                    second[Math.floor(Math.random() * second.length)]
+                                    + " " +
+                                    third[Math.floor(Math.random() * third.length)]
+                            })];
+                    case 1:
+                        _a.sent();
+                        return [2];
                 }
-                numberOfDice = userDice ? userDice : 1;
-                numberOfSides = userSides ? userSides : 20;
-                rolls = [];
-                total = 0;
-                for (i = 0; i < numberOfDice; i++) {
-                    die = Math.floor(Math.random() * numberOfSides) + 1;
-                    rolls.push(die);
-                    total += die;
-                }
-                interaction.reply(numberOfDice + "d" + numberOfSides + ": " + rolls.join(', ') + "\nTotal: " + total);
-                return [2];
             });
         });
     },

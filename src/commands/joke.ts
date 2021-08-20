@@ -1,25 +1,36 @@
-import { Message } from "discord.js"
-import axios from 'axios'
+import {SlashCommandBuilder} from '@discordjs/builders';
+import axios from "axios";
 
 module.exports = {
-    name: 'joke',
-    description: 'Hear a random joke. Hope it\'s funny',
-    usage: "",
+    data: new SlashCommandBuilder()
+        .setName('joke')
+        .setDescription('Get a random joke. Hope it\'s funny')
+        .addStringOption(string => {
+            string
+                .setName("topic")
+                .setDescription("Some topic for the joke")
+                .setRequired(false);
 
-    async execute(message: Message, args: any) {
+            return string;
+        }),
 
-        let response = "Something went wrong :-/"
+    async execute(interaction) {
+        let topic = interaction
+            .options
+            ._hoistedOptions
+            .find(element => {
+                return element.name === 'topic'
+            });
 
-        await axios
-            .get('https://sv443.net/jokeapi/v2/joke/Any?type=single')
+        let response = await axios
+            .get(`https://sv443.net/jokeapi/v2/joke/${topic ? topic.value : "Any"}?type=single`)
             .then(res => {
-                // console.log(res.data)
-                response = res.data.joke
+                return res.data.joke;
             })
             .catch(e => {
-                console.error(e)
-            })
+                console.error(e);
+            });
 
-        message.channel.send(response)
-    }
-}
+        interaction.reply(response);
+    },
+};

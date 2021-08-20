@@ -36,43 +36,43 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var builders_1 = require("@discordjs/builders");
+var axios_1 = require("axios");
 module.exports = {
     data: new builders_1.SlashCommandBuilder()
-        .setName('roll')
-        .setDescription('Roll some dice')
+        .setName('joke')
+        .setDescription('Get a random joke. Hope it\'s funny')
         .addStringOption(function (string) {
         string
-            .setName("xdy")
-            .setDescription("Like, 1d20, or 4d10...")
+            .setName("topic")
+            .setDescription("Some topic for the joke")
             .setRequired(false);
         return string;
     }),
     execute: function (interaction) {
         return __awaiter(this, void 0, void 0, function () {
-            var xdy, userDice, userSides, values, numberOfDice, numberOfSides, rolls, total, i, die;
+            var topic, response;
             return __generator(this, function (_a) {
-                xdy = interaction
-                    .options
-                    ._hoistedOptions
-                    .find(function (element) {
-                    return element.name === 'xdy';
-                });
-                if (xdy) {
-                    values = xdy.value.split('d');
-                    userDice = values[0];
-                    userSides = values[1];
+                switch (_a.label) {
+                    case 0:
+                        topic = interaction
+                            .options
+                            ._hoistedOptions
+                            .find(function (element) {
+                            return element.name === 'topic';
+                        });
+                        return [4, axios_1.default
+                                .get("https://sv443.net/jokeapi/v2/joke/" + (topic ? topic.value : "Any") + "?type=single")
+                                .then(function (res) {
+                                return res.data.joke;
+                            })
+                                .catch(function (e) {
+                                console.error(e);
+                            })];
+                    case 1:
+                        response = _a.sent();
+                        interaction.reply(response);
+                        return [2];
                 }
-                numberOfDice = userDice ? userDice : 1;
-                numberOfSides = userSides ? userSides : 20;
-                rolls = [];
-                total = 0;
-                for (i = 0; i < numberOfDice; i++) {
-                    die = Math.floor(Math.random() * numberOfSides) + 1;
-                    rolls.push(die);
-                    total += die;
-                }
-                interaction.reply(numberOfDice + "d" + numberOfSides + ": " + rolls.join(', ') + "\nTotal: " + total);
-                return [2];
             });
         });
     },

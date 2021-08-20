@@ -1,93 +1,10 @@
-import { Message, MessageEmbed } from "discord.js"
-import { triviaClient } from '../lib/trivia-client'
+import {SlashCommandBuilder} from '@discordjs/builders';
+import {triviaClient} from "../lib/trivia-client";
+import {MessageEmbed} from "discord.js";
 
-const waitTime = 8
+const wait = require('util').promisify(setTimeout);
 
-module.exports = {
-    name: 'trivia',
-    description: `Spark up some trivia fun! You get ${waitTime} seconds to answer...`,
-    usage: "{some category} <- use \"!trivia categories\" to get the full list (defaults to General)",
-    async execute(message: Message, args: any) {
-
-        if (args[0] && args[0].toLowerCase() == "categories") {
-            let arr = []
-            trivia_categories.forEach(elem => {
-                arr.push(elem.name)
-            })
-
-            return message.channel
-                .send("Categories: " + arr.join(', '))
-        }
-
-        let category = trivia_categories[0]
-
-        if (args[0]) {
-            let regex = new RegExp(args[0], 'gmi')
-
-            category = trivia_categories.find(elem => {
-                return regex.test(elem.name)
-            })
-        }
-
-        let embeddedQuestion = new MessageEmbed()
-
-        let triviaBody = await triviaClient
-            .get('/api.php', {
-                params: {
-                    amount: 1,
-                    category: category.id,
-                    type: 'multiple',
-                    difficulty: 'easy',
-                    encode: "base64"
-                }
-            })
-            .then(async res => {
-
-                let body = res.data.results[0]
-                let keys = Object.keys(body)
-
-                for (let key of keys) {
-                    if (Array.isArray(body[key])) {
-                        for (let i in body[key]) {
-                            body[key][i] = Buffer.from(body[key][i], 'base64').toString()
-                        }
-                    }
-                    else {
-                        body[key] = Buffer.from(body[key], 'base64').toString()
-                    }
-                }
-
-                let possibleAnswers = body.incorrect_answers
-                possibleAnswers.push(body.correct_answer)
-
-                possibleAnswers = possibleAnswers.sort()
-
-                let questionString = []
-                for (let i in possibleAnswers) {
-                    questionString.push(`${parseInt(i) + 1} - ${possibleAnswers[i]}`)
-                }
-
-                embeddedQuestion.setTitle(body.question)
-                embeddedQuestion.setDescription(questionString.join(",\n"))
-
-                return body
-            })
-            .catch(e => {
-                console.error(e)
-            })
-
-
-        message.channel
-            .send(embeddedQuestion)
-            .then(() => {
-                setTimeout(() => {
-                    message.channel
-                        .send(`**${triviaBody.question}** --- ${triviaBody.correct_answer}`)
-                }, waitTime * 1000)
-            })
-
-    },
-}
+const waitTime = 8;
 
 const trivia_categories = [
     {
@@ -187,3 +104,68 @@ const trivia_categories = [
         "name": "Entertainment: Cartoon & Animations"
     }
 ]
+
+module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('trivia')
+        .setDescription('Play some trivia together!'),
+
+    async execute(interaction) {
+        let embeddedQuestion = new MessageEmbed();
+        let category = trivia_categories[0];
+
+        let triviaBody = await triviaClient
+            .get('/api.php', {
+                params: {
+                    amount: 1,
+                    category: category.id,
+                    type: 'multiple',
+                    difficulty: 'easy',
+                    encode: "base64"
+                }
+            })
+            .then(async res => {
+
+                let body = res.data.results[0]
+                let keys = Object.keys(body)
+
+                for (let key of keys) {
+                    if (Array.isArray(body[key])) {
+                        for (let i in body[key]) {
+                            body[key][i] = Buffer.from(body[key][i], 'base64').toString()
+                        }
+                    } else {
+                        body[key] = Buffer.from(body[key], 'base64').toString()
+                    }
+                }
+
+                let possibleAnswers = body.incorrect_answers;
+                possibleAnswers.push(body.correct_answer);
+
+                possibleAnswers = possibleAnswers.sort();
+
+                let questionString = [];
+                for (let i in possibleAnswers) {
+                    questionString.push(`${parseInt(i) + 1} - ${possibleAnswers[i]}`);
+                }
+
+                embeddedQuestion.setTitle(body.question)
+                embeddedQuestion.setDescription(questionString.join(",\n"))
+
+                return body
+            })
+            .catch(e => {
+                console.error(e)
+            })
+
+        await interaction.reply({
+            embeds: [embeddedQuestion]
+        })
+        await wait(waitTime * 1000);
+        await interaction.editReply({
+            embeds: [embeddedQuestion],
+            content: "The answer is: **" + triviaBody.correct_answer + "!**"
+        });
+
+    },
+};

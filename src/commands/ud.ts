@@ -1,36 +1,48 @@
-import { Message } from "discord.js"
-import { udClient } from "../lib/urban-dictionary"
+import {SlashCommandBuilder} from '@discordjs/builders';
+import {udClient} from "../lib/urban-dictionary";
+import {MessageEmbed} from "discord.js";
 
 module.exports = {
-    name: 'ud',
-    description: 'Returns a definition of some awful phrase from ubran dictionary',
-    usage: "{alabama hot pocket}",
-    args: true,
-    async execute(message: Message, args: any) {
+    data: new SlashCommandBuilder()
+        .setName('ud')
+        .setDescription('Returns a definition of some awful phrase from Urban Dictionary')
+        .addStringOption(string => {
+            string
+                .setName("search")
+                .setDescription("Word or phrase you want to search for")
+                .setRequired(true);
+            return string;
+        }),
 
-        let res = await udClient
+    async execute(interaction) {
+
+        let searchPhrase = interaction
+            .options
+            ._hoistedOptions
+            .find(element => {
+                return element.name === 'search'
+            });
+
+        let embed = new MessageEmbed;
+
+        await udClient
             .get('/define', {
                 params: {
-                    term: args.join('+')
+                    term: searchPhrase.value
                 }
             })
             .then(res => {
-                return res.data.list
+                let def = res.data.list[0];
+                embed
+                    .setAuthor(def.author)
+                    .setTitle(def.word)
+                    .setDescription(def.definition.replace(/\[|\]/g, ''))
+                    .setFooter("Example: " + def.example.replace(/\[|\]/g, ''));
             })
             .catch(e => {
-                console.error(e)
-            })
+                console.error(e);
+            });
 
-        message.channel
-            .send({
-                embed: {
-                    color: 3447003,
-                    author: {
-                        name: "Author: " + res[0].author
-                    },
-                    description: res[0].definition.replace(/\[|\]/g, '') + "\n\n**Example:** " + res[0].example.replace(/\[|\]/g, ''),
-                    title: res[0].word
-                }
-            })
+        interaction.reply({embeds: [embed]});
     },
-}
+};

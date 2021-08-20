@@ -35,44 +35,55 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var builders_1 = require("@discordjs/builders");
+var mongo_client_1 = require("../lib/mongo-client");
 module.exports = {
-    data: new builders_1.SlashCommandBuilder()
-        .setName('roll')
-        .setDescription('Roll some dice')
-        .addStringOption(function (string) {
-        string
-            .setName("xdy")
-            .setDescription("Like, 1d20, or 4d10...")
-            .setRequired(false);
-        return string;
-    }),
-    execute: function (interaction) {
+    name: 'polls',
+    description: 'View all the currently available polls for this chat room',
+    usage: "",
+    execute: function (message, args) {
         return __awaiter(this, void 0, void 0, function () {
-            var xdy, userDice, userSides, values, numberOfDice, numberOfSides, rolls, total, i, die;
+            var text, today, yesterday, polls, _loop_1, index;
             return __generator(this, function (_a) {
-                xdy = interaction
-                    .options
-                    ._hoistedOptions
-                    .find(function (element) {
-                    return element.name === 'xdy';
-                });
-                if (xdy) {
-                    values = xdy.value.split('d');
-                    userDice = values[0];
-                    userSides = values[1];
+                switch (_a.label) {
+                    case 0:
+                        text = [];
+                        today = new Date();
+                        yesterday = new Date(today);
+                        yesterday.setDate(today.getDate() - 1);
+                        return [4, mongo_client_1.default.polls
+                                .find({
+                                room: message.channel.id,
+                                created_at: {
+                                    $gte: (yesterday)
+                                },
+                                deleted: false
+                            })
+                                .toArray()];
+                    case 1:
+                        polls = _a.sent();
+                        _loop_1 = function (index) {
+                            var poll = polls[index];
+                            var options = [];
+                            poll.voting_options.forEach(function (element) {
+                                options.push(element.option);
+                            });
+                            text.push("ID: " + poll.poll_id + " - Question: \"" + poll.question + "\" - Options: " + options.join(' | '));
+                        };
+                        for (index in polls) {
+                            _loop_1(index);
+                        }
+                        if (polls.length == 0) {
+                            text.push("No polls available");
+                        }
+                        message.channel
+                            .send({
+                            embed: {
+                                color: 3447003,
+                                description: text.join("\n")
+                            }
+                        });
+                        return [2];
                 }
-                numberOfDice = userDice ? userDice : 1;
-                numberOfSides = userSides ? userSides : 20;
-                rolls = [];
-                total = 0;
-                for (i = 0; i < numberOfDice; i++) {
-                    die = Math.floor(Math.random() * numberOfSides) + 1;
-                    rolls.push(die);
-                    total += die;
-                }
-                interaction.reply(numberOfDice + "d" + numberOfSides + ": " + rolls.join(', ') + "\nTotal: " + total);
-                return [2];
             });
         });
     },

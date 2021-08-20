@@ -35,45 +35,62 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var builders_1 = require("@discordjs/builders");
+var apod_client_1 = require("../lib/apod-client");
 module.exports = {
-    data: new builders_1.SlashCommandBuilder()
-        .setName('roll')
-        .setDescription('Roll some dice')
-        .addStringOption(function (string) {
-        string
-            .setName("xdy")
-            .setDescription("Like, 1d20, or 4d10...")
-            .setRequired(false);
-        return string;
-    }),
-    execute: function (interaction) {
+    name: 'apod',
+    description: "Astronomy Picture of the Day! If you use just the 'apod' command, today's APOD will show up. Optionally you can say 'apod random', and I'll pick one out of a hat.",
+    usage: "{random}",
+    execute: function (message, args) {
         return __awaiter(this, void 0, void 0, function () {
-            var xdy, userDice, userSides, values, numberOfDice, numberOfSides, rolls, total, i, die;
+            var queryDate, res;
             return __generator(this, function (_a) {
-                xdy = interaction
-                    .options
-                    ._hoistedOptions
-                    .find(function (element) {
-                    return element.name === 'xdy';
-                });
-                if (xdy) {
-                    values = xdy.value.split('d');
-                    userDice = values[0];
-                    userSides = values[1];
+                switch (_a.label) {
+                    case 0:
+                        queryDate = null;
+                        if (args[0] === 'random') {
+                            queryDate = randomDate(new Date(1998, 0, 1), new Date());
+                        }
+                        return [4, apod_client_1.apodClient
+                                .get('/apod', {
+                                params: {
+                                    date: queryDate,
+                                    api_key: process.env['APOD_KEY']
+                                }
+                            })
+                                .then(function (res) {
+                                return res.data;
+                            })
+                                .catch(function (e) {
+                                console.error(e);
+                            })];
+                    case 1:
+                        res = _a.sent();
+                        message.channel
+                            .send({
+                            embed: {
+                                color: 3447003,
+                                title: res.title,
+                                description: res.explanation,
+                                image: {
+                                    url: res.hdurl
+                                },
+                                footer: {
+                                    text: res.copyright ? "Credit: " + res.copyright : null
+                                },
+                                timestamp: new Date(res.date)
+                            }
+                        });
+                        return [2];
                 }
-                numberOfDice = userDice ? userDice : 1;
-                numberOfSides = userSides ? userSides : 20;
-                rolls = [];
-                total = 0;
-                for (i = 0; i < numberOfDice; i++) {
-                    die = Math.floor(Math.random() * numberOfSides) + 1;
-                    rolls.push(die);
-                    total += die;
-                }
-                interaction.reply(numberOfDice + "d" + numberOfSides + ": " + rolls.join(', ') + "\nTotal: " + total);
-                return [2];
             });
         });
     },
 };
+function randomDate(start, end) {
+    var d = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())), month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear();
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+    return [year, month, day].join('-');
+}
