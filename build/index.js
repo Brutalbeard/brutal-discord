@@ -158,6 +158,16 @@ var rest = new rest_1.REST({ version: '9' })
                     })];
             case 1:
                 _a.sent();
+                return [4, rest
+                        .put(v9_1.Routes.applicationCommands(clientId), { body: commands })
+                        .then(function () {
+                        console.log('Successfully reloaded global (/) commands.');
+                    })
+                        .catch(function (e) {
+                        console.error("Issue setting slash commands: ", e);
+                    })];
+            case 2:
+                _a.sent();
                 return [2];
         }
     });

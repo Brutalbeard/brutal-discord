@@ -106,16 +106,16 @@ const rest = new REST({version: '9'})
             console.error("Issue setting slash commands: ", e);
         });
 
-    // await rest
-    //     .put(
-    //         Routes.applicationCommands(clientId),
-    //         {body: commands},
-    //     )
-    //     .then(() => {
-    //         console.log('Successfully reloaded global (/) commands.');
-    //     })
-    //     .catch(e => {
-    //         console.error("Issue setting slash commands: ", e);
-    //     });
+    await rest
+        .put(
+            Routes.applicationCommands(clientId),
+            {body: commands},
+        )
+        .then(() => {
+            console.log('Successfully reloaded global (/) commands.');
+        })
+        .catch(e => {
+            console.error("Issue setting slash commands: ", e);
+        });
 
 })();
