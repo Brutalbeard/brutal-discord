@@ -99,7 +99,6 @@ module.exports = {
                     second[Math.floor(Math.random() * second.length)]
                     + " " +
                     third[Math.floor(Math.random() * third.length)]
-
             });
     },
 };

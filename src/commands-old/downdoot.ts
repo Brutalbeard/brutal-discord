@@ -1,4 +1,4 @@
-import { Message } from "discord.js"
+import {Message} from "discord.js"
 import db from "../lib/mongo-client"
 import getOrSetUser from '../lib/users'
 
@@ -15,11 +15,12 @@ module.exports = {
             return
         }
 
-        if (message.mentions.users.array().length < 1) { return }
+        if (message.mentions.users.array().length < 1) {
+            return
+        }
 
         let user = await getOrSetUser(message.author)
         let mentionedUser = await getOrSetUser(message.mentions.users.array()[0])
-
 
         if (user.doots <= 0) {
             message.channel.send("No downdooting for you! You don't have any doots to spend! If only people liked you more.")
@@ -28,8 +29,8 @@ module.exports = {
         } else if (user.id != mentionedUser.id) (
 
             db.users
-                .updateOne({ id: mentionedUser.id }, {
-                    $inc: { doots: -1 }
+                .updateOne({id: mentionedUser.id}, {
+                    $inc: {doots: -1}
                 })
                 .then(() => {
                     message.channel.send("@" + mentionedUser.username + " now has " + (mentionedUser.doots - 1) + " doot(s)!\n")
@@ -42,8 +43,8 @@ module.exports = {
             &&
 
             db.users
-                .updateOne({ id: user.id }, {
-                    $inc: { doots: -1 }
+                .updateOne({id: user.id}, {
+                    $inc: {doots: -1}
                 })
                 .then(() => {
                     message.channel.send("@" + user.username + " now has " + (user.doots - 1) + " doot(s)!")

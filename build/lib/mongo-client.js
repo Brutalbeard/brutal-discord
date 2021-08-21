@@ -15,7 +15,6 @@ client
     var db = client.db(dbName);
     collections.users = db.collection('user');
     collections.polls = db.collection('polls');
-    collections.events = db.collection('events');
 })
     .catch(function (e) {
     console.error(e);

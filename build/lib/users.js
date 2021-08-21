@@ -38,10 +38,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var mongo_client_1 = require("../lib/mongo-client");
 function getOrSetUser(queryUser) {
     return __awaiter(this, void 0, void 0, function () {
-        var user, tempUser, _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0: return [4, mongo_client_1.default.users.findOne({
+        var user;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4, mongo_client_1.default
+                        .users
+                        .findOne({
                         id: queryUser.id
                     }).then(function (res) {
                         return res;
@@ -49,27 +51,22 @@ function getOrSetUser(queryUser) {
                         console.error(e);
                     })];
                 case 1:
-                    user = _b.sent();
-                    if (!(user == null)) return [3, 4];
-                    _a = {
-                        id: queryUser.id,
-                        username: queryUser.username,
-                        avatar: queryUser.avatar
-                    };
-                    return [4, queryUser.avatarURL()];
+                    user = _a.sent();
+                    if (!!user) return [3, 3];
+                    queryUser['doots'] = 10;
+                    return [4, mongo_client_1.default
+                            .users
+                            .insertOne(queryUser)
+                            .catch(function (e) {
+                            console.error("DB ERROR: ", e);
+                        })];
                 case 2:
-                    tempUser = (_a.avatarURL = _b.sent(),
-                        _a.bot = queryUser.bot,
-                        _a.doots = 10,
-                        _a);
-                    return [4, mongo_client_1.default.users.insertOne(tempUser)];
-                case 3:
-                    _b.sent();
-                    user = tempUser;
-                    _b.label = 4;
-                case 4: return [2, user];
+                    _a.sent();
+                    user = queryUser;
+                    _a.label = 3;
+                case 3: return [2, user];
             }
         });
     });
 }
-exports.default = getOrSetUser;
+exports.getOrSetUser = getOrSetUser;

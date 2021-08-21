@@ -36,75 +36,81 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var builders_1 = require("@discordjs/builders");
-var apod_client_1 = require("../lib/apod-client");
-var discord_js_1 = require("discord.js");
+var users_1 = require("../lib/users");
+var mongo_client_1 = require("../lib/mongo-client");
+var appendages = [
+    "left leg",
+    "right leg",
+    "third leg",
+    "left arm",
+    "right arm",
+    "nose",
+    "left ear",
+    "right ear",
+    "left pinky toe",
+    "right pinky toe",
+    "left nipple",
+    "right nipple",
+    "bottom lip",
+    "upper lip"
+];
 module.exports = {
     data: new builders_1.SlashCommandBuilder()
-        .setName('apod')
-        .setDescription('NASA\'s astronomy Picture of the Day!')
-        .addBooleanOption(function (bool) {
-        bool
-            .setName("random")
-            .setDescription("Gets you a random image from sometime in the past")
-            .setRequired(false);
-        return bool;
+        .setName('lop')
+        .setDescription('Boiler Plate Command')
+        .addMentionableOption(function (mentioned) {
+        return mentioned
+            .setDescription("The person whose feelings you want to hurt")
+            .setRequired(true)
+            .setName("target");
     }),
     execute: function (interaction) {
         return __awaiter(this, void 0, void 0, function () {
-            var rand, queryDate, res, embed;
+            var target, mentionedUser, index, appendage, tempArr, index_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        rand = interaction
+                        target = interaction
                             .options
                             ._hoistedOptions
                             .find(function (element) {
-                            return element.name === 'random';
+                            return element.name === 'target';
                         });
-                        queryDate = null;
-                        if (rand && rand.value === true) {
-                            queryDate = randomDate(new Date(1998, 0, 1), new Date());
+                        return [4, users_1.getOrSetUser(target.user)];
+                    case 1:
+                        mentionedUser = _a.sent();
+                        if (!mentionedUser.appendages) {
+                            mentionedUser.appendages = appendages;
                         }
-                        return [4, apod_client_1.apodClient
-                                .get('/apod', {
-                                params: {
-                                    date: queryDate,
-                                    api_key: process.env['APOD_KEY']
-                                }
-                            })
-                                .then(function (res) {
-                                return res.data;
+                        if (mentionedUser.appendages.length === 0) {
+                            interaction
+                                .reply("<@" + mentionedUser.id + "> doesn't have any appendages left! They're basically a doormat.");
+                            return [2];
+                        }
+                        index = Math.floor(Math.random() * mentionedUser.appendages.length);
+                        appendage = mentionedUser.appendages[index];
+                        delete mentionedUser.appendages[index];
+                        tempArr = [];
+                        for (index_1 in mentionedUser.appendages) {
+                            if (mentionedUser.appendages[index_1] !== undefined) {
+                                tempArr.push(mentionedUser.appendages[index_1]);
+                            }
+                        }
+                        mentionedUser.appendages = tempArr;
+                        return [4, mongo_client_1.default
+                                .users
+                                .updateOne({ id: mentionedUser.id }, {
+                                $set: { appendages: tempArr }
                             })
                                 .catch(function (e) {
                                 console.error(e);
                             })];
-                    case 1:
-                        res = _a.sent();
-                        embed = new discord_js_1.MessageEmbed()
-                            .setColor('#0099ff')
-                            .setTitle(res.title)
-                            .setURL('https://discord.js.org')
-                            .setImage(res.hdurl)
-                            .setDescription(res.explanation ? res.explanation : "")
-                            .setFooter(res.copyright ? "Credit: " + res.copyright : null)
-                            .setTimestamp(new Date(res.date));
-                        return [4, interaction
-                                .reply({
-                                embeds: [embed]
-                            })];
                     case 2:
                         _a.sent();
+                        interaction.reply("<@" + interaction.user.id + "> just lopped off <@" + mentionedUser.id + ">'s " + appendage + "!");
                         return [2];
                 }
             });
         });
     },
 };
-function randomDate(start, end) {
-    var d = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())), month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear();
-    if (month.length < 2)
-        month = '0' + month;
-    if (day.length < 2)
-        day = '0' + day;
-    return [year, month, day].join('-');
-}
