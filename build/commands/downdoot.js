@@ -38,17 +38,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var builders_1 = require("@discordjs/builders");
 module.exports = {
     data: new builders_1.SlashCommandBuilder()
-        .setName('ping')
-        .setDescription('Replies with Pong!'),
+        .setName('downdoot')
+        .setDescription('Show them they suck!'),
     execute: function (interaction) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4, interaction.reply("Pong!")];
-                    case 1:
-                        _a.sent();
-                        return [2];
-                }
+                console.log(interaction.user);
+                interaction.reply("Ignore");
+                return [2];
             });
         });
     },

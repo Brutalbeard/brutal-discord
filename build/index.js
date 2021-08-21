@@ -100,7 +100,9 @@ client.on('interactionCreate', function (interaction) { return __awaiter(_this, 
             case 0:
                 if (!interaction.isCommand())
                     return [2];
-                command = client.commands.get(interaction.commandName);
+                command = client
+                    .commands
+                    .get(interaction.commandName);
                 if (!command)
                     return [2];
                 return [4, command
@@ -110,7 +112,11 @@ client.on('interactionCreate', function (interaction) { return __awaiter(_this, 
                             switch (_a.label) {
                                 case 0:
                                     console.error(e);
-                                    return [4, interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true })];
+                                    return [4, interaction
+                                            .reply({
+                                            content: 'There was an error while executing this command!',
+                                            ephemeral: true
+                                        })];
                                 case 1:
                                     _a.sent();
                                     return [2];

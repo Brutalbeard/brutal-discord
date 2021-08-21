@@ -5,12 +5,34 @@ import {MessageEmbed} from "discord.js";
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('apod')
-        .setDescription('NASA\'s astronomy Picture of the Day!'),
+        .setDescription('NASA\'s astronomy Picture of the Day!')
+        .addBooleanOption(bool => {
+            bool
+                .setName("random")
+                .setDescription("Gets you a random image from sometime in the past")
+                .setRequired(false);
+
+            return bool;
+        }),
 
     async execute(interaction) {
+        let rand = interaction
+            .options
+            ._hoistedOptions
+            .find(element => {
+                return element.name === 'random'
+            });
+
+        let queryDate = null;
+
+        if (rand && rand.value === true) {
+            queryDate = randomDate(new Date(1998, 0, 1), new Date())
+        }
+
         const res = await apodClient
             .get('/apod', {
                 params: {
+                    date: queryDate,
                     api_key: process.env['APOD_KEY']
                 }
             })
@@ -36,3 +58,15 @@ module.exports = {
             });
     },
 };
+
+function randomDate(start, end) {
+    var d = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear()
+
+    if (month.length < 2) month = '0' + month
+    if (day.length < 2) day = '0' + day
+
+    return [year, month, day].join('-')
+}

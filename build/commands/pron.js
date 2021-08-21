@@ -36,75 +36,55 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var builders_1 = require("@discordjs/builders");
-var apod_client_1 = require("../lib/apod-client");
-var discord_js_1 = require("discord.js");
+var Pornsearch = require("pornsearch");
 module.exports = {
     data: new builders_1.SlashCommandBuilder()
-        .setName('apod')
-        .setDescription('NASA\'s astronomy Picture of the Day!')
-        .addBooleanOption(function (bool) {
-        bool
-            .setName("random")
-            .setDescription("Gets you a random image from sometime in the past")
-            .setRequired(false);
-        return bool;
+        .setName('porn')
+        .setDescription('Only works in NSFW channels, and no one else can see what filth you\'re into')
+        .addStringOption(function (string) {
+        string
+            .setName("search")
+            .setDescription("Nasty ass thing you're into")
+            .setRequired(true);
+        return string;
     }),
     execute: function (interaction) {
         return __awaiter(this, void 0, void 0, function () {
-            var rand, queryDate, res, embed;
+            var searchPhrase, Searcher;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        rand = interaction
+                        if (!(interaction.channel.nsfw === false)) return [3, 2];
+                        return [4, interaction.reply({
+                                content: 'Only works in NSFW chat channels.',
+                                ephemeral: true
+                            })];
+                    case 1:
+                        _a.sent();
+                        return [2];
+                    case 2:
+                        searchPhrase = interaction
                             .options
                             ._hoistedOptions
                             .find(function (element) {
-                            return element.name === 'random';
+                            return element.name === 'search';
                         });
-                        queryDate = null;
-                        if (rand && rand.value === true) {
-                            queryDate = randomDate(new Date(1998, 0, 1), new Date());
-                        }
-                        return [4, apod_client_1.apodClient
-                                .get('/apod', {
-                                params: {
-                                    date: queryDate,
-                                    api_key: process.env['APOD_KEY']
-                                }
-                            })
-                                .then(function (res) {
-                                return res.data;
-                            })
-                                .catch(function (e) {
-                                console.error(e);
-                            })];
-                    case 1:
-                        res = _a.sent();
-                        embed = new discord_js_1.MessageEmbed()
-                            .setColor('#0099ff')
-                            .setTitle(res.title)
-                            .setURL('https://discord.js.org')
-                            .setImage(res.hdurl)
-                            .setDescription(res.explanation ? res.explanation : "")
-                            .setFooter(res.copyright ? "Credit: " + res.copyright : null)
-                            .setTimestamp(new Date(res.date));
-                        return [4, interaction
+                        Searcher = new Pornsearch(searchPhrase);
+                        Searcher
+                            .gifs()
+                            .then(function (res) {
+                            interaction
                                 .reply({
-                                embeds: [embed]
-                            })];
-                    case 2:
-                        _a.sent();
+                                content: res[Math.floor(Math.random() * res.length)].webm,
+                                ephemeral: true
+                            });
+                        })
+                            .catch(function (e) {
+                            console.error(e);
+                        });
                         return [2];
                 }
             });
         });
     },
 };
-function randomDate(start, end) {
-    var d = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())), month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear();
-    if (month.length < 2)
-        month = '0' + month;
-    if (day.length < 2)
-        day = '0' + day;
-    return [year, month, day].join('-');
-}

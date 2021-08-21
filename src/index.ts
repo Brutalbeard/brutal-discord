@@ -53,8 +53,10 @@ for (const file of eventFiles) {
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
 
-    //@ts-ignore
-    const command = client.commands.get(interaction.commandName);
+    const command = client
+        // @ts-ignore
+        .commands
+        .get(interaction.commandName);
 
     if (!command) return;
 
@@ -62,7 +64,12 @@ client.on('interactionCreate', async interaction => {
         .execute(interaction)
         .catch(async e => {
             console.error(e);
-            await interaction.reply({content: 'There was an error while executing this command!', ephemeral: true});
+
+            await interaction
+                .reply({
+                    content: 'There was an error while executing this command!',
+                    ephemeral: true
+                });
         });
 });
 
@@ -78,14 +85,13 @@ client.on('messageCreate', message => {
 client
     .login(process.env.DISCORD_TOKEN)
     .catch(e => {
-        console.error(e)
+        console.error(e);
     });
 
 const rest = new REST({version: '9'})
     .setToken(process.env.DISCORD_TOKEN);
 
 (async () => {
-
     console.log('Started refreshing application (/) commands.');
 
     await rest
@@ -94,10 +100,22 @@ const rest = new REST({version: '9'})
             {body: commands},
         )
         .then(() => {
-            console.log('Successfully reloaded application (/) commands.')
+            console.log('Successfully reloaded application (/) commands.');
         })
         .catch(e => {
             console.error("Issue setting slash commands: ", e);
-        })
+        });
+
+    // await rest
+    //     .put(
+    //         Routes.applicationCommands(clientId),
+    //         {body: commands},
+    //     )
+    //     .then(() => {
+    //         console.log('Successfully reloaded global (/) commands.');
+    //     })
+    //     .catch(e => {
+    //         console.error("Issue setting slash commands: ", e);
+    //     });
 
 })();

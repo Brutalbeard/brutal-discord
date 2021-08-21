@@ -43,7 +43,8 @@ module.exports = {
     execute: function (interaction) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                interaction.reply("");
+                console.log(interaction.user);
+                interaction.reply("Ignore");
                 return [2];
             });
         });
