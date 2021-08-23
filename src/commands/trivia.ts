@@ -1,10 +1,11 @@
 import {SlashCommandBuilder} from '@discordjs/builders';
 import {triviaClient} from "../lib/trivia-client";
-import {MessageEmbed} from "discord.js";
+import db from '../lib/mongo-client';
+import * as Chance from 'chance';
 
-const wait = require('util').promisify(setTimeout);
+const chance = new Chance();
 
-const waitTime = 8;
+const defaultTime = 10;
 
 const trivia_categories = [
     {
@@ -108,11 +109,38 @@ const trivia_categories = [
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('trivia')
-        .setDescription('Play some trivia together!'),
+        .setDescription('Play some trivia together!')
+        .addIntegerOption(number => {
+            number
+                .setName("timer")
+                .setDescription("How long to wait for people answer before revealing answer")
+                .setRequired(false);
+
+            return number;
+        }),
 
     async execute(interaction) {
-        let embeddedQuestion = new MessageEmbed();
+        let providedTimer = interaction
+            .options
+            ._hoistedOptions
+            .find(element => {
+                return element.name === 'timer'
+            });
+
         let category = trivia_categories[0];
+
+        let myId = chance.guid();
+
+        let newTrivia = {
+            id: myId,
+            smartUsers: [],
+            dumbUsers: [],
+            row: {
+                components: [],
+                //@ts-ignore
+                type: 1
+            }
+        };
 
         let triviaBody = await triviaClient
             .get('/api.php', {
@@ -125,7 +153,6 @@ module.exports = {
                 }
             })
             .then(async res => {
-
                 let body = res.data.results[0];
                 let keys = Object.keys(body);
 
@@ -137,21 +164,7 @@ module.exports = {
                     } else {
                         body[key] = Buffer.from(body[key], 'base64').toString();
                     }
-                };
-
-                let possibleAnswers = body.incorrect_answers;
-                possibleAnswers.push(body.correct_answer);
-
-                possibleAnswers = possibleAnswers.sort();
-
-                let questionString = [];
-                for (let i in possibleAnswers) {
-                    questionString.push(`${parseInt(i) + 1} - ${possibleAnswers[i]}`);
-                };
-
-                embeddedQuestion
-                    .setTitle(body.question)
-                    .setDescription(questionString.join(",\n"));
+                }
 
                 return body;
             })
@@ -159,18 +172,83 @@ module.exports = {
                 console.error(e);
             });
 
-        await interaction
-            .reply({
-                embeds: [embeddedQuestion]
+
+        let possibleAnswers = triviaBody.incorrect_answers;
+        possibleAnswers.push(triviaBody.correct_answer);
+
+        possibleAnswers = possibleAnswers.sort();
+
+        let questionString = [];
+        for (let i in possibleAnswers) {
+            newTrivia
+                .row
+                .components
+                .push({
+                    custom_id: `${myId}-${i}`,
+                    disabled: false,
+                    emoji: null,
+                    label: possibleAnswers[i],
+                    style: 2,
+                    type: 2,
+                    url: null,
+                    correctAnswer: possibleAnswers[i] == triviaBody.correct_answer ? true : false,
+                    timesChosen: 0
+                });
+        }
+
+        await db
+            .trivia
+            .insertOne(newTrivia)
+            .catch(e => {
+                console.error("DB ERROR: ", e);
             });
 
-        await wait(waitTime * 1000);
+        let intervalTime = providedTimer ? providedTimer.value : defaultTime;
+        let timeoutTime = intervalTime;
 
         await interaction
-            .editReply({
-                embeds: [embeddedQuestion],
-                content: "The answer is: **" + triviaBody.correct_answer + "!**"
-        });
+            .reply({
+                content: `**${triviaBody.question}**\n\nTime Left to Answer: **${intervalTime}**`,
+                components: [newTrivia.row]
+            });
 
+        let countdown = setInterval(() => {
+            intervalTime -= 1;
+            interaction
+                .editReply({
+                    content: `**${triviaBody.question}**\n\nTime Left to Answer: **${intervalTime}**`,
+                    components: [newTrivia.row]
+                });
+        }, 1000);
+
+        setTimeout(async () => {
+            let finalTrivia = await db
+                .trivia
+                .findOne({
+                    id: myId
+                }).then(res => {
+                    return res;
+                }).catch(e => {
+                    console.error(e);
+                });
+
+            let components = finalTrivia.row.components;
+
+            for (let i in components) {
+                components[i].disabled = true;
+                if (components[i].correctAnswer === true) components[i].style = "SUCCESS";
+                components[i].label = `${components[i].label} (${components[i].timesChosen})`;
+            }
+
+            finalTrivia.row.components = components;
+
+            clearInterval(countdown);
+
+            interaction
+                .editReply({
+                    content: `**${triviaBody.question}**\nWinners: ${finalTrivia.smartUsers.join(", ")}\nLosers: ${finalTrivia.dumbUsers.join(", ")}`,
+                    components: [finalTrivia.row]
+                });
+        }, timeoutTime * 1000);
     },
 };

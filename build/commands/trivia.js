@@ -37,9 +37,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var builders_1 = require("@discordjs/builders");
 var trivia_client_1 = require("../lib/trivia-client");
-var discord_js_1 = require("discord.js");
-var wait = require('util').promisify(setTimeout);
-var waitTime = 8;
+var mongo_client_1 = require("../lib/mongo-client");
+var Chance = require("chance");
+var chance = new Chance();
+var defaultTime = 10;
 var trivia_categories = [
     {
         "id": 9,
@@ -141,16 +142,38 @@ var trivia_categories = [
 module.exports = {
     data: new builders_1.SlashCommandBuilder()
         .setName('trivia')
-        .setDescription('Play some trivia together!'),
+        .setDescription('Play some trivia together!')
+        .addIntegerOption(function (number) {
+        number
+            .setName("timer")
+            .setDescription("How long to wait for people answer before revealing answer")
+            .setRequired(false);
+        return number;
+    }),
     execute: function (interaction) {
         return __awaiter(this, void 0, void 0, function () {
-            var embeddedQuestion, category, triviaBody;
+            var providedTimer, category, myId, newTrivia, triviaBody, possibleAnswers, questionString, i, intervalTime, timeoutTime, countdown;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        embeddedQuestion = new discord_js_1.MessageEmbed();
+                        providedTimer = interaction
+                            .options
+                            ._hoistedOptions
+                            .find(function (element) {
+                            return element.name === 'timer';
+                        });
                         category = trivia_categories[0];
+                        myId = chance.guid();
+                        newTrivia = {
+                            id: myId,
+                            smartUsers: [],
+                            dumbUsers: [],
+                            row: {
+                                components: [],
+                                type: 1
+                            }
+                        };
                         return [4, trivia_client_1.triviaClient
                                 .get('/api.php', {
                                 params: {
@@ -162,7 +185,7 @@ module.exports = {
                                 }
                             })
                                 .then(function (res) { return __awaiter(_this, void 0, void 0, function () {
-                                var body, keys, _i, keys_1, key, i, possibleAnswers, questionString, i;
+                                var body, keys, _i, keys_1, key, i;
                                 return __generator(this, function (_a) {
                                     body = res.data.results[0];
                                     keys = Object.keys(body);
@@ -177,18 +200,6 @@ module.exports = {
                                             body[key] = Buffer.from(body[key], 'base64').toString();
                                         }
                                     }
-                                    ;
-                                    possibleAnswers = body.incorrect_answers;
-                                    possibleAnswers.push(body.correct_answer);
-                                    possibleAnswers = possibleAnswers.sort();
-                                    questionString = [];
-                                    for (i in possibleAnswers) {
-                                        questionString.push(parseInt(i) + 1 + " - " + possibleAnswers[i]);
-                                    }
-                                    ;
-                                    embeddedQuestion
-                                        .setTitle(body.question)
-                                        .setDescription(questionString.join(",\n"));
                                     return [2, body];
                                 });
                             }); })
@@ -197,22 +208,84 @@ module.exports = {
                             })];
                     case 1:
                         triviaBody = _a.sent();
-                        return [4, interaction
-                                .reply({
-                                embeds: [embeddedQuestion]
+                        possibleAnswers = triviaBody.incorrect_answers;
+                        possibleAnswers.push(triviaBody.correct_answer);
+                        possibleAnswers = possibleAnswers.sort();
+                        questionString = [];
+                        for (i in possibleAnswers) {
+                            newTrivia
+                                .row
+                                .components
+                                .push({
+                                custom_id: myId + "-" + i,
+                                disabled: false,
+                                emoji: null,
+                                label: possibleAnswers[i],
+                                style: 2,
+                                type: 2,
+                                url: null,
+                                correctAnswer: possibleAnswers[i] == triviaBody.correct_answer ? true : false,
+                                timesChosen: 0
+                            });
+                        }
+                        return [4, mongo_client_1.default
+                                .trivia
+                                .insertOne(newTrivia)
+                                .catch(function (e) {
+                                console.error("DB ERROR: ", e);
                             })];
                     case 2:
                         _a.sent();
-                        return [4, wait(waitTime * 1000)];
+                        intervalTime = providedTimer ? providedTimer.value : defaultTime;
+                        timeoutTime = intervalTime;
+                        return [4, interaction
+                                .reply({
+                                content: "**" + triviaBody.question + "**\n\nTime Left to Answer: **" + intervalTime + "**",
+                                components: [newTrivia.row]
+                            })];
                     case 3:
                         _a.sent();
-                        return [4, interaction
+                        countdown = setInterval(function () {
+                            intervalTime -= 1;
+                            interaction
                                 .editReply({
-                                embeds: [embeddedQuestion],
-                                content: "The answer is: **" + triviaBody.correct_answer + "!**"
-                            })];
-                    case 4:
-                        _a.sent();
+                                content: "**" + triviaBody.question + "**\n\nTime Left to Answer: **" + intervalTime + "**",
+                                components: [newTrivia.row]
+                            });
+                        }, 1000);
+                        setTimeout(function () { return __awaiter(_this, void 0, void 0, function () {
+                            var finalTrivia, components, i;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0: return [4, mongo_client_1.default
+                                            .trivia
+                                            .findOne({
+                                            id: myId
+                                        }).then(function (res) {
+                                            return res;
+                                        }).catch(function (e) {
+                                            console.error(e);
+                                        })];
+                                    case 1:
+                                        finalTrivia = _a.sent();
+                                        components = finalTrivia.row.components;
+                                        for (i in components) {
+                                            components[i].disabled = true;
+                                            if (components[i].correctAnswer === true)
+                                                components[i].style = "SUCCESS";
+                                            components[i].label = components[i].label + " (" + components[i].timesChosen + ")";
+                                        }
+                                        finalTrivia.row.components = components;
+                                        clearInterval(countdown);
+                                        interaction
+                                            .editReply({
+                                            content: "**" + triviaBody.question + "**\nWinners: " + finalTrivia.smartUsers.join(", ") + "\nLosers: " + finalTrivia.dumbUsers.join(", "),
+                                            components: [finalTrivia.row]
+                                        });
+                                        return [2];
+                                }
+                            });
+                        }); }, timeoutTime * 1000);
                         return [2];
                 }
             });

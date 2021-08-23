@@ -21,7 +21,7 @@ client
         let db = client.db(dbName);
 
         collections.users = db.collection('user');
-        collections.polls = db.collection('polls');
+        collections.trivia = db.collection('trivia');
     })
     .catch(e => {
         console.error(e);

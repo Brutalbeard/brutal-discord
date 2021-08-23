@@ -139,11 +139,6 @@ client.on('interactionCreate', function (interaction) { return __awaiter(_this, 
         }
     });
 }); });
-client.on('interactionCreate', function (interaction) {
-    if (!interaction.isButton())
-        return;
-    console.log(interaction);
-});
 client.on('messageCreate', function (message) {
 });
 client
@@ -167,16 +162,6 @@ var rest = new rest_1.REST({ version: '9' })
                         console.error("Issue setting slash commands: ", e);
                     })];
             case 1:
-                _a.sent();
-                return [4, rest
-                        .put(v9_1.Routes.applicationCommands(clientId), { body: commands })
-                        .then(function () {
-                        console.log('Successfully reloaded global (/) commands.');
-                    })
-                        .catch(function (e) {
-                        console.error("Issue setting slash commands: ", e);
-                    })];
-            case 2:
                 _a.sent();
                 return [2];
         }

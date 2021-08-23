@@ -49,7 +49,7 @@ module.exports = {
             .setURL('https://discord.js.org')
             .setImage(res.hdurl)
             .setDescription(res.explanation ? res.explanation : "")
-            .setFooter(res.copyright ? "Credit: " + res.copyright : null)
+            .setFooter(res.copyright ? "Credit: " + res.copyright : "")
             .setTimestamp(new Date(res.date));
 
         await interaction

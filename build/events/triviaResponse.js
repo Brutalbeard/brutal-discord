@@ -35,39 +35,69 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var builders_1 = require("@discordjs/builders");
-var discord_js_1 = require("discord.js");
-var axios_1 = require("axios");
+var mongo_client_1 = require("../lib/mongo-client");
 module.exports = {
-    data: new builders_1.SlashCommandBuilder()
-        .setName('inspire')
-        .setDescription('Get pumpted with a random ass quote'),
+    name: 'interactionCreate',
     execute: function (interaction) {
         return __awaiter(this, void 0, void 0, function () {
-            var embed;
+            var selectedButton, myId, finalTrivia, tempComponents, i;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        embed = new discord_js_1.MessageEmbed();
-                        return [4, axios_1.default
-                                .get('https://api.quotable.io/random', {
-                                params: {
-                                    tags: "inspirational"
-                                }
-                            })
-                                .then(function (res) {
-                                embed
-                                    .setAuthor(res.data.author)
-                                    .setColor('#0099ff')
-                                    .setDescription(res.data.content);
-                            })
-                                .catch(function (e) {
+                        if (!interaction.isButton())
+                            return [2];
+                        if (interaction.message.interaction.commandName !== "trivia")
+                            return [2];
+                        selectedButton = interaction.customId;
+                        myId = interaction.customId.slice(0, -2);
+                        return [4, mongo_client_1.default
+                                .trivia
+                                .findOne({
+                                id: myId
+                            }).then(function (res) {
+                                return res;
+                            }).catch(function (e) {
                                 console.error(e);
                             })];
                     case 1:
+                        finalTrivia = _a.sent();
+                        if (!finalTrivia) {
+                            interaction
+                                .reply("Some weird shit happened. No worky");
+                            return [2];
+                        }
+                        if (finalTrivia.smartUsers.includes(interaction.user.username) || finalTrivia.dumbUsers.includes(interaction.user.username)) {
+                            interaction
+                                .reply({ content: "Can only vote once", ephemeral: true });
+                            return [2];
+                        }
+                        tempComponents = finalTrivia.row.components;
+                        for (i in tempComponents) {
+                            if (tempComponents[i].custom_id == selectedButton) {
+                                tempComponents[i].timesChosen = tempComponents[i].timesChosen + 1;
+                                if (tempComponents[i].correctAnswer === true) {
+                                    finalTrivia
+                                        .smartUsers
+                                        .push(interaction.user.username);
+                                }
+                                else {
+                                    finalTrivia
+                                        .dumbUsers
+                                        .push(interaction.user.username);
+                                }
+                            }
+                        }
+                        finalTrivia.row.components = tempComponents;
+                        return [4, mongo_client_1.default
+                                .trivia
+                                .replaceOne({ id: myId }, finalTrivia)
+                                .catch(function (e) {
+                                console.error(e);
+                            })];
+                    case 2:
                         _a.sent();
                         interaction
-                            .reply({ embeds: [embed] });
+                            .reply({ content: "Noted", ephemeral: true });
                         return [2];
                 }
             });

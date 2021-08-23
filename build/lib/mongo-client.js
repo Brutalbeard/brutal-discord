@@ -14,7 +14,7 @@ client
     console.log("Connected successfully to mongo server");
     var db = client.db(dbName);
     collections.users = db.collection('user');
-    collections.polls = db.collection('polls');
+    collections.trivia = db.collection('trivia');
 })
     .catch(function (e) {
     console.error(e);

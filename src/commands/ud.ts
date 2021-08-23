@@ -37,6 +37,7 @@ module.exports = {
                 embed
                     .setAuthor(def.author)
                     .setTitle(def.word)
+                    .setColor('#0099ff')
                     .setDescription(def.definition.replace(/\[|\]/g, ''))
                     .setFooter("Example: " + def.example.replace(/\[|\]/g, ''));
             })

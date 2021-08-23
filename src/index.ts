@@ -32,15 +32,15 @@ for (const file of commandFiles) {
     const command = require(__dirname + `/commands/${file}`);
 
     commands.push(command
-            .data
-            .toJSON()
-        );
+        .data
+        .toJSON()
+    );
 
     //@ts-ignore
     client.commands
         .set(command
-            .data
-            .name,
+                .data
+                .name,
             command
         );
 }
@@ -56,14 +56,14 @@ for (const file of eventFiles) {
     const event = require(__dirname + `/events/${file}`);
     if (event.once) {
         client.once(event.name, (...args) =>
-                event
-                    .execute(...args)
-            );
+            event
+                .execute(...args)
+        );
     } else {
         client.on(event.name, (...args) =>
-                event
-                    .execute(...args)
-            );
+            event
+                .execute(...args)
+        );
     }
 }
 
@@ -90,11 +90,6 @@ client.on('interactionCreate', async interaction => {
         });
 });
 
-client.on('interactionCreate', interaction => {
-    if (!interaction.isButton()) return;
-    console.log(interaction);
-});
-
 client.on('messageCreate', message => {
     // console.log(message);
 });
@@ -112,28 +107,28 @@ const rest = new REST({version: '9'})
     console.log('Started refreshing application (/) commands.');
 
     // DEV ONLY
-    // await rest
-    //     .put(
-    //         Routes.applicationGuildCommands(clientId, guildId),
-    //         {body: commands},
-    //     )
-    //     .then(() => {
-    //         console.log('Successfully reloaded application (/) commands.');
-    //     })
-    //     .catch(e => {
-    //         console.error("Issue setting slash commands: ", e);
-    //     });
-
     await rest
         .put(
-            Routes.applicationCommands(clientId),
+            Routes.applicationGuildCommands(clientId, guildId),
             {body: commands},
         )
         .then(() => {
-            console.log('Successfully reloaded global (/) commands.');
+            console.log('Successfully reloaded application (/) commands.');
         })
         .catch(e => {
             console.error("Issue setting slash commands: ", e);
         });
+
+    // await rest
+    //     .put(
+    //         Routes.applicationCommands(clientId),
+    //         {body: commands},
+    //     )
+    //     .then(() => {
+    //         console.log('Successfully reloaded global (/) commands.');
+    //     })
+    //     .catch(e => {
+    //         console.error("Issue setting slash commands: ", e);
+    //     });
 
 })();

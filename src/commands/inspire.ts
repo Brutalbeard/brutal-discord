@@ -20,6 +20,7 @@ module.exports = {
             .then(res => {
                 embed
                     .setAuthor(res.data.author)
+                    .setColor('#0099ff')
                     .setDescription(res.data.content);
             })
             .catch(e => {

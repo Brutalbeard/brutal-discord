@@ -58,6 +58,7 @@ module.exports = {
                                     .setFooter(moment(res.data.appeared_at).format("dddd, MMMM Do YYYY, h:mm:ss a"))
                                     .setTitle("About - " + res.data.tags.join(','))
                                     .setDescription(res.data.value)
+                                    .setColor('#0099ff')
                                     .setURL(res.data._embedded.source[0].url);
                             })
                                 .catch(function (e) {
