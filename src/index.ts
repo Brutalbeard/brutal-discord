@@ -90,10 +90,6 @@ client.on('interactionCreate', async interaction => {
         });
 });
 
-client.on('messageCreate', message => {
-    // console.log(message);
-});
-
 client
     .login(process.env.DISCORD_TOKEN)
     .catch(e => {
