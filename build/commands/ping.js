@@ -44,7 +44,11 @@ module.exports = {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4, interaction.reply("Pong!")];
+                    case 0: return [4, interaction
+                            .reply({
+                            content: "Ping!",
+                            ephemeral: true
+                        })];
                     case 1:
                         _a.sent();
                         return [2];

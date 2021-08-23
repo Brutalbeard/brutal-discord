@@ -107,7 +107,8 @@ module.exports = {
                             })];
                     case 2:
                         _a.sent();
-                        interaction.reply("<@" + interaction.user.id + "> just lopped off <@" + mentionedUser.id + ">'s " + appendage + "!");
+                        interaction
+                            .reply("<@" + interaction.user.id + "> just lopped off <@" + mentionedUser.id + ">'s " + appendage + "!");
                         return [2];
                 }
             });

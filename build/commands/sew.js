@@ -83,9 +83,11 @@ module.exports = {
                             interaction.reply("Can't put your own appendages back on.");
                             return [2];
                         }
+                        ;
                         if (!mentionedUser.appendages) {
                             mentionedUser.appendages = appendages;
                         }
+                        ;
                         tempArr = [];
                         for (index_1 in appendages) {
                             if (mentionedUser.appendages.includes(appendages[index_1])) {
@@ -94,6 +96,7 @@ module.exports = {
                                 tempArr.push(appendages[index_1]);
                             }
                         }
+                        ;
                         if (tempArr.length == 0) {
                             interaction
                                 .reply("<@" + patient.user.id + "> didn't need anything sewed back on!");

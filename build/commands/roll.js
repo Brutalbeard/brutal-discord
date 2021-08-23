@@ -71,7 +71,8 @@ module.exports = {
                     rolls.push(die);
                     total += die;
                 }
-                interaction.reply(numberOfDice + "d" + numberOfSides + ": " + rolls.join(', ') + "\nTotal: " + total);
+                interaction
+                    .reply(numberOfDice + "d" + numberOfSides + ": " + rolls.join(', ') + "\nTotal: " + total);
                 return [2];
             });
         });

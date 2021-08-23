@@ -70,7 +70,8 @@ module.exports = {
                             })];
                     case 1:
                         response = _a.sent();
-                        interaction.reply(response);
+                        interaction
+                            .reply(response);
                         return [2];
                 }
             });

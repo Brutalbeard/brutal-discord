@@ -65,7 +65,8 @@ module.exports = {
                             })];
                     case 1:
                         _a.sent();
-                        interaction.reply({ embeds: [embed] });
+                        interaction
+                            .reply({ embeds: [embed] });
                         return [2];
                 }
             });

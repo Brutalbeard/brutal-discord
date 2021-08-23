@@ -18,7 +18,7 @@
     "dotenv": "^10.0.0",
     "moment": "^2.29.1",
     "mongodb": "^4.1.0",
-    "pornsearch": "^2.4.3"
+    "pornsearch": "^0.3.1"
   },
   "engines": {
     "node": "16.x"

@@ -56,15 +56,17 @@ module.exports = {
                                 }
                             })
                                 .then(function (res) {
-                                embed.setAuthor(res.data.author);
-                                embed.setDescription(res.data.content);
+                                embed
+                                    .setAuthor(res.data.author)
+                                    .setDescription(res.data.content);
                             })
                                 .catch(function (e) {
                                 console.error(e);
                             })];
                     case 1:
                         _a.sent();
-                        interaction.reply({ embeds: [embed] });
+                        interaction
+                            .reply({ embeds: [embed] });
                         return [2];
                 }
             });

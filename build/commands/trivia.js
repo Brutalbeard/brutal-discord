@@ -177,6 +177,7 @@ module.exports = {
                                             body[key] = Buffer.from(body[key], 'base64').toString();
                                         }
                                     }
+                                    ;
                                     possibleAnswers = body.incorrect_answers;
                                     possibleAnswers.push(body.correct_answer);
                                     possibleAnswers = possibleAnswers.sort();
@@ -184,8 +185,10 @@ module.exports = {
                                     for (i in possibleAnswers) {
                                         questionString.push(parseInt(i) + 1 + " - " + possibleAnswers[i]);
                                     }
-                                    embeddedQuestion.setTitle(body.question);
-                                    embeddedQuestion.setDescription(questionString.join(",\n"));
+                                    ;
+                                    embeddedQuestion
+                                        .setTitle(body.question)
+                                        .setDescription(questionString.join(",\n"));
                                     return [2, body];
                                 });
                             }); })
@@ -194,7 +197,8 @@ module.exports = {
                             })];
                     case 1:
                         triviaBody = _a.sent();
-                        return [4, interaction.reply({
+                        return [4, interaction
+                                .reply({
                                 embeds: [embeddedQuestion]
                             })];
                     case 2:
@@ -202,7 +206,8 @@ module.exports = {
                         return [4, wait(waitTime * 1000)];
                     case 3:
                         _a.sent();
-                        return [4, interaction.editReply({
+                        return [4, interaction
+                                .editReply({
                                 embeds: [embeddedQuestion],
                                 content: "The answer is: **" + triviaBody.correct_answer + "!**"
                             })];
