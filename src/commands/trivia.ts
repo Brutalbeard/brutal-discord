@@ -165,7 +165,7 @@ module.exports = {
             .get('/api.php', {
                 params: {
                     amount: 1,
-                    category: trivia_categories[chance.integer({min: 0, max: trivia_categories.length - 1})],
+                    category: trivia_categories[chance.integer({min: 0, max: trivia_categories.length - 1})].id,
                     type: 'multiple',
                     difficulty: 'easy',
                     encode: "base64"
