@@ -165,7 +165,7 @@ module.exports = {
             .get('/api.php', {
                 params: {
                     amount: 1,
-                    category: category.id,
+                    category: trivia_categories[chance.integer({min: 0, max: trivia_categories.length - 1})],
                     type: 'multiple',
                     difficulty: 'easy',
                     encode: "base64"
@@ -267,10 +267,10 @@ module.exports = {
                 .editReply({
                     content: `**${triviaBody.question}**\n${winners[chance.integer({
                         min: 0,
-                        max: winners.length
+                        max: winners.length - 1
                     })]}: ${finalTrivia.smartUsers.join(", ")}\n${losers[chance.integer({
                         min: 0,
-                        max: losers.length
+                        max: losers.length - 1
                     })]}: ${finalTrivia.dumbUsers.join(", ")}`,
                     components: [finalTrivia.row]
                 });
