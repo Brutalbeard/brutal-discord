@@ -87,8 +87,8 @@ module.exports = {
             .options
             ._hoistedOptions
             .find(element => {
-                return element.name === 'abusee'
-            })
+                return element.name === 'abusee';
+            });
 
         await interaction
             .reply({

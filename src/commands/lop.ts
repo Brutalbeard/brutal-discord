@@ -35,7 +35,7 @@ module.exports = {
             .options
             ._hoistedOptions
             .find(element => {
-                return element.name === 'target'
+                return element.name === 'target';
             });
 
         let mentionedUser = await getOrSetUser(target.user);
@@ -47,6 +47,7 @@ module.exports = {
         if (mentionedUser.appendages.length === 0) {
             interaction
                 .reply(`<@${mentionedUser.id}> doesn't have any appendages left! They're basically a doormat.`);
+
             return;
         }
 
@@ -74,6 +75,7 @@ module.exports = {
                 console.error(e);
             })
 
-        interaction.reply(`<@${interaction.user.id}> just lopped off <@${mentionedUser.id}>'s ${appendage}!`);
+        interaction
+            .reply(`<@${interaction.user.id}> just lopped off <@${mentionedUser.id}>'s ${appendage}!`);
     },
 };

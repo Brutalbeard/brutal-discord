@@ -10,6 +10,7 @@ module.exports = {
                 .setName("search")
                 .setDescription("Word or phrase you want to search for")
                 .setRequired(true);
+
             return string;
         }),
 
@@ -18,7 +19,7 @@ module.exports = {
             .options
             ._hoistedOptions
             .find(element => {
-                return element.name === 'search'
+                return element.name === 'search';
             });
 
         let giphyImage = await giphyClient

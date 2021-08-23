@@ -24,6 +24,7 @@ module.exports = {
             .catch(e => {
                 console.error(e);
             })
-        interaction.reply({embeds: [embed]});
+        interaction
+            .reply({embeds: [embed]});
     },
 };

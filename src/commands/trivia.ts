@@ -103,7 +103,7 @@ const trivia_categories = [
         "id": 32,
         "name": "Entertainment: Cartoon & Animations"
     }
-]
+];
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -126,18 +126,18 @@ module.exports = {
             })
             .then(async res => {
 
-                let body = res.data.results[0]
-                let keys = Object.keys(body)
+                let body = res.data.results[0];
+                let keys = Object.keys(body);
 
                 for (let key of keys) {
                     if (Array.isArray(body[key])) {
                         for (let i in body[key]) {
-                            body[key][i] = Buffer.from(body[key][i], 'base64').toString()
+                            body[key][i] = Buffer.from(body[key][i], 'base64').toString();
                         }
                     } else {
-                        body[key] = Buffer.from(body[key], 'base64').toString()
+                        body[key] = Buffer.from(body[key], 'base64').toString();
                     }
-                }
+                };
 
                 let possibleAnswers = body.incorrect_answers;
                 possibleAnswers.push(body.correct_answer);
@@ -147,24 +147,29 @@ module.exports = {
                 let questionString = [];
                 for (let i in possibleAnswers) {
                     questionString.push(`${parseInt(i) + 1} - ${possibleAnswers[i]}`);
-                }
+                };
 
-                embeddedQuestion.setTitle(body.question)
-                embeddedQuestion.setDescription(questionString.join(",\n"))
+                embeddedQuestion
+                    .setTitle(body.question)
+                    .setDescription(questionString.join(",\n"));
 
-                return body
+                return body;
             })
             .catch(e => {
-                console.error(e)
-            })
+                console.error(e);
+            });
 
-        await interaction.reply({
-            embeds: [embeddedQuestion]
-        })
+        await interaction
+            .reply({
+                embeds: [embeddedQuestion]
+            });
+
         await wait(waitTime * 1000);
-        await interaction.editReply({
-            embeds: [embeddedQuestion],
-            content: "The answer is: **" + triviaBody.correct_answer + "!**"
+
+        await interaction
+            .editReply({
+                embeds: [embeddedQuestion],
+                content: "The answer is: **" + triviaBody.correct_answer + "!**"
         });
 
     },

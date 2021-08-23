@@ -26,7 +26,7 @@ module.exports = {
         let queryDate = null;
 
         if (rand && rand.value === true) {
-            queryDate = randomDate(new Date(1998, 0, 1), new Date())
+            queryDate = randomDate(new Date(1998, 0, 1), new Date());
         }
 
         const res = await apodClient
@@ -37,10 +37,10 @@ module.exports = {
                 }
             })
             .then(res => {
-                return res.data
+                return res.data;
             })
             .catch(e => {
-                console.error(e)
+                console.error(e);
             });
 
         const embed = new MessageEmbed()
@@ -50,7 +50,7 @@ module.exports = {
             .setImage(res.hdurl)
             .setDescription(res.explanation ? res.explanation : "")
             .setFooter(res.copyright ? "Credit: " + res.copyright : null)
-            .setTimestamp(new Date(res.date))
+            .setTimestamp(new Date(res.date));
 
         await interaction
             .reply({
@@ -63,10 +63,10 @@ function randomDate(start, end) {
     var d = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
-        year = d.getFullYear()
+        year = d.getFullYear();
 
-    if (month.length < 2) month = '0' + month
-    if (day.length < 2) day = '0' + day
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
 
-    return [year, month, day].join('-')
+    return [year, month, day].join('-');
 }

@@ -5,6 +5,7 @@ module.exports = {
         .setName('server')
         .setDescription('Replies with information about the server'),
     async execute(interaction) {
-        await interaction.reply({content: "I'll get to it eventually", ephemeral: true});
+        await interaction
+            .reply({content: "I'll get to it eventually", ephemeral: true});
     },
 };

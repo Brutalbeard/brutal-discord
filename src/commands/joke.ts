@@ -19,7 +19,7 @@ module.exports = {
             .options
             ._hoistedOptions
             .find(element => {
-                return element.name === 'topic'
+                return element.name === 'topic';
             });
 
         let response = await axios
@@ -31,6 +31,7 @@ module.exports = {
                 console.error(e);
             });
 
-        interaction.reply(response);
+        interaction
+            .reply(response);
     },
 };

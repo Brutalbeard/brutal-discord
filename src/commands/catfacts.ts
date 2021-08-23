@@ -23,10 +23,10 @@ module.exports = {
         const res: string = await axios
             .get('https://catfact.ninja/fact')
             .then(res => {
-                return res.data.fact
+                return res.data.fact;
             })
             .catch(e => {
-                console.error(e)
+                console.error(e);
             });
 
         let replyMessage = res + " " + catEmojiArray[Math.floor(Math.random() * catEmojiArray.length)];

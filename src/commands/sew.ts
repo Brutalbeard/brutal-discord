@@ -17,7 +17,7 @@ const appendages = [
     "right nipple",
     "bottom lip",
     "upper lip"
-]
+];
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -35,7 +35,7 @@ module.exports = {
             .options
             ._hoistedOptions
             .find(element => {
-                return element.name === 'patient'
+                return element.name === 'patient';
             });
 
         let mentionedUser = await getOrSetUser(patient.user);
@@ -43,20 +43,20 @@ module.exports = {
         if (mentionedUser.id === interaction.user.id) {
             interaction.reply("Can't put your own appendages back on.");
             return;
-        }
+        };
 
         if (!mentionedUser.appendages) {
             mentionedUser.appendages = appendages;
-        }
+        };
 
         let tempArr: string[] = []
         for (let index in appendages) {
             if (mentionedUser.appendages.includes(appendages[index])) {
 
             } else {
-                tempArr.push(appendages[index])
+                tempArr.push(appendages[index]);
             }
-        }
+        };
 
         if (tempArr.length == 0) {
             interaction
@@ -66,9 +66,9 @@ module.exports = {
 
         let index = Math.floor(Math.random() * tempArr.length);
 
-        let appendage = tempArr[index]
+        let appendage = tempArr[index];
 
-        mentionedUser.appendages.push(appendage)
+        mentionedUser.appendages.push(appendage);
 
         await db.users
             .updateOne({id: mentionedUser.id}, {
@@ -76,10 +76,10 @@ module.exports = {
             })
             .then(() => {
                 interaction
-                    .reply(`<@${interaction.user.id}> just sewed <@${patient.user.id}>'s ${appendage} back on. Old Frankenstein ass.`)
+                    .reply(`<@${interaction.user.id}> just sewed <@${patient.user.id}>'s ${appendage} back on. Old Frankenstein ass.`);
             })
             .catch(e => {
-                console.error(e)
-            })
+                console.error(e);
+            });
     },
 };

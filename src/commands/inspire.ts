@@ -9,7 +9,7 @@ module.exports = {
 
     async execute(interaction) {
 
-        let embed = new MessageEmbed()
+        let embed = new MessageEmbed();
 
         await axios
             .get('https://api.quotable.io/random', {
@@ -18,13 +18,15 @@ module.exports = {
                 }
             })
             .then(res => {
-                embed.setAuthor(res.data.author)
-                embed.setDescription(res.data.content)
+                embed
+                    .setAuthor(res.data.author)
+                    .setDescription(res.data.content);
             })
             .catch(e => {
-                console.error(e)
+                console.error(e);
             })
 
-        interaction.reply({embeds: [embed]})
+        interaction
+            .reply({embeds: [embed]});
     },
 };

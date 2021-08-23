@@ -23,30 +23,47 @@ const commands = [];
 
 const commandFiles = fs
     .readdirSync(__dirname + '/commands')
-    .filter(file => file.endsWith('.js'));
+    .filter(file =>
+        file
+            .endsWith('.js')
+    );
 
 for (const file of commandFiles) {
     const command = require(__dirname + `/commands/${file}`);
 
-    commands
-        .push(command.data.toJSON());
+    commands.push(command
+            .data
+            .toJSON()
+        );
 
-    client
-        //@ts-ignore
-        .commands
-        .set(command.data.name, command);
+    //@ts-ignore
+    client.commands
+        .set(command
+            .data
+            .name,
+            command
+        );
 }
 
 const eventFiles = fs
     .readdirSync(__dirname + '/events')
-    .filter(file => file.endsWith('.js'));
+    .filter(file =>
+        file
+            .endsWith('.js')
+    );
 
 for (const file of eventFiles) {
     const event = require(__dirname + `/events/${file}`);
     if (event.once) {
-        client.once(event.name, (...args) => event.execute(...args));
+        client.once(event.name, (...args) =>
+                event
+                    .execute(...args)
+            );
     } else {
-        client.on(event.name, (...args) => event.execute(...args));
+        client.on(event.name, (...args) =>
+                event
+                    .execute(...args)
+            );
     }
 }
 

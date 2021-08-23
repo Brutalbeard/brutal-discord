@@ -42,6 +42,7 @@ module.exports = {
             total += die;
         }
 
-        interaction.reply(`${numberOfDice}d${numberOfSides}: ` + rolls.join(', ') + "\nTotal: " + total);
+        interaction
+            .reply(`${numberOfDice}d${numberOfSides}: ` + rolls.join(', ') + "\nTotal: " + total);
     },
 };

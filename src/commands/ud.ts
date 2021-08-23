@@ -11,6 +11,7 @@ module.exports = {
                 .setName("search")
                 .setDescription("Word or phrase you want to search for")
                 .setRequired(true);
+
             return string;
         }),
 
@@ -43,6 +44,7 @@ module.exports = {
                 console.error(e);
             });
 
-        interaction.reply({embeds: [embed]});
+        interaction
+            .reply({embeds: [embed]});
     },
 };
