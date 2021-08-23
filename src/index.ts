@@ -111,17 +111,18 @@ const rest = new REST({version: '9'})
 (async () => {
     console.log('Started refreshing application (/) commands.');
 
-    await rest
-        .put(
-            Routes.applicationGuildCommands(clientId, guildId),
-            {body: commands},
-        )
-        .then(() => {
-            console.log('Successfully reloaded application (/) commands.');
-        })
-        .catch(e => {
-            console.error("Issue setting slash commands: ", e);
-        });
+    // DEV ONLY
+    // await rest
+    //     .put(
+    //         Routes.applicationGuildCommands(clientId, guildId),
+    //         {body: commands},
+    //     )
+    //     .then(() => {
+    //         console.log('Successfully reloaded application (/) commands.');
+    //     })
+    //     .catch(e => {
+    //         console.error("Issue setting slash commands: ", e);
+    //     });
 
     await rest
         .put(
