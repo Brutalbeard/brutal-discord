@@ -7,6 +7,25 @@ const chance = new Chance();
 
 const defaultTime = 10;
 
+const winners = [
+    "Geniuses",
+    "Einsteins",
+    "Educated Ones",
+    "Lucky Guessers",
+    "Show Offs",
+    "Smarty Pants'",
+    "Winners"
+];
+
+const losers = [
+    "Idiots",
+    "Morons",
+    "Losers",
+    "Simpletons",
+    "Disappointments",
+    "Dumb asses"
+]
+
 const trivia_categories = [
     {
         "id": 9,
@@ -246,7 +265,13 @@ module.exports = {
 
             interaction
                 .editReply({
-                    content: `**${triviaBody.question}**\nWinners: ${finalTrivia.smartUsers.join(", ")}\nLosers: ${finalTrivia.dumbUsers.join(", ")}`,
+                    content: `**${triviaBody.question}**\n${winners[chance.integer({
+                        min: 0,
+                        max: winners.length
+                    })]}: ${finalTrivia.smartUsers.join(", ")}\n${losers[chance.integer({
+                        min: 0,
+                        max: losers.length
+                    })]}: ${finalTrivia.dumbUsers.join(", ")}`,
                     components: [finalTrivia.row]
                 });
         }, timeoutTime * 1000);
