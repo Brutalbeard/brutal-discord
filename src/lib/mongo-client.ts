@@ -2,7 +2,8 @@ import {MongoClient} from 'mongodb';
 
 let collections: any = {
     users: null,
-    polls: null
+    polls: null,
+    trivia: null
 };
 
 // Connection URL
@@ -21,6 +22,7 @@ client
         let db = client.db(dbName);
 
         collections.users = db.collection('user');
+        collections.polls = db.collection('poll');
         collections.trivia = db.collection('trivia');
     })
     .catch(e => {

@@ -132,7 +132,7 @@ module.exports = {
         .addIntegerOption(number => {
             number
                 .setName("timer")
-                .setDescription("How long to wait for people answer before revealing answer")
+                .setDescription("How long to wait for people to answer before revealing answer")
                 .setRequired(false);
 
             return number;
