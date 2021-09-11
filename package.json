@@ -1,6 +1,6 @@
 {
-  "name": "discord-votes",
-  "version": "0.0.1",
+  "name": "brutal-discord",
+  "version": "1.0.0",
   "description": "This bot will let users call for votes on anything they like!",
   "main": "./build/index.js",
   "scripts": {
