@@ -60,7 +60,7 @@ module.exports = {
 };
 
 function randomDate(start, end) {
-    var d = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())),
+    let d = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
         year = d.getFullYear();
