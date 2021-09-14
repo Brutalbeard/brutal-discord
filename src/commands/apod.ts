@@ -57,7 +57,7 @@ module.exports = {
                 embeds: [embed]
             });
     },
-};
+}
 
 function randomDate(start, end) {
     let d = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())),
