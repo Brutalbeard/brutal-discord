@@ -1,5 +1,7 @@
 import {SlashCommandBuilder} from '@discordjs/builders';
-import * as Pornsearch from 'pornsearch';
+const PornHub = require('pornhub.js');
+
+const pornhub = new PornHub();
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -31,19 +33,18 @@ module.exports = {
                 return element.name === 'search';
             });
 
-        let Searcher = new Pornsearch(searchPhrase);
-
-        Searcher
-            .gifs()
-            .then((res: any) => {
-                interaction
-                    .reply({
-                        content: res[Math.floor(Math.random() * res.length)].webm,
-                        ephemeral: true
-                    });
+        let pornArr = await pornhub.search('Gif', encodeURIComponent(searchPhrase.value))
+            .then(res => {
+                return res.data;
             })
-            .catch((e: any) => {
+            .catch(e =>{
                 console.error(e);
+            });
+
+        interaction
+            .reply({
+                content: pornArr[Math.floor(Math.random() * pornArr.length)].webm,
+                ephemeral: true
             });
     },
 };
