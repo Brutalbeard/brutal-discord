@@ -1,7 +1,7 @@
 {
   "name": "brutal-discord",
   "version": "1.0.0",
-  "description": "This bot will let users call for votes on anything they like!",
+  "description": "This bot does lots of shit!",
   "main": "./build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -22,7 +22,8 @@
     "dotenv": "^10.0.0",
     "moment": "^2.29.1",
     "mongodb": "^4.1.0",
-    "pornhub.js": "^0.2.4"
+    "pornhub.js": "^0.2.4",
+    "typescript": "^4.5.4"
   },
   "engines": {
     "node": "16.x"
