@@ -26,5 +26,8 @@
   },
   "engines": {
     "node": "16.x"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.36"
   }
 }
