@@ -17,9 +17,18 @@ module.exports = {
         }),
 
     async execute(interaction) {
+        if (!interaction.channel) {
+            await interaction.reply({
+                content: 'Only works in NSFW chats.',
+                ephemeral: true
+            });
+
+            return;
+        }
+
         if (interaction.channel.nsfw === false) {
             await interaction.reply({
-                content: 'Only works in NSFW chat channels.',
+                content: 'Only works in NSFW chats.',
                 ephemeral: true
             });
 
