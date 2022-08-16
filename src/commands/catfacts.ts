@@ -1,5 +1,5 @@
 import {SlashCommandBuilder} from '@discordjs/builders';
-import axios from "axios";
+import axios from 'axios';
 
 const catEmojiArray = [
     ':cat:',
@@ -19,7 +19,7 @@ module.exports = {
         .setName('catfact')
         .setDescription('An interesting fact about kitty cats'),
 
-    async execute(interaction) {
+    execute: async function (interaction) {
         const res: string = await axios
             .get('https://catfact.ninja/fact')
             .then(res => {

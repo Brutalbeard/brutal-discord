@@ -26,7 +26,7 @@ module.exports = {
 
         let embed = new MessageEmbed;
 
-        await udClient
+        let def = await udClient
             .get('/define', {
                 params: {
                     term: searchPhrase.value
@@ -34,16 +34,27 @@ module.exports = {
             })
             .then(res => {
                 let def = res.data.list[0];
-                embed
-                    .setAuthor(def.author)
-                    .setTitle(def.word)
-                    .setColor('#0099ff')
-                    .setDescription(def.definition.replace(/\[|\]/g, ''))
-                    .setFooter("Example: " + def.example.replace(/\[|\]/g, ''));
+                return def
+
             })
             .catch(e => {
                 console.error(e);
             });
+
+        if(def) {
+            embed
+            .setAuthor(def.author)
+            .setTitle(def.word)
+            .setColor('#0099ff')
+            .setDescription(def.definition.replace(/\[|\]/g, ''))
+            .setFooter("Example: " + def.example.replace(/\[|\]/g, ''));
+        } else {
+            interaction
+                .reply({
+                    content: "No definition found for your search term",
+                    ephemeral: true
+                })
+        }
 
         interaction
             .reply({embeds: [embed]});
