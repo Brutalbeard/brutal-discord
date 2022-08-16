@@ -43,11 +43,14 @@ module.exports = {
 
         if(def) {
             embed
-            .setAuthor(def.author)
-            .setTitle(def.word)
-            .setColor('#0099ff')
-            .setDescription(def.definition.replace(/\[|\]/g, ''))
-            .setFooter("Example: " + def.example.replace(/\[|\]/g, ''));
+                .setAuthor(def.author)
+                .setTitle(def.word)
+                .setColor('#0099ff')
+                .setDescription(def.definition.replace(/\[|\]/g, ''))
+                .setFooter("Example: " + def.example.replace(/\[|\]/g, ''));
+
+            interaction
+                .reply({embeds: [embed]});
         } else {
             interaction
                 .reply({
@@ -55,8 +58,5 @@ module.exports = {
                     ephemeral: true
                 })
         }
-
-        interaction
-            .reply({embeds: [embed]});
-    },
+    }
 };
