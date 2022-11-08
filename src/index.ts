@@ -99,32 +99,32 @@ client
 const rest = new REST({version: '9'})
     .setToken(process.env.DISCORD_TOKEN);
 
-(async () => {
-    console.log('Started refreshing application (/) commands.');
+// (async () => {
+//     console.log('Started refreshing application (/) commands.');
 
-    // DEV ONLY
-    // await rest
-    //     .put(
-    //         Routes.applicationGuildCommands(clientId, guildId),
-    //         {body: commands},
-    //     )
-    //     .then(() => {
-    //         console.log('Successfully reloaded application (/) commands.');
-    //     })
-    //     .catch(e => {
-    //         console.error("Issue setting slash commands: ", e);
-    //     });
+//     // DEV ONLY
+//     // await rest
+//     //     .put(
+//     //         Routes.applicationGuildCommands(clientId, guildId),
+//     //         {body: commands},
+//     //     )
+//     //     .then(() => {
+//     //         console.log('Successfully reloaded application (/) commands.');
+//     //     })
+//     //     .catch(e => {
+//     //         console.error("Issue setting slash commands: ", e);
+//     //     });
 
-    await rest
-        .put(
-            Routes.applicationCommands(clientId),
-            {body: commands},
-        )
-        .then(() => {
-            console.log('Successfully reloaded global (/) commands.');
-        })
-        .catch(e => {
-            console.error("Issue setting slash commands: ", e);
-        });
+//     await rest
+//         .put(
+//             Routes.applicationCommands(clientId),
+//             {body: commands},
+//         )
+//         .then(() => {
+//             console.log('Successfully reloaded global (/) commands.');
+//         })
+//         .catch(e => {
+//             console.error("Issue setting slash commands: ", e);
+//         });
 
-})();
+// })();
