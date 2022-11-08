@@ -56,7 +56,7 @@ module.exports = {
                 .reply({
                     content: "No definition found for your search term",
                     ephemeral: true
-                })
-        }
+                });
+        };
     }
 };
