@@ -1,4 +1,4 @@
-import {SlashCommandBuilder} from '@discordjs/builders';
+import { SlashCommandBuilder } from '@discordjs/builders';
 const PornHub = require('pornhub.js');
 
 const pornhub = new PornHub();
@@ -46,7 +46,7 @@ module.exports = {
             .then(res => {
                 return res.data;
             })
-            .catch(e =>{
+            .catch(e => {
                 console.error(e);
             });
 

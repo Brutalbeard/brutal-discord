@@ -1,6 +1,6 @@
-import {SlashCommandBuilder} from '@discordjs/builders';
-import {apodClient} from "../lib/apod-client";
-import {MessageEmbed} from "discord.js";
+import { SlashCommandBuilder } from '@discordjs/builders';
+import { apodClient } from "../lib/apod-client";
+import { MessageEmbed } from "discord.js";
 
 module.exports = {
     data: new SlashCommandBuilder()

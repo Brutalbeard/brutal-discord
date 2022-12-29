@@ -1,5 +1,5 @@
-import {SlashCommandBuilder} from '@discordjs/builders';
-import {getOrSetUser} from "../lib/users";
+import { SlashCommandBuilder } from '@discordjs/builders';
+import { getOrSetUser } from "../lib/users";
 import db from "../lib/mongo-client";
 
 const appendages = [
@@ -68,8 +68,8 @@ module.exports = {
 
         await db
             .users
-            .updateOne({id: mentionedUser.id}, {
-                $set: {appendages: tempArr}
+            .updateOne({ id: mentionedUser.id }, {
+                $set: { appendages: tempArr }
             })
             .catch((e: any) => {
                 console.error(e);

@@ -1,6 +1,6 @@
-import {SlashCommandBuilder} from '@discordjs/builders';
-import {udClient} from "../lib/urban-dictionary";
-import {MessageEmbed} from "discord.js";
+import { SlashCommandBuilder } from '@discordjs/builders';
+import { udClient } from "../lib/urban-dictionary";
+import { MessageEmbed } from "discord.js";
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -41,7 +41,7 @@ module.exports = {
                 console.error(e);
             });
 
-        if(def) {
+        if (def) {
             embed
                 .setAuthor(def.author)
                 .setTitle(def.word)
@@ -50,7 +50,7 @@ module.exports = {
                 .setFooter("Example: " + def.example.replace(/\[|\]/g, ''));
 
             interaction
-                .reply({embeds: [embed]});
+                .reply({ embeds: [embed] });
         } else {
             interaction
                 .reply({

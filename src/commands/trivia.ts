@@ -1,5 +1,5 @@
-import {SlashCommandBuilder} from '@discordjs/builders';
-import {triviaClient} from "../lib/trivia-client";
+import { SlashCommandBuilder } from '@discordjs/builders';
+import { triviaClient } from "../lib/trivia-client";
 import db from '../lib/mongo-client';
 import * as Chance from 'chance';
 
@@ -165,7 +165,7 @@ module.exports = {
             .get('/api.php', {
                 params: {
                     amount: 1,
-                    category: trivia_categories[chance.integer({min: 0, max: trivia_categories.length - 1})].id,
+                    category: trivia_categories[chance.integer({ min: 0, max: trivia_categories.length - 1 })].id,
                     type: 'multiple',
                     difficulty: 'easy',
                     encode: "base64"

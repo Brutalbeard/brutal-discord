@@ -1,5 +1,5 @@
-import {SlashCommandBuilder} from '@discordjs/builders';
-import {giphyClient} from "../lib/giphy-client"
+import { SlashCommandBuilder } from '@discordjs/builders';
+import { giphyClient } from "../lib/giphy-client"
 
 module.exports = {
     data: new SlashCommandBuilder()

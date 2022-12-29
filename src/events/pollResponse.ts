@@ -30,7 +30,7 @@ module.exports = {
 
         if (finalPoll.usersThatAnsweredAlready.includes(interaction.user.username)) {
             interaction
-                .reply({content: "Can only vote once", ephemeral: true});
+                .reply({ content: "Can only vote once", ephemeral: true });
 
             return;
         }
@@ -49,12 +49,12 @@ module.exports = {
 
         await db
             .polls
-            .replaceOne({id: myId}, finalPoll)
+            .replaceOne({ id: myId }, finalPoll)
             .catch(e => {
                 console.error(e);
             });
 
         interaction
-            .reply({content: "Voted", ephemeral: true});
+            .reply({ content: "Voted", ephemeral: true });
     },
 };

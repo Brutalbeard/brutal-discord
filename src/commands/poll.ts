@@ -1,4 +1,4 @@
-import {SlashCommandBuilder} from '@discordjs/builders';
+import { SlashCommandBuilder } from '@discordjs/builders';
 import db from '../lib/mongo-client';
 import * as Chance from 'chance';
 

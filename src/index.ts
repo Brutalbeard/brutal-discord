@@ -1,7 +1,7 @@
 import * as fs from 'fs';
-import {Client, Collection, Intents} from 'discord.js';
-import {REST} from '@discordjs/rest';
-import {Routes} from 'discord-api-types/v9';
+import { Client, Collection, Intents } from 'discord.js';
+import { REST } from '@discordjs/rest';
+import { Routes } from 'discord-api-types/v9';
 
 require('dotenv').config();
 
@@ -39,8 +39,8 @@ for (const file of commandFiles) {
     //@ts-ignore
     client.commands
         .set(command
-                .data
-                .name,
+            .data
+            .name,
             command
         );
 }
@@ -96,7 +96,7 @@ client
         console.error(e);
     });
 
-const rest = new REST({version: '9'})
+const rest = new REST({ version: '9' })
     .setToken(process.env.DISCORD_TOKEN);
 
 // (async () => {

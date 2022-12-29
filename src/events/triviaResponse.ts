@@ -30,7 +30,7 @@ module.exports = {
 
         if (finalTrivia.smartUsers.includes(interaction.user.username) || finalTrivia.dumbUsers.includes(interaction.user.username)) {
             interaction
-                .reply({content: "Can only vote once", ephemeral: true});
+                .reply({ content: "Can only vote once", ephemeral: true });
 
             return;
         }
@@ -57,12 +57,12 @@ module.exports = {
 
         await db
             .trivia
-            .replaceOne({id: myId}, finalTrivia)
+            .replaceOne({ id: myId }, finalTrivia)
             .catch(e => {
                 console.error(e);
             });
 
         interaction
-            .reply({content: "Noted", ephemeral: true});
+            .reply({ content: "Noted", ephemeral: true });
     },
 };

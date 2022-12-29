@@ -1,4 +1,4 @@
-import {getOrSetUser} from "../lib/users";
+import { getOrSetUser } from "../lib/users";
 
 module.exports = {
     name: 'interactionCreate',

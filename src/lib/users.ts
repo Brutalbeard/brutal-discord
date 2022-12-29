@@ -28,4 +28,4 @@ async function getOrSetUser(queryUser) {
     return user;
 }
 
-export {getOrSetUser};
+export { getOrSetUser };

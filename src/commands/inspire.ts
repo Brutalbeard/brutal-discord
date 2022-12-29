@@ -1,5 +1,5 @@
-import {SlashCommandBuilder} from '@discordjs/builders';
-import {MessageEmbed} from "discord.js";
+import { SlashCommandBuilder } from '@discordjs/builders';
+import { MessageEmbed } from "discord.js";
 import axios from "axios";
 
 module.exports = {
@@ -28,6 +28,6 @@ module.exports = {
             })
 
         interaction
-            .reply({embeds: [embed]});
+            .reply({ embeds: [embed] });
     },
 };
