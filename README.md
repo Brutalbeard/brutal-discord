@@ -4,6 +4,8 @@ To add to your discord
 channels, [click right here](https://discord.com/api/oauth2/authorize?client_id=168727946834608128&permissions=0&scope=applications.commands%20bot)
 .
 
+[![Codacy Security Scan](https://github.com/Brutalbeard/brutal-discord/actions/workflows/codacy.yml/badge.svg)](https://github.com/Brutalbeard/brutal-discord/actions/workflows/codacy.yml)
+
 ## About
 
 I was using [Lita](lita.io) for creating and managing my chat bots, however, since I was mostly
