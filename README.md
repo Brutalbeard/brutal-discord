@@ -100,4 +100,4 @@ so I didn't see the point in making the switch.
 * [Discord Bot](https://discordapp.com/developers/applications/)
 * [APOD](https://api.nasa.gov/api.html#apod)
 * [dotenv](https://github.com/motdotla/dotenv)
-* [LucasLeandro1204](https://github.com/LucasLeandro1204/Pornsearch) - You filthy little man you
+* [LucasLeandro1204](https://github.com/LucasLeandro1204/Pornsearch)
