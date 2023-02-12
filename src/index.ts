@@ -118,7 +118,7 @@ const rest = new REST({ version: '9' })
     await rest
         .put(
             Routes.applicationCommands(clientId),
-            {body: commands},
+            { body: commands },
         )
         .then(() => {
             console.log('Successfully reloaded global (/) commands.');
