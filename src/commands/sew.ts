@@ -52,7 +52,7 @@ module.exports = {
         let tempArr: string[] = []
         for (let index in appendages) {
             if (mentionedUser.appendages.includes(appendages[index])) {
-
+                continue;
             } else {
                 tempArr.push(appendages[index]);
             }

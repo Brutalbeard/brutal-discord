@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 
-const first: String[] = [
+const first: string[] = [
     'LAZY',
     'STUPID',
     'INSECURE',
@@ -24,7 +24,7 @@ const first: String[] = [
     'CUM-GUZZLING'
 ]
 
-const second: String[] = [
+const second: string[] = [
     'DOUCHE',
     'ASS',
     'TURD',
@@ -47,7 +47,7 @@ const second: String[] = [
     'NIPPLE'
 ]
 
-const third: String[] = [
+const third: string[] = [
     'PILOT',
     'CANOE',
     'CAPTAIN',

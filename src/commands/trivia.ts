@@ -146,8 +146,6 @@ module.exports = {
                 return element.name === 'timer'
             });
 
-        let category = trivia_categories[0];
-
         let myId = chance.guid();
 
         let newTrivia = {
