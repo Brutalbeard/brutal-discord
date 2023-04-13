@@ -54,7 +54,7 @@ module.exports = {
         let index = Math.floor(Math.random() * mentionedUser.appendages.length);
 
         let appendage = mentionedUser.appendages[index];
-        delete mentionedUser.appendages[index];
+        mentionedUser.appendages.splice(index, 1);
         let tempArr: string[] = [];
 
         for (let index in mentionedUser.appendages) {
