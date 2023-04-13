@@ -5,6 +5,7 @@ channels, [click right here](https://discord.com/api/oauth2/authorize?client_id=
 .
 
 [![Codacy Security Scan](https://github.com/Brutalbeard/brutal-discord/actions/workflows/codacy.yml/badge.svg)](https://github.com/Brutalbeard/brutal-discord/actions/workflows/codacy.yml)
+[![SonarCheck](https://github.com/Brutalbeard/brutal-discord/actions/workflows/sonar.yml/badge.svg)](https://github.com/Brutalbeard/brutal-discord/actions/workflows/sonar.yml)
 
 ## About
 
