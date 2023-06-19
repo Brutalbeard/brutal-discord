@@ -29,8 +29,6 @@ request at your leisure.
 Application runs on the [Node JS](nodejs.org) framwork, so you'll need that installed. For an editor, I'm a big fan
 of [VS Code](https://code.visualstudio.com), but any popular editor should do.
 
-First, fork, then clone
-
 ```
 $ git clone https://github.com/Brutalbeard/brutal-discord
 $ cd brutal-discord
