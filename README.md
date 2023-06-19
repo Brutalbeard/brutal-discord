@@ -32,7 +32,7 @@ of [VS Code](https://code.visualstudio.com), but any popular editor should do.
 First, fork, then clone
 
 ```
-$ git clone https://github.com/{Your Github Username)/brutal-discord.git
+$ git clone https://github.com/Brutalbeard/brutal-discord
 $ cd brutal-discord
 ```
 
