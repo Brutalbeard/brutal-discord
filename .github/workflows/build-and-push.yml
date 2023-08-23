@@ -21,5 +21,5 @@ jobs:
 
           - name: 'Build Inventory Image'
             run: |
-              docker build . --tag ghcr.io/brutalbeard/store:latest
-              docker push ghcr.io/brutalbeard/store:latest
+              docker build . --tag ghcr.io/brutalbeard/brutal-discord:latest
+              docker push ghcr.io/brutalbeard/brutal-discord:latest
