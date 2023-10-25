@@ -6,20 +6,23 @@ on:
       - main
 
 jobs:
-      push-store-image:
-        runs-on: ubuntu-latest
-        steps:
-          - name: 'Checkout GitHub Action'
-            uses: actions/checkout@main
+  push-store-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@main
 
-          - name: 'Login to GitHub Container Registry'
-            uses: docker/login-action@v1
-            with:
-              registry: ghcr.io
-              username: ${{github.actor}}
-              password: ${{secrets.GITHUB_TOKEN}}
+      - name: 'Login to GitHub Container Registry'
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
 
-          - name: 'Build Inventory Image'
-            run: |
-              docker build . --tag ghcr.io/brutalbeard/brutal-discord:latest
-              docker push ghcr.io/brutalbeard/brutal-discord:latest
+      - name: 'Build Inventory Image'
+        run: |
+          docker build . --tag ghcr.io/brutalbeard/brutal-discord:latest
+          docker push ghcr.io/brutalbeard/brutal-discord:latest
