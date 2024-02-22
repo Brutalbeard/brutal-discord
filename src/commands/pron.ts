@@ -47,7 +47,7 @@ module.exports = {
                 return res.data;
             })
             .catch(e => {
-                console.error(e);
+                console.warning(e);
             });
 
         interaction
