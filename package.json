@@ -16,7 +16,7 @@
     "axios": "^1.7.7",
     "chance": "^1.1.7",
     "cheerio": "^1.0.0-rc.10",
-    "discord-api-types": "^0.22.0",
+    "discord-api-types": "^0.37.107",
     "discord.js": "^13.1.0",
     "dotenv": "^10.0.0",
     "moment": "^2.29.2",
